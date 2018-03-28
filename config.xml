@@ -151,7 +151,7 @@
 		<splash src="resources/splash/1280x720.png" density="land-xhdpi" />
         <splash src="resources/splash/1280x1920.png" density="port-xxxhdpi" />
 		<splash src="resources/splash/1600x960.png" density="land-xxhdpi" />
-		<splash src="resources/splash/1920x1280.png" density="land-xxxhdpi" />
+		<splash src="resources/splash/1920_1280.png" density="land-xxxhdpi" />
 	</platform>
 
 </widget>
