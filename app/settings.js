@@ -16,7 +16,7 @@ Drupal.settings.debug = false;
 
 // Site Path (do not use a trailing slash)
 // Drupal.settings.site_path = 'http://kccc.local'; // e.g. http://www.example.com
-Drupal.settings.site_path = 'https://kccc.ru'; // e.g. http://www.example.com
+Drupal.settings.site_path = 'http://kccc.ru'; // e.g. http://www.example.com
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';
@@ -239,5 +239,3 @@ drupalgap.settings.cache = {}; // Do not remove this line.
 
 // Theme Registry - Set to true to load the page.tpl.html contents from cache.
 drupalgap.settings.cache.theme_registry = true;
-
-
