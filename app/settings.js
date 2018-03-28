@@ -126,7 +126,7 @@ drupalgap.settings.front = 'agro-catalog';
 drupalgap.settings.theme = 'opie';
 
 // Logo
-drupalgap.settings.logo = 'app/themes/opie/images/logo.jpg';
+drupalgap.settings.logo = '/app/themes/opie/images/logo.jpg';
 
 // Offline Warning Message. Set to false to hide message.
 drupalgap.settings.offline_message = 'No connection found!';
