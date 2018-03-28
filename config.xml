@@ -42,12 +42,12 @@
 	<feature name="http://api.phonegap.com/1.0/file"/>
 	<feature name="http://api.phonegap.com/1.0/network"/>
 	<feature name="http://api.phonegap.com/1.0/network"/>
-	<gap:plugin name="org-apache-cordova-console" source="npm" />
-	<gap:plugin name="org.apache.cordova.device" source="npm" />
-	<gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
-	<gap:plugin name="org.apache.cordova.media" source="npm" />
-	<gap:plugin name="org.apache.cordova.network-information" source="npm" />
-	<gap:plugin name="org.apache.cordova.splashscreen" source="npm"  />
+	<gap:plugin name="cordova-plugin-console" source="npm" />
+	<gap:plugin name="cordova-plugin-device" source="npm" />
+	<gap:plugin name="cordova-plugin-inappbrowser" source="npm" />
+	<gap:plugin name="cordova-plugin-media" source="npm" />
+	<gap:plugin name="cordova-plugin-network-information" source="npm" />
+	<gap:plugin name="cordova-plugin-splashscreen" source="npm"  />
 	<icon src="resources/logo/ios/57x57.png" gap:platform="ios" width="57" height="57" />
 	<icon src="resources/logo/ios/72x72.png" gap:platform="ios" width="72" height="72" />
 	<icon src="resources/logo/ios/114x114.png" gap:platform="ios" width="114" height="114" />
