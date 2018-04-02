@@ -15,8 +15,8 @@ Drupal.settings.debug = false;
 /* DRUPAL PATHS */
 
 // Site Path (do not use a trailing slash)
-// Drupal.settings.site_path = 'http://kccc.local'; // e.g. http://www.example.com
-Drupal.settings.site_path = 'https://kccc.ru'; // e.g. http://www.example.com
+Drupal.settings.site_path = 'http://kccc.local'; // e.g. http://www.example.com
+// Drupal.settings.site_path = 'https://kccc.ru'; // e.g. http://www.example.com
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';
@@ -103,8 +103,8 @@ Drupal.settings.cache.views = {
 // DrupalGap Mode (defaults to 'web-app')
 //  'web-app' - use this mode to build a web application for a browser window
 //  'phonegap' - use this mode to build a mobile application with phonegap
-// drupalgap.settings.mode = 'web-app';
-drupalgap.settings.mode = 'phonegap';
+drupalgap.settings.mode = 'web-app';
+// drupalgap.settings.mode = 'phonegap';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {
@@ -132,24 +132,18 @@ drupalgap.settings.logo = '/app/themes/opie/images/logo.jpg';
 drupalgap.settings.offline_message = 'No connection found!';
 
 // Exit app message.
-drupalgap.settings.exit_message = 'Покинуть ' + drupalgap.settings.title + '?';
+drupalgap.settings.exit_message = 'Закрыть приложение?';
 
 // Loader Animations - http://demos.jquerymobile.com/1.4.0/loader/
 drupalgap.settings.loader = {
     loading: {
-        text: 'Загрузка...',
-        textVisible: true,
-        theme: 'b'
+        textVisible: false
     },
     saving: {
-        text: 'Сохранение...',
-        textVisible: true,
-        theme: 'b'
+        textVisible: false
     },
     deleting: {
-        text: 'Удаление...',
-        textVisible: true,
-        theme: 'b'
+        textVisible: false
     }
 };
 

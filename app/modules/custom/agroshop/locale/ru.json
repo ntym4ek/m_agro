@@ -35,16 +35,16 @@
     "To change the current user password, enter the new password in both fields.": "Чтобы поменять пароль, укажите старый в обоих полях.",
     "Username": "Имя пользователя",
     "Username or e-mail address": "Имя пользователя или e-mail",
-    "E-mail address": "E-mail адрес",
     "Users": "Пользователи",
     "View": "Список",
     "Vocabularies": "Словари",
     "Wrong username or password": "Неправильный e-mail или пароль",
-    "Shopping cart": "Корзина",
+    "Shopping cart": "Список препаратов",
     "Main": "Главная",
     "Update cart": "Обновить",
     "Your shopping cart is empty.": "Вы не добавили ни одного препарата.",
     "Select a value": "Выберите значение",
     "The": "Поле '",
-    "field is required": "' нужно заполнить"
+    "field is required": "' нужно заполнить",
+    "About us": "О компании"
 }

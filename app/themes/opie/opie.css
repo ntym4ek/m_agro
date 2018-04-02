@@ -210,11 +210,29 @@ html .ui-alt-icon .ui-radio-off:after {
 .ui-alt-icon .ui-btn.ui-radio-on:after {
 	background-color: #000;
 }
-/* Loader */
-.ui-icon-loading {
-	background: url("images/ajax-loader.gif");
-	background-size: 2.875em 2.875em;
+
+/*!* Loader *!*/
+/*.ui-icon-loading {*/
+	/*background: url("images/ajax-loader.gif");*/
+	/*background-size: 2.875em 2.875em;*/
+/*}*/
+
+/*ajax loader*/
+.ui-loader-default {
+	opacity: 1;
+	width: 4.875em; height: 4.875em;
+	margin-left: -2.4375em; margin-top: -2.4375em;
 }
+.ui-loader .ui-icon-loading {
+	background: url(images/ajax-loader.gif);
+	background-size: 4.875em 4.875em;
+	width: 4.75em; height: 4.75em;
+}
+.ui-loader.ui-body-a {
+	background-color: transparent;
+	border-color: transparent;
+}
+
 /* Swatches */
 /* A
 -----------------------------------------------------------------------------------------------------------*/

@@ -17,7 +17,7 @@ function agroshop_menu() {
             page_callback: 'agro_products_page'
         };
         items['about-us'] = {
-            title: 'About us',
+            title: t('About us'),
             page_callback: 'about_us_page'
         };
         // перекрытие страницы checkout (commerce.js - 50 строка)
