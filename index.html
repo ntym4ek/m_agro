@@ -45,18 +45,6 @@
 
       <!-- Load DrupalGap -->
       <script type="text/javascript">
-
-          // стили для устройств Apple
-          var mobile = (/iphone|ipad/i.test(navigator.userAgent.toLowerCase()));
-          if(mobile){
-              // Создаем ссылку на CSS
-              var cssLink = document.createElement("link");
-              cssLink.setAttribute("type", "text/css");
-              cssLink.setAttribute("rel", "stylesheet");
-              cssLink.setAttribute("href", "app/themes/opie/apple.css");
-              document.head.appendChild(cssLink);
-          }
-
           drupalgap_onload();
       </script>
 
