@@ -117,6 +117,7 @@
         <icon src="resources/logo/144.png" width="144" height="144" />
         <icon src="resources/logo/152.png" width="152" height="152" />
         <icon src="resources/logo/180.png" width="180" height="180" />
+        <icon src="resources/logo/1024.png" width="1024" height="1024" />
         <splash src="resources/splash/320_480.png" width="320" height="480" />
         <splash src="resources/splash/480_320.png" width="480" height="320" />
         <splash src="resources/splash/640_960.png" width="640" height="960" />
