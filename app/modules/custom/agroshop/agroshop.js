@@ -642,7 +642,7 @@ function agroshop_block_view(delta, region) {
                     var items = [
                         bl(t('Main'), 'catalog', {attributes: {'data-icon': 'home'}}),
                         bl(t('About us'), 'about-us', {attributes: {'data-icon': 'info'}}),
-                        bl('Выйти из приложения', '#', { attributes: { 'data-icon': 'close', onclick: '_drupalgap_back_exit(1);'}})
+                        bl('Выйти из приложения', '#', { attributes: { 'data-icon': 'back', onclick: '_drupalgap_back_exit(1);'}})
                         // bl(t('Register'), 'user/register', {attributes: {'data-icon': 'plus'}}),
                         // bl(t('Login'), 'user/login', {attributes: {'data-icon': 'lock'}}),
                     ];
@@ -650,7 +650,7 @@ function agroshop_block_view(delta, region) {
                     var items = [
                         bl(t('Main'), 'catalog', {attributes: {'data-icon': 'home'}}),
                         bl(t('About us'), 'about-us', {attributes: {'data-icon': 'info'}}),
-                        bl('Выйти из приложения', '#', { attributes: { 'data-icon': 'close', onclick: '_drupalgap_back_exit(1);'}})
+                        bl('Выйти из приложения', '#', { attributes: { 'data-icon': 'back', onclick: '_drupalgap_back_exit(1);'}})
                         // bl(t('My account'), 'user', {attributes: {'data-icon': 'user'}}),
                         // bl(t('Logout'), 'user/logout', {attributes: {'data-icon': 'delete'}})
                     ];

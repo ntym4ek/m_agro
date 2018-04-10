@@ -13,15 +13,15 @@
 .menu_logo img { max-width: 100px; }
 .menu_logo p { color: #40ae1a; margin: 0 0 .5em 0; line-height: 1.3em;  }
 .menu_logo p:last-child { font-weight: bold; text-transform: uppercase; }
-.agro-catalog .ui-panel-inner a { font-weight: 400; }
+.catalog .ui-panel-inner a { font-weight: 400; }
 
-.agro-catalog .catalog-item { padding: 15% 1em 15% 60px; }
-.agro-catalog .catalog-item:hover { opacity: 0.8; }
-.agro-catalog .catalog-item h2 {
+.catalog .catalog-item { padding: 15% 1em 15% 60px; }
+.catalog .catalog-item:hover { opacity: 0.8; }
+.catalog .catalog-item h2 {
     color: #fff; font-size: 1.1em; text-shadow: 1px 1px 5px #000;
     text-transform: uppercase;
 }
-.agro-catalog .ui-listview>.ui-li-static.ui-last-child { padding: 0; border-bottom-width: 0; }
+.catalog .ui-listview>.ui-li-static.ui-last-child { padding: 0; border-bottom-width: 0; }
 
 .product-item a { text-decoration: none; }
 .agro-products .title { color: #000; font-size:17px; margin-bottom: 5px; }
