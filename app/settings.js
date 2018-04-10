@@ -120,7 +120,7 @@ drupalgap.settings.locale = {
 drupalgap.settings.title = 'Агрохимия';
 
 // App Front Page
-drupalgap.settings.front = 'agro-catalog';
+drupalgap.settings.front = 'catalog';
 
 // Theme
 drupalgap.settings.theme = 'opie';

@@ -8,7 +8,7 @@
 function agroshop_menu() {
     try {
         var items = {};
-        items['agro-catalog'] = {
+        items['catalog'] = {
             title: 'Каталог',
             page_callback: 'agro_catalog_page'
         };
@@ -75,7 +75,12 @@ function about_us_page() {
             + '<p>Движущая сила компании - внедрение новых технологий и постоянное совершенствование системы контроля и качества продукции, которая одобрена зарубежными партнерами.</p>';
 
          html += '<p>Производство расположено в городе Кирово-Чепецк Кировская области</p>';
-         html += '<p>Подробную информацию о компании, представителях и продукции можно найти на нашем сайте ' + l('https://kccc.ru', 'https://kccc.ru', { InAppBrowser: true }) + '</p>';
+         html += '<p>Подробную информацию о компании, представителях и продукции можно найти на нашем сайте</p>'
+             + bl('https://kccc.ru', null, {
+                 attributes: {
+                     onclick: "window.open('https://kccc.ru', '_system', 'location=yes')"
+                 }
+             });
 
         return html;
     }
@@ -462,7 +467,7 @@ function agroshop_deviceready() {
 function theme_commerce_cart(variables) {
     try {
         // вернуть настройки после входа или регистрации
-        drupalgap.settings.front = 'agro-catalog';
+        drupalgap.settings.front = 'catalog';
 
         var html = '';
 
@@ -635,15 +640,17 @@ function agroshop_block_view(delta, region) {
                 };
                 if (Drupal.user.uid == 0) {
                     var items = [
-                        bl(t('Main'), 'agro-catalog', {attributes: {'data-icon': 'home'}}),
+                        bl(t('Main'), 'catalog', {attributes: {'data-icon': 'home'}}),
                         bl(t('About us'), 'about-us', {attributes: {'data-icon': 'info'}}),
+                        bl('Выйти из приложения', '#', { attributes: { 'data-icon': 'close', onclick: '_drupalgap_back_exit(1);'}})
                         // bl(t('Register'), 'user/register', {attributes: {'data-icon': 'plus'}}),
                         // bl(t('Login'), 'user/login', {attributes: {'data-icon': 'lock'}}),
                     ];
                 } else {
                     var items = [
-                        bl(t('Main'), 'agro-catalog', {attributes: {'data-icon': 'home'}}),
+                        bl(t('Main'), 'catalog', {attributes: {'data-icon': 'home'}}),
                         bl(t('About us'), 'about-us', {attributes: {'data-icon': 'info'}}),
+                        bl('Выйти из приложения', '#', { attributes: { 'data-icon': 'close', onclick: '_drupalgap_back_exit(1);'}})
                         // bl(t('My account'), 'user', {attributes: {'data-icon': 'user'}}),
                         // bl(t('Logout'), 'user/logout', {attributes: {'data-icon': 'delete'}})
                     ];
