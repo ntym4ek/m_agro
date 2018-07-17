@@ -3,10 +3,10 @@
  **************/
 
 // Uncomment to clear the app's local storage cache each time the app loads.
-// window.localStorage.clear();
+window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
-Drupal.settings.debug = false;
+Drupal.settings.debug = true;
 
 /****************************************|
  * Drupal Settings (provided by jDrupal) |
@@ -15,8 +15,8 @@ Drupal.settings.debug = false;
 /* DRUPAL PATHS */
 
 // Site Path (do not use a trailing slash)
-// Drupal.settings.site_path = 'http://kccc.local'; // e.g. http://www.example.com
-Drupal.settings.site_path = 'https://kccc.ru'; // e.g. http://www.example.com
+Drupal.settings.site_path = 'http://kccc.local'; // e.g. http://www.example.com
+// Drupal.settings.site_path = 'https://kccc.ru'; // e.g. http://www.example.com
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';
@@ -39,17 +39,6 @@ Drupal.settings.cache.entity = {
 
     /* Entity types */
     entity_types: {
-
-        /* Comments */
-        /*comment: {
-         bundles: {}
-         },*/
-
-        /* Files */
-        /*file: {
-         bundles: {}
-         },*/
-
         /* Nodes */
         node: {
 
@@ -59,34 +48,15 @@ Drupal.settings.cache.entity = {
 
             /* Content types (aka bundles) */
             bundles: {
-
                 articles: {
                     expiration: 3600
                 },
                 page: {
                     enabled: true
                 }
-
             }
-        },
-
-        /* Terms */
-        /*taxonomy_term: {
-         bundles: {}
-         },*/
-
-        /* Vocabularies */
-        /*taxonomy_vocabulary: {
-         bundles: {}
-         },*/
-
-        /* Users */
-        /*user: {
-         bundles: {}
-         }*/
-
+        }
     }
-
 };
 
 /* Views Caching */
@@ -103,12 +73,11 @@ Drupal.settings.cache.views = {
 // DrupalGap Mode (defaults to 'web-app')
 //  'web-app' - use this mode to build a web application for a browser window
 //  'phonegap' - use this mode to build a mobile application with phonegap
-// drupalgap.settings.mode = 'web-app';
-drupalgap.settings.mode = 'phonegap';
+drupalgap.settings.mode = 'web-app';
+// drupalgap.settings.mode = 'phonegap';
 
 // Language Files - locale/[language-code].json
 drupalgap.settings.locale = {
-    /* es: { } */
     ru: {}
 };
 
@@ -120,16 +89,16 @@ drupalgap.settings.locale = {
 drupalgap.settings.title = 'Агрохимия';
 
 // App Front Page
-drupalgap.settings.front = 'catalog';
+drupalgap.settings.front = 'homepage';
 
 // Theme
-drupalgap.settings.theme = 'opie';
+drupalgap.settings.theme = 'agro';
 
 // Logo
 drupalgap.settings.logo = '/app/themes/opie/images/logo.jpg';
 
 // Offline Warning Message. Set to false to hide message.
-drupalgap.settings.offline_message = 'No connection found!';
+drupalgap.settings.offline_message = 'Нет подключения к интернету!';
 
 // Exit app message.
 drupalgap.settings.exit_message = 'Закрыть приложение?';
@@ -154,11 +123,11 @@ drupalgap.settings.loader = {
 /** Contributed Modules - www/app/modules **/
 
 Drupal.modules.contrib['commerce'] = {};
-//Drupal.modules.contrib['force_authentication'] = {};
 Drupal.modules.contrib['logintoboggan'] = {};
 
 /** Custom Modules - www/app/modules/custom **/
 
+Drupal.modules.custom['homepage'] = {};
 Drupal.modules.custom['agroshop'] = {};
 
 /***************************************|
@@ -176,14 +145,14 @@ drupalgap.settings.menus = {}; // Do not remove this line.
 drupalgap.settings.blocks = {}; // Do not remove this line.
 
 // Easy Street 3 Theme Blocks
-drupalgap.settings.blocks.opie = {
+drupalgap.settings.blocks.agro = {
     header:{
         _prefix: {
-            menu_panel_block: { }
+            menu_panel_block: {}
         },
-        title:{},
-        menu_panel_block_button: {
-        }
+        menu_block_button_left: {},
+        agro_title:{},
+        menu_block_button_right: {}
     },
     content:{
         messages: {},
@@ -197,26 +166,7 @@ drupalgap.settings.blocks.opie = {
 drupalgap.settings.menus.regions = {}; // Do not remove this line.
 
 // Header Region Links
-drupalgap.settings.menus.regions['header'] = {
-    links:[
-        /* Корзина */
-        {
-            path: 'cart',
-            options: {
-                attributes: {
-                    'class': 'ui-btn-right ui-link ui-btn ui-icon-shop ui-btn-icon-notext ui-shadow ui-corner-all',
-                    'data-icon': 'shop'
-                },
-                reloadPage: true
-            },
-            pages: {
-                value: ['cart'],
-                mode: 'exclude'
-            }
-        }
-
-    ]
-};
+drupalgap.settings.menus.regions['header'] = {};
 
 
 /*********|
