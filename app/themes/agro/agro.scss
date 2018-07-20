@@ -1,10 +1,38 @@
 @import 'css/_nativedroid2.color.brand';
 @import url("fonts/ubuntu/ubuntu.css");
 
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-lg-min: 1200px;
+
 /* -------------------------------------------- Общие настройки ----------------------------------------------------- */
 body, input, select, textarea, button, .ui-btn,h1,h2,h3,h4,h5,h6 {
     font-family: ubuntu, "Helvetica Neue", sans-serif;
 }
+body {
+    color: #333; font-size: 12px; font-weight: 400; line-height: 1.45;
+    @media (min-width: $screen-sm-min) {
+        font-size: 16px;
+    }
+}
+
+p {
+    font-size: inherit;
+    margin-bottom: 1.3em;
+}
+
+h1, h2, h3, h4 {
+    margin: 1.414em 0 0.5em;
+    font-weight: inherit;
+    line-height: 1.2;
+}
+
+h1 { font-size: 3.998em; margin-top: 0; }
+h2 { font-size: 2.827em;}
+h3 { font-size: 1.999em;}
+h4 { font-size: 1.414em;}
+
+small, .font_small {font-size: 0.707em;}
 
 /* -------------------------------------------- Header -------------------------------------------------------------- */
 .ui-header {
@@ -16,6 +44,10 @@ body, input, select, textarea, button, .ui-btn,h1,h2,h3,h4,h5,h6 {
             padding: 10px 0;
             height: 25px;
         }
+         a {
+             color: #fff;
+             text-decoration: none;
+         }
     }
     & > .ui-btn {
         padding: .1em;
@@ -66,14 +98,13 @@ body, input, select, textarea, button, .ui-btn,h1,h2,h3,h4,h5,h6 {
 /* -------------------------------------------- Категории ----------------------------------------------------------- */
 #catalog {
     .c-item {
-        padding: 0; margin-bottom: 1em;
+        color: #000; font-size: .9em; text-decoration: none;
+        padding: 0 1em; margin-bottom: 1em;
         .c-bkg {
             position: relative;
             min-height: 100px;
         }
-        .c-title {
-            padding: .6em 0;
-        }
+        .c-title { padding: .2em 0 .6em 0; }
         .c-icon {
             width: 50px; height: 50px;
             position: absolute; bottom: -25px; right: 30px;
@@ -85,29 +116,30 @@ body, input, select, textarea, button, .ui-btn,h1,h2,h3,h4,h5,h6 {
 /* -------------------------------------------- Каталог ------------------------------------------------------------- */
 div[id^="products_"] {
     .p-item {
-        padding: 0;
+        color: #000; font-size: .9em; text-decoration: none;
+        padding: 0 1em;
         &.ui-btn { margin-bottom: .5em; }
         .p-box {
             border: 1px solid #ddd;
             position: relative;
             min-height: 60px;
-            margin-top: 20px;
+            margin-top: 30px;
             .p-image {
                 position: absolute; bottom: 0; left : 0;
-                width: 80px; height: 80px;
+                width: 90px; height: 90px;
             }
             p {
-                color: #000; font-size: .65em; white-space: normal;
-                padding: 0 50px 0 90px;
+                color: #000; font-size: .65em; white-space: normal; text-align: justify;
+                padding: 0 70px 0 90px;
             }
         }
         .p-title {
-            font-size: .8em;
+            font-size: .8em; font-weight: 500;
             padding: .6em 0;
         }
         .p-icon {
             width: 50px; height: 50px;
-            position: absolute; bottom: -25px; right: 30px;
+            position: absolute; bottom: -25px; right: 20px;
         }
         &.ui-icon-carat-r:after { display: none; }
     }
@@ -126,15 +158,19 @@ div[id^="products_"] {
     }
     .p-brief {
         background-color: #eee;
-        font-size: .6em;
+        font-size: .8em;
         padding: 1em;
+        @media (min-width: $screen-sm-min) {
+            font-size: 1em;
+            .row { margin-bottom: .8em; }
+        }
     }
     .nd2Tabs {
+        font-size: 1.4em; line-height: 1.8em;
         margin: 1em 0 0; padding: 0 1em;
-        width: 100%; height: 36px;
+        width: 100%; height: 1.8em;
         li {
-            color: #000;
-            line-height: 36px;
+            color: #000;font-size: inherit; font-weight: 700; line-height: inherit;
             padding: 0;
             &:not(:first-child) {
                 margin-left: 1em;
@@ -153,7 +189,7 @@ div[id^="products_"] {
                 //font-size: 1em;
                 //margin: .5em 0;
                 a {
-                    color: inherit; font-size: 14px; text-transform: none;
+                    color: inherit; font-size: inherit; text-transform: none;
                     padding: 5px 10px 5px 1em;
                     &:after { display: none; }
                     i.zmdi {
@@ -166,11 +202,9 @@ div[id^="products_"] {
                 }
             }
             .ui-collapsible-content { padding: 0 1em 1px 1em; }
-            p {
-                font-size: .8em;
-                text-align: justify;
-            }
+            p { text-align: justify; }
         }
+
     }
 }
 
@@ -179,4 +213,18 @@ div[id^="products_"] {
 /* патч, чтобы класс иконок можно было присваивать тегу <a> без вложенных тегов */
 .zmdi {
     font-family: 'Material-Design-Iconic-Font'!important;
+}
+
+.nd2-card.card-media-right.card-media-small.file-card {
+    .card-title {
+        padding: 1em;
+        .card-primary-title {
+            font-size: 14px; line-height: 18px;
+            white-space: normal;
+            margin-right: 50px;
+        }
+        .card-subtitle { font-size: 12px; }
+    }
+    .card-media { width: 40px; height: 40px; }
+    .card-action { padding: 8px 1em; }
 }

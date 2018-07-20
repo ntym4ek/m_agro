@@ -2,7 +2,7 @@ cordova*js
 app/.gitignore
 node_modules
 
-app/settings.js
+#app/settings.js
 
 # Ignore jQM Theme Roller Files
 bin/themes/images

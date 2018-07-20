@@ -35,6 +35,44 @@ function agroshop_menu() {
 }
 
 /**
+ * Implements hook_deviceready().
+ */
+function agroshop_deviceready() {
+    try {
+        drupalgap.menu_links['node/%'].title_callback = 'agroshop_node_page_title';
+        // drupalgap.menu_links['node/%'].title_arguments = 'agroshop_node_page_title';
+    }
+    catch (error) { console.log('agroshop_deviceready - ' + error); }
+}
+
+/**
+ * Функция определения заголовка страницы на основе стандартного node_page_title
+ * для продукции вместо заголовка выводим категорию
+ */
+function agroshop_node_page_title(callback, nid) {
+    try {
+        // Try to load the node title, then send it back to the given callback.
+        var title = '';
+        var node = node_load(nid, {
+            success: function(node) {
+                if (node) {
+                    if (node.title) { title = node.title; }
+                    if (node.type === 'product_agro') {
+                        if (_GET('cname')) { title = _GET('cname') };
+                        if (_GET('cid')) {
+                            title = l(title, 'products/' + _GET('cid'));
+                        }
+                    }
+                }
+
+                callback.call(null, title);
+            }
+        });
+    }
+    catch (error) { console.log('node_page_title - ' + error); }
+}
+
+/**
  * ----------------------------------------------- Каталог -------------------------------------------------------------
  *
  */
@@ -43,9 +81,9 @@ function catalog_page() {
         var content = {};
         content['list'] = {
             theme: 'view',
-            format: 'ul',
             format_attributes: {
-                'data-inset': 'true'
+                'data-inset': 'true',
+                'class': 'row'
             },
             path: 'agro-catalog.json',
             row_callback: 'catalog_page_row'
@@ -67,7 +105,7 @@ function catalog_page_row(view, row) {
             content += '<div class="c-title">' + row.name + '</div>';
             html = l(content, 'products/' + row.tid, {
                 'attributes': {
-                    'class': 'c-item wow fadeIn waves-effect waves-button'
+                    'class': 'c-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button'
                 }
             });
         }
@@ -108,9 +146,9 @@ function products_page() {
         var content = {};
         content['list'] = {
             theme: 'view',
-            format: 'ul',
             format_attributes: {
-                'data-inset': 'true'
+                'data-inset': 'true',
+                'class': 'row'
             },
             path: 'agro.json/' + category_tid,
             row_callback: 'products_page_row',
@@ -124,6 +162,7 @@ function products_page() {
 
 function products_page_row(view, row) {
     try {
+        console.log('products_page_row');
         var image = theme('image', { path: row.img.src });
         var icon = theme('image', { path: row.icon_img.src });
 
@@ -135,9 +174,9 @@ function products_page_row(view, row) {
         content += '</div>';
         content += '<div class="p-title">' + row.title + '</div>';
 
-        return l(content, 'node/' + row.nid, {
+        return l(content, 'node/' + row.nid + '?cid=' + row.category_id + '&cname=' + row.category_name, {
                 attributes: {
-                    class: 'p-item'
+                    class: 'p-item col-xs-12 col-sm-6'
                 },
                 reloadPage: true
             }
@@ -231,6 +270,12 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                 var html = '';
                 var pid = Object.keys(pd.field_product_entities)[0];
 
+                // цена
+                var price = 'Цена на рассмотрении';
+                if (pd.field_product_entities[pid].commerce_price['amount'] != 0) {
+                    price = pd.field_product_entities[pid].commerce_price_formatted;
+                }
+
                 // единица измерения препарата
                 var unit_name = pd.field_pd_units_entities[pd.field_pd_units].field_tax_short_name;
 
@@ -243,26 +288,40 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                 var image = theme('image', {path: image_src});
 
                 // норма расхода
-                var from = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.from), 2, " ");
-                var to   = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.to), 2, " ");
-                var consumption = from + '-' + to + ' ' + unit_name + '/га';
+                var consumption = '';
+                if (pd.field_pd_consumption_rate != undefined) {
+                    var from = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.from), 2, " ");
+                    var to = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.to), 2, " ");
+                    consumption = from + '-' + to + ' ' + unit_name + '/га';
+                }
 
                 // стоимость обработки
-                var price_per_unit = pd.field_pd_price_per_unit['amount']/100;
-                from = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.from) * price_per_unit, 0, " ");
-                to   = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.to) * price_per_unit, 0, " ");
-                var cost = from + '-' + to + ' руб./га';
+                var cost = 0;
+                var price_per_unit = '';
+                if (pd.field_pd_consumption_rate != undefined && pd.field_pd_price_per_unit != undefined) {
+                    price_per_unit = pd.field_pd_price_per_unit['amount'] / 100;
+                    from = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.from) * price_per_unit, 0, " ");
+                    to = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.to) * price_per_unit, 0, " ");
+                    cost = from + '-' + to + ' руб./га';
+                }
 
                 // препаративная форма
-                var prep_form = pd.field_pd_formulation_entities[pd.field_pd_formulation].name;
+                var prep_form = '';
+                if (pd.field_pd_formulation_entities != undefined) {
+                    prep_form = pd.field_pd_formulation_entities[pd.field_pd_formulation].name;
+                }
 
                 // действующие вещества
                 var ingredients = '';
-                $.each(pd.field_pd_active_ingredients_entities, function(index, ingredient) {
-                    var name = ingredient.field_pd_ai_active_ingredient_entities[ingredient.field_pd_ai_active_ingredient].name;
-                    var conc = ingredient.field_pd_ai_concentration;
-                    ingredients += name + ', ' + conc + ' г/' + unit_name + '\n\r';
-                });
+                if (pd.field_pd_active_ingredients_entities != undefined) {
+                    $.each(pd.field_pd_active_ingredients_entities, function (index, ingredient) {
+                        if (ingredient.field_pd_ai_active_ingredient_entities != undefined) {
+                            var name = ingredient.field_pd_ai_active_ingredient_entities[ingredient.field_pd_ai_active_ingredient].name;
+                            var conc = ingredient.field_pd_ai_concentration;
+                            ingredients += name + ', ' + conc + ' г/' + unit_name + '\n\r';
+                        }
+                    });
+                }
 
                 // описание
                 var description = '';
@@ -280,11 +339,36 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                 });
 
                 // сертификат
-                var sertificate = 'Сертификат';
+                var sertificates = '';
+                $.each(pd.field_pd_certificate_url, function(index, sert_src) {
+                    sertificates += theme('image', {path: sert_src})
+                });
 
                 // сертификат
-                var files = 'Файлы';
-
+                var files = '';
+                $.each(pd.field_file_attachments, function(index, file) {
+                    var file_info = file.filename + ', ' + accounting.formatNumber(file.filesize/1024, 2, " ") + 'KB';
+                    var file_url = pd.field_file_attachments_url[index];
+                    files += '<div class="nd2-card file-card card-media-right card-media-small">';
+                    files +=     '<div class="card-media">';
+                    files +=         '<img src="app/themes/agro/images/icons/file_sheet.png">';
+                    files +=     '</div>';
+                    files +=     '<div class="card-title has-supporting-text">';
+                    files +=         '<h3 class="card-primary-title">' + file.description + '</h3>';
+                    files +=         '<h5 class="card-subtitle">' + file_info + '</h5>';
+                    files +=     '</div>';
+                    files +=    '<div class="card-action">';
+                    files +=        '<div class="row between-xs">';
+                    files +=             '<div class="col-xs-12">';
+                    files +=                '<div class="box">';
+                    files +=                    '<a href="' + file_url + '" class="ui-btn ui-mini ui-btn-inline ui-btn-raised clr-primary waves-effect waves-button">Скачать</a>';
+                    // files +=                    '  ' + '<a href="#" class="ui-btn ui-mini ui-btn-inline ui-btn-raised clr-primary waves-effect waves-button">Открыть</a>';
+                    files +=                 '</div>';
+                    files +=             '</div>';
+                    files +=        '</div>';
+                    files +=     '</div>';
+                    files += '</div>';
+                });
 
                 html  = '<div class="product">';
                 html +=   '<div class="row">';
@@ -293,46 +377,57 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                 html +=     '</div>';
                 html +=   '</div>';
                 html +=   '<div class="row">';
-                html +=     '<div class="col-xs-5">';
+                html +=     '<div class="col-xs-5 col-sm-6">';
                 html +=       '<div class="p-image">';
                 html +=         image;
                 html +=       '</div>';
                 html +=     '</div>';
-                html +=     '<div class="col-xs-7">';
+                html +=     '<div class="col-xs-7 col-sm-6">';
                 html +=       '<div class="p-brief">';
                 html +=         '<div class="row">';
-                html +=           '<div class="col-xs p-price">' + pd.field_product_entities[pid].commerce_price_formatted + '</div>';
+                html +=           '<div class="col-xs p-price">' + price + '</div>';
                 html +=         '</div>';
-                html +=         '<div class="row">';
-                html +=           '<div class="col-xs"' + brand_style + '>' + 'Норма расхода' + '</div>';
-                html +=           '<div class="col-xs">' + consumption + '</div>';
-                html +=         '</div>';
-                html +=         '<div class="row">';
-                html +=           '<div class="col-xs"' + brand_style + '>' + 'Стоимость обработки' + '</div>';
-                html +=           '<div class="col-xs">' + cost + '</div>';
-                html +=         '</div>';
-                html +=         '<div class="row">';
-                html +=           '<div class="col-xs"' + brand_style + '>' + 'Препаративная форма' + '</div>';
-                html +=           '<div class="col-xs">' + prep_form + '</div>';
-                html +=         '</div>';
-                html +=         '<div class="row">';
-                html +=           '<div class="col-xs"' + brand_style + '>' + 'Действующие вещества' + '</div>';
-                html +=           '<div class="col-xs">' + ingredients + '</div>';
-                html +=         '</div>';
+                if (consumption !== '') {
+                    html += '<div class="row">';
+                    html += '<div class="col-xs"' + brand_style + '>' + 'Норма расхода' + '</div>';
+                    html += '<div class="col-xs">' + consumption + '</div>';
+                    html += '</div>';
+                }
+                if (cost !== 0) {
+                    html += '<div class="row">';
+                    html += '<div class="col-xs"' + brand_style + '>' + 'Стоимость обработки' + '</div>';
+                    html += '<div class="col-xs">' + cost + '</div>';
+                    html += '</div>';
+                }
+                if (prep_form !== '') {
+                    html += '<div class="row">';
+                    html += '<div class="col-xs"' + brand_style + '>' + 'Препаративная форма' + '</div>';
+                    html += '<div class="col-xs">' + prep_form + '</div>';
+                    html += '</div>';
+                }
+                if (ingredients !== '') {
+                    html += '<div class="row">';
+                    html += '<div class="col-xs"' + brand_style + '>' + 'Действующие вещества' + '</div>';
+                    html += '<div class="col-xs">' + ingredients + '</div>';
+                    html += '</div>';
+                }
                 html +=       '</div>';
                 html +=     '</div>';
                 html +=   '</div>';
                 html +=   '<div class="row">';
+                // закладки
                 html +=     '<ul data-role="nd2tabs" data-swipe="true" class="nd2Tabs"' + brand_style + '>';
-                html +=       '<li data-tab="description" data-tab-active="true" class="nd2Tabs-nav-item waves-effect waves-button waves-light">Описание</li>';
-                html +=       '<li data-tab="sertificate" class="nd2Tabs-nav-item waves-effect waves-button waves-light">Сертификат</li>';
-                html +=       '<li data-tab="files" class="nd2Tabs-nav-item waves-effect waves-button waves-light">Файлы</li>';
+                html +=       '<li data-tab="description" data-tab-active="true" class="nd2Tabs-nav-item nd2Tabs-active">Описание</li>';
+                if (sertificates !== '') html += '<li data-tab="sertificates" class="nd2Tabs-nav-item">Сертификат</li>';
+                if (files !== '')        html += '<li data-tab="files" class="nd2Tabs-nav-item">Файлы</li>';
                 html +=     '</ul>';
+                // панели закладок
                 html +=   '<div class="nd2tabs-content ui-content wow fadeIn" data-inset="false" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">';
-                html +=     '<div data-role="nd2tab" data-tab="description" class="nd2Tabs-content-tab p-description">' + description + '</div>';
-                html +=     '<div data-role="nd2tab" data-tab="sertificate" class="nd2Tabs-content-tab">' + sertificate + '</div>';
-                html +=     '<div data-role="nd2tab" data-tab="files" class="nd2Tabs-content-tab">' + files + '</div>';
+                html +=     '<div data-role="nd2tab" data-tab="description" class="nd2Tabs-content-tab p-description nd2Tab-active">' + description + '</div>';
+                if (sertificates !== '') html += '<div data-role="nd2tab" data-tab="sertificates" class="nd2Tabs-content-tab">' + sertificates + '</div>';
+                if (files !== '')        html += '<div data-role="nd2tab" data-tab="files" class="nd2Tabs-content-tab">' + files + '';
                 html +=   '</div>';
+
                 html += '</div>';
 
                 $('#' + commerce_cart_container_id(entity_type, entity_id)).html(html).trigger('create');
@@ -349,6 +444,8 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
     }
 }
 
+
+
 /**
  * hook_services_preprocess
  */
@@ -358,7 +455,7 @@ function agroshop_services_preprocess(options)
         // для запроса информации о Препарате добавить параметр глубины (expand_entities=2),
         // чтобы получить термины таксономии в полях типа field_collection
         // (commerce_services из коробки не умеет работать с field_collection, см. README-AGRO.md)
-        if (options.service == 'commerce_product_display' && options.resource == 'retrieve') {
+        if (options.service === 'commerce_product_display' && options.resource === 'retrieve') {
             options.path += '&expand_entities=2';
         }
     }
@@ -372,6 +469,7 @@ function agroshop_services_preprocess(options)
 // добавить в форму и вывести поля из Product Variants
 function agroshop_form_alter(form, form_state) {
     try {
+        var elements = {};
         switch(form.id) {
             case 'commerce_cart_add_to_cart_form':
                 var arguments = form["arguments"];
@@ -383,7 +481,6 @@ function agroshop_form_alter(form, form_state) {
 
                 // добавляем поля из product variants
                 // чтобы поля выводились на странице в нужном порядке, переберем массив
-                var elements = {};
 
                 // если цена == 0 нужно вывести сообщение вместо неё и запретить добавление товара в корзину
                 var mprice = 'Цена товара вскоре будет обновлена';
@@ -418,7 +515,7 @@ function agroshop_form_alter(form, form_state) {
                 break;
             case 'user_login_form':
                 // добавить комментарий
-                var elements = {};
+
                 //elements.intro = {
                 //    markup: '<div class="intro">Для работы с приложением необходимо войти под своей учетной записью или зарегистрироваться.</div>'
                 //};
@@ -664,23 +761,6 @@ function agroshop_locale() {
     return ['ru'];
 }
 
-/**
- * Implements hook_deviceready().
- * позволяет менять элемкны отрендеренных страницы
- */
-function agroshop_deviceready() {
-    try {
-        // страница завершения заказа (Checkout Complete)
-            // Меняем заголовок
-        drupalgap.menu_links['checkout/complete/%'].title = 'Заказ оформлен';
-            // меняем content pageshow callback на свой
-        drupalgap.menu_links['checkout/complete/%'].pageshow = 'agroshop_commerce_checkout_complete_view_pageshow';
-            // обновлять корзину каждый раз
-        drupalgap.menu_links['cart'].options.reloadPage = true;
-
-    }
-    catch (error) { console.log('agroshop_deviceready - ' + error); }
-}
 
 /**
  * Theme a commerce cart. (темизация корзины, перекрытие функции из commerce.js с.1494)
@@ -712,37 +792,6 @@ function theme_commerce_cart(variables) {
 
         // Render the order total and the buttons.
         html += theme('commerce_cart_total', { order: variables.order });
-
-        // если пользователь авторизован, вывести кнопку заказа
-        //dpm('user!!! - ' + Drupal.user.uid);
-        // if (Drupal.user.uid != 0) {
-        //     html += theme('button_link', {
-        //         text: 'Заказать',
-        //         path: 'checkout/' + variables.order.order_id,
-        //         options: {
-        //             attributes: {
-        //                 'data-icon': 'check',
-        //                 'data-theme': 'b'
-        //             }
-        //         }
-        //     });
-        // }
-        // // если аноним - кнопки входа/регистрации
-        // else {
-        //     // после входа или регистрации вернуться в корзину
-        //     drupalgap.settings.front = 'cart';
-        //     html += '<div style="text-align: center;">Для оформления заказа необходимо</div>';
-        //     html += theme('button_link', {
-        //         text: 'Войти / Зарегистрироваться',
-        //         path: 'user/login',
-        //         options: {
-        //             attributes: {
-        //                 'data-icon': 'user',
-        //                 'data-theme': 'b'
-        //             }
-        //         }
-        //     });
-        // }
 
         // Return the rendered cart.
         return html;
@@ -893,29 +942,20 @@ function agroshop_block_view(delta, region) {
                 if (drupalgap_path_get() == drupalgap.settings.front) {
                     content += bl('', '#', {
                         attributes: {
-                            class: 'ui-btn ui-btn-right ui-btn-left zmdi zmdi-accounts-alt wow fadeIn waves-effect waves-button',
+                            class: 'ui-btn ui-btn-left zmdi zmdi-accounts-alt wow fadeIn',
                             'data-wow-delay': '0.8s',
                             onclick: "javascript:drupalgap_goto('representatives');"
                         }
                     });
                 }
-                // боковое меню на остальных
+                // Домой на остальных
                 else {
                     content = bl('', '#' + drupalgap_panel_id('menu_panel_block'), {
                         attributes: {
-                            class: 'ui-btn ui-btn-left zmdi zmdi-menu wow fadeIn',
-                            'data-wow-delay': '0.8s'
+                            class: 'ui-btn ui-btn-left zmdi zmdi-home wow fadeIn',
+                            'data-wow-delay': '0.8s',
+                            onclick: "javascript:drupalgap_goto('homepage');"
                         }
-                    });
-                    // Attach a swipe listener for the menu.
-                    var page_id = drupalgap_get_page_id();
-                    content += drupalgap_jqm_page_event_script_code({
-                        page_id: page_id,
-                        jqm_page_event: 'pageshow',
-                        jqm_page_event_callback: 'agroshop_menu_panel_block_swiperight',
-                        jqm_page_event_args: JSON.stringify({
-                            page_id: page_id
-                        })
                     });
                 }
                 break;
@@ -957,24 +997,6 @@ function agroshop_block_view(delta, region) {
         return content;
     }
     catch (error) { console.log('agroshop_block_view - ' + error); }
-}
-
-/**
- *  menu swipe right callback function
- */
-function agroshop_menu_panel_block_swiperight(options) {
-    try {
-        $('#' + options.page_id).on('swiperight', function(event) {
-            $('#' + options.page_id + ' .region_header .my_panel_block_button_icon').click();
-        });
-    }
-    catch (error) { console.log('my_panel_block_swiperight - ' + error); }
-}
-
-// установить имя пользователя равным его email
-function agroshop_user_register_form_submit(form, form_state) {
-    form_state.values.name = form_state.values.mail;
-    //dpm(form_state);
 }
 
 
@@ -1025,19 +1047,6 @@ function about_us_page() {
                     onclick: "window.open('https://kccc.ru', '_system', 'location=yes')"
                 }
             });
-
-        html +=     '<ul data-role="nd2tabs" data-swipe="true" class="nd2Tabs">';
-        html +=       '<li data-tab="friends" class="nd2Tabs-nav-item waves-effect waves-button waves-light">Friends</li>';
-        html +=       '<li data-tab="work" data-tab-active="true" class="nd2Tabs-nav-item nd2Tabs-active waves-effect waves-button waves-light">Work</li>';
-        html +=       '<li data-tab="holiday" class="nd2Tabs-nav-item waves-effect waves-button waves-light">Holiday</li>';
-        html +=       '<li data-tab="colors" class="nd2Tabs-nav-item waves-effect waves-button waves-light">Colors</li>';
-        html +=     '</ul>';
-        html +=   '<div class="ui-content wow fadeIn" data-inset="false" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">';
-        html +=     '<div data-role="nd2tab" data-tab="friends" class="nd2Tabs-content-tab">1</div>';
-        html +=     '<div data-role="nd2tab" data-tab="work" class="nd2Tabs-content-tab nd2Tab-active"><a href="#" data-role="toast" data-toast-message="Simple toast message set by data-message" data-toast-action-title="Action" data-toast-action-link="toasts.html" data-toast-action-color="red" data-toast-ttl="6000">Link</a></div>';
-        html +=     '<div data-role="nd2tab" data-tab="holiday" class="nd2Tabs-content-tab">3</div>';
-        html +=     '<div data-role="nd2tab" data-tab="colors" class="nd2Tabs-content-tab">4</div>';
-        html +=   '</div>';
 
         return html;
     }

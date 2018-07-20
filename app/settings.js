@@ -147,9 +147,6 @@ drupalgap.settings.blocks = {}; // Do not remove this line.
 // Easy Street 3 Theme Blocks
 drupalgap.settings.blocks.agro = {
     header:{
-        _prefix: {
-            menu_panel_block: {}
-        },
         menu_block_button_left: {},
         agro_title:{},
         menu_block_button_right: {}
