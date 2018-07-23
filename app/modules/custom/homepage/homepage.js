@@ -37,7 +37,7 @@ function homepage_page() {
         html +=   '<div class="row">';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<img src="app/themes/agro/images/homepage/agrohelp.png"><div class="r-title">Агропомощь</div>', 'catalog');
+        html +=          l('<img src="app/themes/agro/images/homepage/agrohelp.png"><div class="r-title">Агропомощь</div>', 'agrohelp');
         html +=       '</div>';
         html +=     '</div>';
         html +=     '<div class="col-xs">';

@@ -228,3 +228,16 @@ div[id^="products_"] {
     .card-media { width: 40px; height: 40px; }
     .card-action { padding: 8px 1em; }
 }
+
+// чтобы ширина псевдоэлемента :after (нижнее подчеркивание) не превышала род. элемент
+.ui-input-text {
+    position: relative;
+}
+// приведение к виду элемента textfield
+.ui-input-search {
+    padding-left: 0;
+    &:after {
+        background-image: none; // убрать значок лупы
+        left: 0;
+    }
+}

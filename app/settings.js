@@ -128,6 +128,7 @@ Drupal.modules.contrib['logintoboggan'] = {};
 /** Custom Modules - www/app/modules/custom **/
 
 Drupal.modules.custom['homepage'] = {};
+Drupal.modules.custom['agrohelp'] = {};
 Drupal.modules.custom['agroshop'] = {};
 
 /***************************************|

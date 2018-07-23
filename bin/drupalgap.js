@@ -1651,6 +1651,13 @@ function theme_autocomplete(variables) {
       }
     };
 
+      // учесть заданные атрибуты
+      $.each(variables.attributes, function(index_a, item_a) {
+          if (index_a !== 'id') {
+              widget.attributes[index_a] = item_a;
+          }
+      });
+
     // Handle a remote data set.
     var js = '';
     if (variables.remote) {

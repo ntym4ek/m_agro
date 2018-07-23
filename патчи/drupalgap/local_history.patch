@@ -1,0 +1,21 @@
+Index: bin/drupalgap.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- bin/drupalgap.js	(revision )
++++ bin/drupalgap.js	(revision )
+@@ -1651,6 +1651,13 @@
+       }
+     };
+ 
++      // учесть заданные атрибуты
++      $.each(variables.attributes, function(index_a, attr) {
++          if (item !== 'id') {
++              widget.attributes[index_a] = attr;
++          }
++      });
++
+     // Handle a remote data set.
+     var js = '';
+     if (variables.remote) {
