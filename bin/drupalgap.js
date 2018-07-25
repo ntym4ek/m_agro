@@ -5456,6 +5456,7 @@ function _drupalgap_form_render_elements(form) {
             // Extra fields.
             else if (
               form.entity_type && bundle &&
+              typeof drupalgap.field_info_extra_fields[bundle] != 'undefined' &&
               typeof drupalgap.field_info_extra_fields[bundle][name] !==
                 'undefined' &&
               typeof

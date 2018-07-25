@@ -89,6 +89,8 @@
 	<plugin name="cordova-plugin-splashscreen" source="npm" />
 	<!-- The StatusBar object provides some functions to customize the iOS and Android StatusBar. -->
 	<plugin name="cordova-plugin-statusbar" source="npm" />
+	<!-- Этот плагин определяет глобальный объект navigator.camera , который предоставляет API для съемки и выбора изображений из библиотеки изображений системы. -->
+	<plugin name="cordova-plugin-camera" source="npm" />
 
 	<!-- при переходе phonegap-version на версии cli-* необходимо включить плагин whitelist и настроить доступ (параметры ниже)  -->
 	<!-- This plugin implements a whitelist policy for navigating the application webview on Cordova 4.0 -->

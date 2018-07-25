@@ -6,6 +6,7 @@ $screen-md-min: 992px;
 $screen-lg-min: 1200px;
 
 /* -------------------------------------------- Общие настройки ----------------------------------------------------- */
+html {  }
 body, input, select, textarea, button, .ui-btn,h1,h2,h3,h4,h5,h6 {
     font-family: ubuntu, "Helvetica Neue", sans-serif;
 }
@@ -33,6 +34,11 @@ h3 { font-size: 1.999em;}
 h4 { font-size: 1.414em;}
 
 small, .font_small {font-size: 0.707em;}
+
+.ui-mobile label {
+    font-size: 14px;
+    strong { font-weight: 400; }
+}
 
 /* -------------------------------------------- Header -------------------------------------------------------------- */
 .ui-header {

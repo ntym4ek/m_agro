@@ -26,14 +26,43 @@ function agrohelp_menu() {
 /**
  * ------------------------------------------------ Autocomplete -------------------------------------------------------
  */
+function agrohelp_form_alter(form, form_state, form_id, aux)
+{
+    try {
+        console.log('agrohelp_form_alter - ');
+        if (form_id === 'entityform_edit' && form.bundle === 'agrohelp') {
+            var lang = language_default();
+            // todo извлечь поле с инструкциями из entityform type (drupalgap.content_types_list[bundle].data)
+            var instruction = '<p>Если у Вас возникли затруднения с определением вредного объекта, будь то сорняк, вредитель или болезнь на Вашем участке или в поле, заполните форму ниже, чтобы наш специалист смог помочь.</p>'
+                + '<p>Профессиональный агроном проверит полученные данные и ответит по одному из оставленных контактов.</p>';
+            form.prefix = instruction;
+
+            form.elements.field_region_er.prefix = '<h3>О себе</h3>';
+            delete form.elements.field_region_er.title;
+            form.elements.field_region_er[lang][0]['options']['attributes']['data-filter-placeholder'] = 'Регион';
+            form.elements.field_company.title_placeholder = true;
+            form.elements.field_fullname.title_placeholder = true;
+            form.elements.field_phone.title_placeholder = true;
+            form.elements.field_email.title_placeholder = true;
+            form.elements.field_f_s_culture.prefix = '<h3>Нужна помощь!</h3>';
+            delete form.elements.field_f_s_culture.title;
+            form.elements.field_f_s_culture[lang][0]['options']['attributes']['data-filter-placeholder'] = 'Культура';
+            delete form.elements.field_plant_processing_stage_er.title;
+            form.elements.field_plant_processing_stage_er[lang][0]['options']['attributes']['data-filter-placeholder'] = 'Фаза культуры';
+            form.elements.field_image.prefix = '<h3>Не могу определить</h3>';
+        }
+    }
+    catch (error) {
+        console.log('agrohelp_form_alter - ' + error);
+    }
+}
 
 
-/**
- * ------------------------------------------------ форма Агропомощи ---------------------------------------------------
- */
+
 function agrohelp_form(form, form_state)
 {
-    //
+    // todo сформировать форму автоматически по аналогии с node/%/edit
+
     // form.elements.collaps = {
     //         type: 'collapsible',
     //         header: 'Hello',
@@ -132,6 +161,12 @@ function agrohelp_form(form, form_state)
         }
     };
 
+    form.elements['image'] = {
+        type: 'image',
+        title: 'Фото',
+        required: true
+    };
+
     // Buttons
     form.elements['submit'] = {
         type: 'submit',
@@ -163,24 +198,4 @@ function agrohelp_form_submit()
             catch (error) { console.log('agrohelp_entityform_submission_create - error - ' + error); }
         }
     });
-}
-
-/**
- * ------------------------------------------------ Entityform Submission ----------------------------------------------
- */
-
-/**
- * создание Entityform Submission через Services
- */
-function agrohelp_entityform_submission_create(options) {
-    try {
-        // в правах пользователям нужно разрешить создание и редактирование customer_profile_shipping
-        options.method = 'POST';
-        options.path = 'entityform_submission';
-        options.service = 'entityform_submission';
-        options.resource = 'create';
-        options.entity_type = 'entityform';
-        Drupal.services.call(options);
-    }
-    catch (error) { console.log('agrohelp_entityform_submission_create - ' + error); }
 }

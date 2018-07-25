@@ -37,12 +37,12 @@ function homepage_page() {
         html +=   '<div class="row">';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<img src="app/themes/agro/images/homepage/agrohelp.png"><div class="r-title">Агропомощь</div>', 'agrohelp');
+        html +=          l('<img src="app/themes/agro/images/homepage/agrohelp.png"><div class="r-title">Агропомощь</div>', 'entityform/add/agrohelp');
         html +=       '</div>';
         html +=     '</div>';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<img src="app/themes/agro/images/homepage/solution.png"><div class="r-title">Найти решение</div>', 'catalog');
+        html +=          l('<img src="app/themes/agro/images/homepage/solution.png"><div class="r-title">Найти решение</div>', 'node/add/news');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';

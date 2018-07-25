@@ -124,10 +124,12 @@ drupalgap.settings.loader = {
 
 Drupal.modules.contrib['commerce'] = {};
 Drupal.modules.contrib['logintoboggan'] = {};
+Drupal.modules.contrib['entityreference'] = {};
 
 /** Custom Modules - www/app/modules/custom **/
 
 Drupal.modules.custom['homepage'] = {};
+Drupal.modules.custom['entityform'] = {};
 Drupal.modules.custom['agrohelp'] = {};
 Drupal.modules.custom['agroshop'] = {};
 

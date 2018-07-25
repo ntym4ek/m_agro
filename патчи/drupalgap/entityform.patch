@@ -1,0 +1,15 @@
+Index: bin/drupalgap.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- bin/drupalgap.js	(revision )
++++ bin/drupalgap.js	(revision )
+@@ -5456,6 +5456,7 @@
+             // Extra fields.
+             else if (
+               form.entity_type && bundle &&
++              typeof drupalgap.field_info_extra_fields[bundle] != 'undefined' &&
+               typeof drupalgap.field_info_extra_fields[bundle][name] !==
+                 'undefined' &&
+               typeof
