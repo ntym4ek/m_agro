@@ -162,7 +162,7 @@ function products_page() {
 
 function products_page_row(view, row) {
     try {
-        console.log('products_page_row');
+        //console.log('products_page_row');
         var image = theme('image', { path: row.img.src });
         var icon = theme('image', { path: row.icon_img.src });
 

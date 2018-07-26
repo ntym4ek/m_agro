@@ -1,9 +1,10 @@
-@import 'css/_nativedroid2.color.brand';
-@import url("fonts/ubuntu/ubuntu.css");
+@import '../css/_nativedroid2.color.brand';
+@import url("../fonts/ubuntu/ubuntu.css");
 
 $screen-sm-min: 768px;
 $screen-md-min: 992px;
 $screen-lg-min: 1200px;
+
 
 /* -------------------------------------------- Общие настройки ----------------------------------------------------- */
 html {  }
@@ -110,7 +111,10 @@ small, .font_small {font-size: 0.707em;}
             position: relative;
             min-height: 100px;
         }
-        .c-title { padding: .2em 0 .6em 0; }
+        .c-title {
+            font-size: 1.2em;
+            padding: .2em 0 .7em 0;
+        }
         .c-icon {
             width: 50px; height: 50px;
             position: absolute; bottom: -25px; right: 30px;
@@ -140,7 +144,7 @@ div[id^="products_"] {
             }
         }
         .p-title {
-            font-size: .8em; font-weight: 500;
+            font-size: 1.2em;
             padding: .6em 0;
         }
         .p-icon {

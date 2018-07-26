@@ -7,7 +7,7 @@ function agrohelp_menu() {
         items['agrohelp'] = {
             title: 'Агропомощь',
             page_callback: 'drupalgap_get_form',
-            page_arguments: ['agrohelp_form'],
+            page_arguments: ['agrohelp_form']
         };
         items['autocomplete_region'] = {
             title: 'Autocomplete',
@@ -60,7 +60,7 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
             delete form.elements.field_plant_processing_stage_er.title;
             form.elements.field_plant_processing_stage_er[lang][0]['options']['attributes']['data-filter-placeholder'] = 'Фаза культуры' + (form.elements.field_plant_processing_stage_er.required?' *':'');
 
-            form.elements.field_image.prefix = '<h3>Не могу определить</h3>';
+            // form.elements.field_image.prefix = '<h3>Не могу определить</h3>';
         }
     }
     catch (error) {
@@ -73,15 +73,6 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
 function agrohelp_form(form, form_state)
 {
     // todo сформировать форму автоматически по аналогии с node/%/edit
-
-    // form.elements.collaps = {
-    //         type: 'collapsible',
-    //         header: 'Hello',
-    //         // content: '<p>Hi!</p>',
-    //         attributes: {
-    //             'data-collapsed': 'false'
-    //         }
-    // };
 
     // используем автокомплит на Entity Index, так как нужны все значения словаря
     form.elements['autocomplete_region'] = {
@@ -104,33 +95,6 @@ function agrohelp_form(form, form_state)
         prefix: '<h3>О себе</h3>'
     };
 
-    form.elements['company'] = {
-        type: 'textfield',
-        title: 'Компания',
-        title_placeholder: true,
-        required: true
-    };
-
-    form.elements['name'] = {
-        type: 'textfield',
-        title: 'ФИО',
-        title_placeholder: true,
-        required: true
-    };
-
-    form.elements['phone'] = {
-        type: 'textfield',
-        title: 'Телефон',
-        title_placeholder: true,
-        required: true
-    };
-
-    form.elements['email'] = {
-        type: 'textfield',
-        title: 'E-Mail',
-        title_placeholder: true,
-        required: true
-    };
 
     // используем автокомплит с собственным обработчиком запросов,
     // так как нужны не любые ноды, а типа main_cultures
