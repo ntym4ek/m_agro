@@ -30,7 +30,7 @@ function homepage_page() {
         html +=     '</div>';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<img src="app/themes/agro/images/homepage/protection.png"><div class="r-title">Система защиты</div>', 'protection-system');
+        html +=          l('<img src="app/themes/agro/images/homepage/protection.png"><div class="r-title">Система защиты</div>', 'protection');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
@@ -49,7 +49,7 @@ function homepage_page() {
         html +=   '<div class="row">';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<img src="app/themes/agro/images/homepage/before_after.png"><div class="r-title">Препараты в поле</div>', 'at-field');
+        html +=          l('<img src="app/themes/agro/images/homepage/field.png"><div class="r-title">Препараты в поле</div>', 'field');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';

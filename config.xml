@@ -2,8 +2,8 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.kccc.agroshop"
-		versionCode="1.08"
-		version   = "1.08">
+		versionCode="1.2"
+		version   = "1.2">
 	<name>Агрохимия</name>
 	<description>Каталог пестицидов компании ООО Торговый Дом "Кирово-Чепецкая Химическая Компания"</description>
 	<author href="kccc.ru" email="support@kccc.ru">TradeHouse</author>
@@ -55,7 +55,7 @@
 	<!-- stastusbar -->
 	<preference name="StatusBarOverlaysWebView" value="false" />
 	<preference name="StatusBarStyle" value="blacktranslucent" />
-	<preference name="StatusBarBackgroundColor" value="#40AE1A" />
+	<preference name="StatusBarBackgroundColor" value="#0A6B36" />
 
 	<!-- splashscreen -->
 	<preference name="SplashScreenDelay" value="3000" />
