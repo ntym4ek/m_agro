@@ -263,8 +263,8 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
         // Load the product display.
         commerce_product_display_load(entity_id, {
             success: function(pd) {
-                dpm(pd);
-                console.log('_commerce_product_reference_field_formatter_view_pageshow');
+                // dpm(pd);
+                // console.log('_commerce_product_reference_field_formatter_view_pageshow');
                 // сформировать страницу
                 // var form_html = drupalgap_get_form('commerce_cart_add_to_cart_form', pd);
                 var html = '';

@@ -82,7 +82,7 @@ function entityform_add_page_by_type(type)
 function entityform_edit(form, form_state, entityform)
 {
     try {
-        console.log('entityform_edit');
+        // console.log('entityform_edit');
 
         // Setup form defaults.
         form.entity_type = 'entityform';

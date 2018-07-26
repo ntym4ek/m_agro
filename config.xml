@@ -12,7 +12,6 @@
 	<platform name="android" />
 
 
-
 	<!-- настройки смотрим на http://cordova.apache.org/docs/en/latest/config_ref/index.html -->
 	<!-- common -->
 	<preference name="orientation" value="default" />
