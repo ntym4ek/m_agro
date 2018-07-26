@@ -97,7 +97,10 @@ small, .font_small {font-size: 0.707em;}
                 margin: auto;
             }
         }
-        .r-title { margin-top: 5px; }
+        .r-title {
+            font-size: 1.2em;
+            margin-top: 5px;
+        }
     }
 }
 
