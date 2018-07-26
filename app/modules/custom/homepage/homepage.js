@@ -30,7 +30,7 @@ function homepage_page() {
         html +=     '</div>';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<img src="app/themes/agro/images/homepage/protection.png"><div class="r-title">Система защиты</div>', 'catalog');
+        html +=          l('<img src="app/themes/agro/images/homepage/protection.png"><div class="r-title">Система защиты</div>', 'protection-system');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
@@ -42,14 +42,14 @@ function homepage_page() {
         html +=     '</div>';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<img src="app/themes/agro/images/homepage/solution.png"><div class="r-title">Найти решение</div>', 'node/add/news');
+        html +=          l('<img src="app/themes/agro/images/homepage/solution.png"><div class="r-title">Найти решение</div>', 'sollution');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
         html +=   '<div class="row">';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<img src="app/themes/agro/images/homepage/before_after.png"><div class="r-title">Препараты в поле</div>', 'catalog');
+        html +=          l('<img src="app/themes/agro/images/homepage/before_after.png"><div class="r-title">Препараты в поле</div>', 'at-field');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
