@@ -60,7 +60,7 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
             delete form.elements.field_plant_processing_stage_er.title;
             form.elements.field_plant_processing_stage_er[lang][0]['options']['attributes']['data-filter-placeholder'] = 'Фаза культуры' + (form.elements.field_plant_processing_stage_er.required?' *':'');
 
-            // form.elements.field_image.prefix = '<h3>Не могу определить</h3>';
+            form.elements.field_image.prefix = '<h3>Не могу определить</h3>';
         }
     }
     catch (error) {
