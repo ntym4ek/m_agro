@@ -19,7 +19,7 @@
 	<preference name="fullscreen" value="false" />
 	<!-- set to true if you don't want the interface to display any feedback when users scroll past the beginning or end of content. -->
 	<preference name="disallowOverscroll" value="false"/>
-	<preference name="backgroundColor" value="0x40ae1a"/>
+	<preference name="backgroundColor" value="0x0A6B36"/>
 	<!-- set to true to hide the additional toolbar that appears above the keyboard, helping users navigate from one form input to another. -->
 	<preference name="hideKeyboardFormAccessoryBar" value="true"/>
 	<!-- If set, will display the referenced page upon an error in the application instead of a dialog with the title "Application Error". -->
@@ -71,6 +71,7 @@
 	<feature name="http://api.phonegap.com/1.0/notification"/>
 	<feature name="http://api.phonegap.com/1.0/device"/>
 
+	<engine name="android" spec="6.3.0" />
 	<!-- плагины ищем на http://cordova.apache.org/plugins/ -->
 	<!-- образец вставки <plugin name="cordova-plugin-inappbrowser" source="npm" /> -->
 
