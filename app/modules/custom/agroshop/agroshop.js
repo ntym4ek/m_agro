@@ -78,6 +78,7 @@ function agroshop_node_page_title(callback, nid) {
  */
 function catalog_page() {
     try {
+        console.log('catalog_page - ');
         var content = {};
         content['list'] = {
             theme: 'view',
@@ -99,13 +100,15 @@ function catalog_page_row(view, row) {
         // вернуть html код строки любой категории, кроме "Все продукты"
         if (row.tid !== 50) {
             var content = '';
-            content += '<div class="c-bkg" style="background: url(' + row.img.src + ') 0 0 no-repeat; background-size: cover;">';
+            content += '<div class="c-bkg" style="background: url(' + row.img.src + ') 0 30% no-repeat; background-size: cover;">';
             content +=   '<div class="c-icon"><img src="' + row.icon_img.src + '"></div>';
             content += '</div>';
             content += '<div class="c-title">' + row.name + '</div>';
+            var delay = (row._position + 2)/10;
             html = l(content, 'products/' + row.tid, {
                 'attributes': {
-                    'class': 'c-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button'
+                    'class': 'c-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
+                    'data-wow-delay': delay + 's'
                 }
             });
         }
@@ -169,14 +172,16 @@ function products_page_row(view, row) {
         var content = '';
         content += '<div class="p-box">';
         content +=   '<div class="p-image">' + image + '</div>';
-        content +=   '<p>' + row.descr + '</p>';
+        content +=   '<p class="font_small">' + row.descr + '</p>';
         content +=   '<div class="p-icon">' + icon + '</div>';
         content += '</div>';
         content += '<div class="p-title">' + row.title + '</div>';
+        var delay = (row._position + 2)/10;
 
         return l(content, 'node/' + row.nid + '?cid=' + row.category_id + '&cname=' + row.category_name, {
                 attributes: {
-                    class: 'p-item col-xs-12 col-sm-6'
+                    class: 'p-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
+                    'data-wow-delay': delay + 's'
                 },
                 reloadPage: true
             }
@@ -377,38 +382,38 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                 html +=     '</div>';
                 html +=   '</div>';
                 html +=   '<div class="row">';
-                html +=     '<div class="col-xs-5 col-sm-6">';
+                html +=     '<div class="col-xs-5">';
                 html +=       '<div class="p-image">';
                 html +=         image;
                 html +=       '</div>';
                 html +=     '</div>';
-                html +=     '<div class="col-xs-7 col-sm-6">';
+                html +=     '<div class="col-xs-7">';
                 html +=       '<div class="p-brief">';
                 html +=         '<div class="row">';
                 html +=           '<div class="col-xs p-price">' + price + '</div>';
                 html +=         '</div>';
                 if (consumption !== '') {
                     html += '<div class="row">';
-                    html += '<div class="col-xs"' + brand_style + '>' + 'Норма расхода' + '</div>';
-                    html += '<div class="col-xs">' + consumption + '</div>';
+                    html += '<div class="col-xs-5"' + brand_style + '>' + 'Норма расхода' + '</div>';
+                    html += '<div class="col-xs-7">' + consumption + '</div>';
                     html += '</div>';
                 }
                 if (cost !== 0) {
                     html += '<div class="row">';
-                    html += '<div class="col-xs"' + brand_style + '>' + 'Стоимость обработки' + '</div>';
-                    html += '<div class="col-xs">' + cost + '</div>';
+                    html += '<div class="col-xs-5"' + brand_style + '>' + 'Стоимость обработки' + '</div>';
+                    html += '<div class="col-xs-7">' + cost + '</div>';
                     html += '</div>';
                 }
                 if (prep_form !== '') {
                     html += '<div class="row">';
-                    html += '<div class="col-xs"' + brand_style + '>' + 'Препаративная форма' + '</div>';
-                    html += '<div class="col-xs">' + prep_form + '</div>';
+                    html += '<div class="col-xs-5"' + brand_style + '>' + 'Препаративная форма' + '</div>';
+                    html += '<div class="col-xs-7">' + prep_form + '</div>';
                     html += '</div>';
                 }
                 if (ingredients !== '') {
                     html += '<div class="row">';
-                    html += '<div class="col-xs"' + brand_style + '>' + 'Действующие вещества' + '</div>';
-                    html += '<div class="col-xs">' + ingredients + '</div>';
+                    html += '<div class="col-xs-5"' + brand_style + '>' + 'Действующие вещества' + '</div>';
+                    html += '<div class="col-xs-7">' + ingredients + '</div>';
                     html += '</div>';
                 }
                 html +=       '</div>';
@@ -899,50 +904,13 @@ function agroshop_block_view(delta, region) {
         var content = '';
         switch (delta) {
 
-            // The slide menu (aka panel).
-            case 'menu_panel_block':
-                var attrs = {
-                    id: drupalgap_panel_id(delta),
-                    'data-role': 'panel',
-                    'data-position': 'left', // left or right
-                    'data-display': 'overlay', // overlay, reveal or push
-                    'data-position-fixed': 'true'
-                };
-                if (Drupal.user.uid === 0) {
-                    var items = [
-                        bl(t('Main'), 'catalog', {attributes: {'data-icon': 'home'}}),
-                        bl(t('About us'), 'about-us', {attributes: {'data-icon': 'info'}}),
-                        bl('Выйти из приложения', '#', { attributes: { 'data-icon': 'back', onclick: '_drupalgap_back_exit(1);'}})
-                        // bl(t('Register'), 'user/register', {attributes: {'data-icon': 'plus'}}),
-                        // bl(t('Login'), 'user/login', {attributes: {'data-icon': 'lock'}}),
-                    ];
-                } else {
-                    var items = [
-                        bl(t('Main'), 'catalog', {attributes: {'data-icon': 'home'}}),
-                        bl(t('About us'), 'about-us', {attributes: {'data-icon': 'info'}}),
-                        bl('Выйти из приложения', '#', { attributes: { 'data-icon': 'back', onclick: '_drupalgap_back_exit(1);'}})
-                        // bl(t('My account'), 'user', {attributes: {'data-icon': 'user'}}),
-                        // bl(t('Logout'), 'user/logout', {attributes: {'data-icon': 'delete'}})
-                    ];
-                }
-                content += '<div ' + drupalgap_attributes(attrs) + '>' +
-                '<!-- panel content goes here -->' +
-                '<div class="menu_logo">'+
-                    '<img src="app/themes/opie/images/logo.jpg" />'+
-                    '<p>ООО Торговый Дом</p>' +
-                    '<p>Кирово-Чепецкая<br />Химическая Компания</p>'+
-                '</div>'+
-                theme('jqm_item_list', { items: items }) +
-                '</div><!-- /panel -->';
-                break;
-
             // левая кнопка в Header
             case 'menu_block_button_left':
                 // представители на домашней
                 if (drupalgap_path_get() == drupalgap.settings.front) {
                     content += bl('', '#', {
                         attributes: {
-                            class: 'ui-btn ui-btn-left zmdi zmdi-accounts-alt wow fadeIn',
+                            class: 'ui-btn ui-btn-left zmdi zmdi-accounts-alt wow fadeIn waves-effect waves-button',
                             'data-wow-delay': '0.8s',
                             onclick: "javascript:drupalgap_goto('representatives');"
                         }
@@ -952,7 +920,7 @@ function agroshop_block_view(delta, region) {
                 else {
                     content = bl('', '#' + drupalgap_panel_id('menu_panel_block'), {
                         attributes: {
-                            class: 'ui-btn ui-btn-left zmdi zmdi-home wow fadeIn',
+                            class: 'ui-btn ui-btn-left zmdi zmdi-home wow fadeIn waves-effect waves-button',
                             'data-wow-delay': '0.8s',
                             onclick: "javascript:drupalgap_goto('homepage');"
                         }
@@ -966,7 +934,7 @@ function agroshop_block_view(delta, region) {
                 if (drupalgap_path_get() == drupalgap.settings.front) {
                     content += bl("", '#', {
                         attributes: {
-                            class: 'ui-btn ui-btn-right zmdi zmdi-settings wow fadeIn',
+                            class: 'ui-btn ui-btn-right zmdi zmdi-settings wow fadeIn waves-effect waves-button',
                             'data-wow-delay': '0.8s',
                             onclick: "javascript:drupalgap_goto('settings');"
                         }

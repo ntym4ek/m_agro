@@ -29,7 +29,7 @@ function agrohelp_menu() {
 function agrohelp_form_alter(form, form_state, form_id, aux)
 {
     try {
-        // console.log('agrohelp_form_alter - ');
+         console.log('agrohelp_form_alter - ');
         if (form_id === 'entityform_edit' && form.bundle === 'agrohelp') {
             var lang = language_default();
             // изменить вывод формы запроса Агропомощи
@@ -62,7 +62,14 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
             delete form.elements.field_plant_processing_stage_er.title;
             form.elements.field_plant_processing_stage_er[lang][0]['options']['attributes']['data-filter-placeholder'] = 'Фаза культуры' + (form.elements.field_plant_processing_stage_er.required?' *':'');
 
-            form.elements.field_image.prefix = '<h3>Не могу определить</h3>';
+            form.elements.field_ho_type.prefix = '<h3>Не могу определить</h3>';
+            form.elements.field_ho_type.title = form.elements.field_ho_type.title + (form.elements.field_ho_type.required?' *':'');
+            form.elements.field_ho_type.title_placeholder = true;
+
+            form.elements.field_pd_r_hobjects_comment.title = form.elements.field_pd_r_hobjects_comment.title + (form.elements.field_pd_r_hobjects_comment.required?' *':'');
+            form.elements.field_pd_r_hobjects_comment.title_placeholder = true;
+
+            form.elements.submit.value = 'Отправить';
         }
     }
     catch (error) {

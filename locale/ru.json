@@ -43,5 +43,6 @@
     "Main": "Главная",
   "Update cart": "Обновить",
   "About us": "О компании",
-    "Your shopping cart is empty." : "Вы не добавили ни одного препарата."
+    "Your shopping cart is empty." : "Вы не добавили ни одного препарата.",
+    "Take Photo" : "Камера"
 }

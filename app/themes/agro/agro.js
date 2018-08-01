@@ -63,4 +63,48 @@ function agro_user_profile_tpl_html() {
         '<div>{:content:}</div>';
 }
 
+/**
+ * Themes radio buttons.
+ * @param {Object} variables
+ * @return {String}
+ */
+function agro_radios(variables) {
+    try {
+        console.log('agro_radios - ');
+        var radios = '';
+        if (variables.options) {
+            variables.attributes.type = 'radio';
+            // Determine an id prefix to use.
+            var id = 'radio';
+            if (variables.attributes.id) {
+                id = variables.attributes.id;
+                delete variables.attributes.id;
+            }
+            // Set the radio name equal to the id if one doesn't exist.
+            if (!variables.attributes.name) {
+                variables.attributes.name = id;
+            }
+            // Init a delta value so each radio button can have a unique id.
+            var delta = 0;
+            for (var value in variables.options) {
+                if (!variables.options.hasOwnProperty(value)) { continue; }
+                var label = variables.options[value];
+                if (value == 'attributes') { continue; } // Skip the attributes.
+                var checked = '';
+                if (variables.value && variables.value == value) {
+                    checked = ' checked="checked" ';
+                }
+                var input_id = id + '_' + delta.toString();
+                var input_label =
+                    '<label for="' + input_id + '">' + label + '</label>';
+                radios += '<input id="' + input_id + '" value="' + value + '" ' +
+                    drupalgap_attributes(variables.attributes) +
+                    checked + ' />' + input_label;
+                delta++;
+            }
+        }
+        return '<div data-role="controlgroup" data-type="horizontal">' + radios + '</div>';
+    }
+    catch (error) { console.log('agro_radios - ' + error); }
+}
 
