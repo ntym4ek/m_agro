@@ -252,11 +252,16 @@ div[id^="products_"] {
         white-space: normal;
         margin-top: 5px;
       }
+      &.card-media-right .card-title .card-primary-title,
+      &.card-media-right .card-title .card-subtitle {
+        margin-right: 100px;
+      }
       .card-supporting-text {
         font-size: $font-size-text;
         white-space: normal;
       }
       .card-action {
+        a { font-size: .8em; }
         a:not(:last-child) { margin-bottom: .5em; }
       }
     }

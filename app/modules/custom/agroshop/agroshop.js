@@ -104,11 +104,10 @@ function catalog_page_row(view, row) {
             content +=   '<div class="c-icon"><img src="' + row.icon_img.src + '"></div>';
             content += '</div>';
             content += '<div class="c-title">' + row.name + '</div>';
-            var delay = (row._position + 2)/10;
             html = l(content, 'products/' + row.tid, {
                 'attributes': {
                     'class': 'c-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
-                    'data-wow-delay': delay + 's'
+                    'data-wow-delay': '0.2s'
                 }
             });
         }
@@ -176,12 +175,11 @@ function products_page_row(view, row) {
         content +=   '<div class="p-icon">' + icon + '</div>';
         content += '</div>';
         content += '<div class="p-title">' + row.title + '</div>';
-        var delay = (row._position + 2)/10;
 
         return l(content, 'node/' + row.nid + '?cid=' + row.category_id + '&cname=' + row.category_name, {
                 attributes: {
                     class: 'p-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
-                    'data-wow-delay': delay + 's'
+                    'data-wow-delay': '0.2s'
                 },
                 reloadPage: true
             }

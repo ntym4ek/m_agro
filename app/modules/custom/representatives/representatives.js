@@ -78,7 +78,7 @@ function representatives_page_pageshow() {
                     // преобразуем массив представителей в массив выводимых карточек
                     var items_html = [];
                     for (var index in items) {
-                        items_html.push(representatives_get_card(items[index]));
+                        items_html.push(representatives_get_card(index, items[index]));
                     }
 
                     // выводим
@@ -90,7 +90,7 @@ function representatives_page_pageshow() {
     catch (error) { console.log('node_page_pageshow - ' + error); }
 }
 
-function representatives_get_card(item)
+function representatives_get_card(delta, item)
 {
     var name = item.surname + '<br />' + item.name + ' ' + item.name2;
 
@@ -117,8 +117,7 @@ function representatives_get_card(item)
         }
     }
 
-
-    return '<div class="nd2-card card-media-right card-media-small">' +
+    return '<div class="nd2-card card-media-right card-media-small wow fadeIn" data-wow-delay="0.1s">' +
                 '<div class="card-media">' +
                     photo +
                 '</div>' +
