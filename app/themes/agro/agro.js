@@ -70,7 +70,7 @@ function agro_user_profile_tpl_html() {
  */
 function agro_radios(variables) {
     try {
-        console.log('agro_radios - ');
+        // console.log('agro_radios - ');
         var radios = '';
         if (variables.options) {
             variables.attributes.type = 'radio';

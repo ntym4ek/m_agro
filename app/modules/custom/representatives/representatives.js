@@ -117,7 +117,7 @@ function representatives_get_card(delta, item)
         }
     }
 
-    return '<div class="nd2-card card-media-right card-media-small wow fadeIn" data-wow-delay="0.1s">' +
+    return '<div class="nd2-card card-media-right card-media-small">' +
                 '<div class="card-media">' +
                     photo +
                 '</div>' +
