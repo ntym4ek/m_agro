@@ -78,7 +78,7 @@ function agroshop_node_page_title(callback, nid) {
  */
 function catalog_page() {
     try {
-        console.log('catalog_page - ');
+        // console.log('catalog_page - ');
         var content = {};
         content['list'] = {
             theme: 'view',
@@ -172,7 +172,7 @@ function products_page_row(view, row) {
         var content = '';
         content += '<div class="p-box">';
         content +=   '<div class="p-image">' + image + '</div>';
-        content +=   '<p class="font_small">' + row.descr + '</p>';
+        content +=   '<p class="font-small">' + row.descr + '</p>';
         content +=   '<div class="p-icon">' + icon + '</div>';
         content += '</div>';
         content += '<div class="p-title">' + row.title + '</div>';

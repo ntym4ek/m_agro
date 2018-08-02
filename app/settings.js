@@ -6,7 +6,7 @@
 window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
-Drupal.settings.debug = true;
+// Drupal.settings.debug = true;
 
 /****************************************|
  * Drupal Settings (provided by jDrupal) |
@@ -132,6 +132,7 @@ Drupal.modules.custom['homepage'] = {};
 Drupal.modules.custom['entityform'] = {};
 Drupal.modules.custom['agrohelp'] = {};
 Drupal.modules.custom['agroshop'] = {};
+Drupal.modules.custom['representatives'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |

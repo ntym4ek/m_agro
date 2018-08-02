@@ -5,6 +5,13 @@ $screen-sm-min: 768px;
 $screen-md-min: 992px;
 $screen-lg-min: 1200px;
 
+$font-size-h1: 3.998em;
+$font-size-h2: 2.827em;
+$font-size-h3: 1.999em;
+$font-size-h4: 1.414em;
+$font-size-text: 1em;
+$font-size-small: 0.707em;
+
 
 /* -------------------------------------------- Общие настройки ----------------------------------------------------- */
 html {  }
@@ -29,12 +36,13 @@ h1, h2, h3, h4 {
     line-height: 1.2;
 }
 
-h1 { font-size: 3.998em; margin-top: 0; }
-h2 { font-size: 2.827em;}
-h3 { font-size: 1.999em;}
-h4 { font-size: 1.414em;}
+h1 { font-size: $font-size-h1; margin-top: 0; }
+h2 { font-size: $font-size-h2; }
+h3 { font-size: $font-size-h3; }
+h4 { font-size: $font-size-h4; }
 
-small, .font_small {font-size: 0.707em;}
+
+small, .font-small {font-size: $font-size-small; }
 
 .ui-mobile label {
     font-size: 14px;
@@ -227,6 +235,30 @@ div[id^="products_"] {
             p { text-align: justify; }
         }
 
+    }
+}
+
+
+/* -------------------------------------------- Представители ------------------------------------------------------- */
+#representatives {
+    ul {
+        li:first-child { margin-top: 1em; }
+    }
+    .nd2-card {
+      margin: 0 auto;
+      h4 { font-size: $font-size-h4; line-height: 1.2; }
+      h5 {
+        font-size: $font-size-text; line-height: 1.2;
+        white-space: normal;
+        margin-top: 5px;
+      }
+      .card-supporting-text {
+        font-size: $font-size-text;
+        white-space: normal;
+      }
+      .card-action {
+        a:not(:last-child) { margin-bottom: .5em; }
+      }
     }
 }
 
