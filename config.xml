@@ -2,10 +2,10 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.kccc.agroshop"
-		version   = "1.2.2">
+		version   = "2.0.0">
 	<name>Агрохимия</name>
-	<description>Каталог пестицидов компании ООО Торговый Дом "Кирово-Чепецкая Химическая Компания"</description>
-	<author href="kccc.ru" email="support@kccc.ru">TradeHouse</author>
+	<description>Приложение ООО Торговый Дом "Кирово-Чепецкая Химическая Компания"</description>
+	<author href="kccc.ru" email="support@kccc.ru">KCCC GROUP</author>
 
 	<platform name="ios" />
 	<platform name="android" />
