@@ -111,4 +111,8 @@ function agrohelp_form_validate(form, form_state) {
         drupalgap_form_set_error('field_plant_processing_stage_er', 'Некорректное поле Фаза культуры. Начните набирать название и выберите из списка.');
         return;
     }
+    if (form_state.values.field_image['ru'][0] == '') {
+        drupalgap_form_set_error('field_image', 'Добавьте фото вредного объекта.');
+        return;
+    }
 }
