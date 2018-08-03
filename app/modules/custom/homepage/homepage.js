@@ -37,7 +37,7 @@ function homepage_page() {
         html +=       '<div class="route">';
         html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/protection.png"></div><div class="r-title">Система защиты</div>', 'protection', {
                             attributes: {
-                                class: 'wow fadeIn ',
+                                class: 'wow fadeIn ui-disabled',
                                 'data-wow-delay': '0.3s'
                             }
                         });
@@ -59,7 +59,7 @@ function homepage_page() {
         html +=       '<div class="route">';
         html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/solution.png"></div><div class="r-title">Найти решение</div>', 'sollution', {
                             attributes: {
-                                class: 'wow fadeIn ',
+                                class: 'wow fadeIn ui-disabled',
                                 'data-wow-delay': '0.5s'
                             }
                         });
@@ -71,7 +71,7 @@ function homepage_page() {
         html +=       '<div class="route">';
         html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/field.png"></div><div class="r-title">Препараты в поле</div>', 'field', {
                             attributes: {
-                                class: 'wow fadeIn ',
+                                class: 'wow fadeIn ui-disabled',
                                 'data-wow-delay': '0.6s'
                             }
                         });

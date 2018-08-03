@@ -932,7 +932,7 @@ function agroshop_block_view(delta, region) {
                 if (drupalgap_path_get() == drupalgap.settings.front) {
                     content += bl("", '#', {
                         attributes: {
-                            class: 'ui-btn ui-btn-right zmdi zmdi-settings wow fadeIn waves-effect waves-button',
+                            class: 'ui-btn ui-btn-right zmdi zmdi-settings wow fadeIn waves-effect waves-button ui-disabled',
                             'data-wow-delay': '0.8s',
                             onclick: "javascript:drupalgap_goto('settings');"
                         }
