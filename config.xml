@@ -129,7 +129,7 @@
         <splash src="resources/splash/640_960.png" width="640" height="960" />
         <splash src="resources/splash/640_1136.png" width="640" height="1136" />
         <splash src="resources/splash/750_1334.png" width="750" height="1334" />
-        <splash src="resources/splash/768_1004.png" width="768" height="1024" />
+        <splash src="resources/splash/768_1024.png" width="768" height="1024" />
         <splash src="resources/splash/960_640.png" width="960" height="640" />
         <splash src="resources/splash/1024_768.png" width="1024" height="768" />
         <splash src="resources/splash/1136_640.png" width="1136" height="640" />
