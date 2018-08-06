@@ -58,6 +58,7 @@ small, .font-small {font-size: $font-size-small; }
         &.page-title-image {
             padding: 10px 0;
             height: 25px;
+            img { height: 25px; }
         }
          a {
              color: #fff;
@@ -152,7 +153,7 @@ div[id^="products_"] {
             min-height: 60px;
             margin-top: 30px;
             .p-image {
-                position: absolute; bottom: 0; left : 0;
+                position: absolute; top: -25px; left : 0;
                 width: 90px; height: 90px;
             }
             p {
