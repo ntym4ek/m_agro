@@ -63,6 +63,9 @@ function agroshop_node_page_title(callback, nid) {
                             title = l(title, 'products/' + _GET('cid'));
                         }
                     }
+                    if (node.type === 'agenda') {
+                        title = l('Афиша', 'agenda');
+                    }
                 }
 
                 callback.call(null, title);

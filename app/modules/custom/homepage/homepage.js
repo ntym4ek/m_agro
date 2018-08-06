@@ -46,9 +46,9 @@ function homepage_page() {
         html +=     '</div>';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/solution.png"></div><div class="r-title">Найти решение</div>', 'sollution', {
+        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/solution.png"></div><div class="r-title">Найти решение</div>', 'agenda', {
                             attributes: {
-                                class: 'ui-disabled'
+                                // class: 'ui-disabled'
                             }
                         });
         html +=       '</div>';
