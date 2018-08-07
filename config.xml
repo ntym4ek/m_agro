@@ -54,12 +54,12 @@
 
 	<!-- stastusbar -->
 	<preference name="StatusBarOverlaysWebView" value="false" />
-	<preference name="StatusBarStyle" value="lightcontent" />
+	<preference name="StatusBarStyle" value="blacktranslucent" />
 	<preference name="StatusBarBackgroundColor" value="#0A6B36" />
 
 	<!-- splashscreen -->
-	<preference name="SplashScreenDelay" value="3000" />
-	<preference name="SplashShowOnlyFirstTime" value="false" />
+	<preference name="SplashScreenDelay" value="0" />
+	<preference name="SplashShowOnlyFirstTime" value="true" />
 	<preference name="AutoHideSplashScreen" value="true" />
 	<preference name="FadeSplashScreen" value="true"/>
 	<preference name="FadeSplashScreenDuration" value="500"/>

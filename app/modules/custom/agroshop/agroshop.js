@@ -41,6 +41,8 @@ function agroshop_deviceready() {
     try {
         drupalgap.menu_links['node/%'].title_callback = 'agroshop_node_page_title';
         // drupalgap.menu_links['node/%'].title_arguments = 'agroshop_node_page_title';
+
+        statusBar.overlaysWebView(false);
     }
     catch (error) { console.log('agroshop_deviceready - ' + error); }
 }
