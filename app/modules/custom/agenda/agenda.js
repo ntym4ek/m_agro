@@ -92,6 +92,9 @@ function agenda_node_page_view_alter_agenda(node, options)
     console.log('agenda_node_page_view_alter_agenda - ');
     try {
         var content = {};
+        content['prefix'] = {
+            markup: '<div class="agenda">'
+        };
         content['title'] = {
             markup: '<h2>' + node.title + '</h2>'
         };
@@ -100,17 +103,22 @@ function agenda_node_page_view_alter_agenda(node, options)
             path: drupalgap_image_path(node.field_promo_image['und'][0]['uri'])
         };
 
-        var dates = '01.02.2018 - 02.03.2018';
+        var dates = unixToDate(node.field_period['und'][0]['value']) + ' - ' + unixToDate(node.field_period['und'][0]['value2']);
         content['info'] = {
-            markup: '<div class="row">' +
-                        '<div class="col-xs">' + node.field_location['und'][0]['value'] + '</div>' +
-                        '<div class="col-xs">' + dates + '</div>' +
+            markup: '<div class="info">' +
+                        '<div class="row">' +
+                            '<div class="col-xs"><div class="box location">' + node.field_location['und'][0]['value'] + '</div></div>' +
+                            '<div class="col-xs"><div class="box period">' + dates + '</div></div>' +
+                        '</div>' +
                     '</div>'
         };
         content['description'] = {
             markup: '<div class="description">' +
                         node.body['ru'][0]['safe_value'] +
                     '</div>'
+        };
+        content['suffix'] = {
+            markup: '</div>'
         };
 
         options.success(content);

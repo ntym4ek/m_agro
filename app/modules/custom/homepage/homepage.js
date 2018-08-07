@@ -46,9 +46,9 @@ function homepage_page() {
         html +=     '</div>';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/solution.png"></div><div class="r-title">Найти решение</div>', 'agenda', {
+        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/solution.png"></div><div class="r-title">Найти решение</div>', 'solution', {
                             attributes: {
-                                // class: 'ui-disabled'
+                                class: 'ui-disabled'
                             }
                         });
         html +=       '</div>';
@@ -60,6 +60,31 @@ function homepage_page() {
         html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/field.png"></div><div class="r-title">Препараты в поле</div>', 'field', {
                             attributes: {
                                 class: 'ui-disabled'
+                            }
+                        });
+        html +=       '</div>';
+        html +=     '</div>';
+        html +=   '</div>';
+        html +=   '<div class="footer ui-footer-fixed">';
+        html +=     '<div class="row">';
+        html +=       '<div class="col-xs-3">';
+        html +=         l('<img src="app/themes/agro/images/homepage/calc.png">', 'calc', {
+                            attributes: {
+                                class: 'ui-btn ui-btn-fab waves-effect waves-button ui-disabled'
+                            }
+                        });
+        html +=       '</div>';
+        html +=       '<div class="col-xs-3">';
+        html +=         l('<img src="app/themes/agro/images/homepage/handbook.png">', 'handbook', {
+                            attributes: {
+                                class: 'ui-btn ui-btn-fab waves-effect waves-button ui-disabled'
+                            }
+                        });
+        html +=       '</div>';
+        html +=       '<div class="col-xs-3">';
+        html +=         l('<img src="app/themes/agro/images/homepage/agenda.png">', 'agenda', {
+                            attributes: {
+                                class: 'ui-btn ui-btn-fab waves-effect waves-button'
                             }
                         });
         html +=       '</div>';

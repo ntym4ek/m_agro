@@ -117,6 +117,17 @@ small, .font-small {font-size: $font-size-small; }
             @media (min-width: $screen-sm-min) { font-size: 1.2em; }
         }
     }
+    .footer {
+        margin-bottom: 1em;
+        .row {
+            justify-content: center;
+            a.ui-btn {
+                margin: 0 auto;
+                width: 30px;
+                @media (min-width: $screen-sm-min) { width: 50px; }
+            }
+        }
+    }
 }
 
 
@@ -243,12 +254,23 @@ div[id^="products_"] {
 }
 
 
-/* -------------------------------------------- Афиша --------------------------------------------------------------- */
+/* -------------------------------------------- Афиша (список) ------------------------------------------------------ */
 #agenda {
     .card-supporting-text{
         color: #fff; font-size: 1.1em;
     }
 }
+
+/* -------------------------------------------- Афиша --------------------------------------------------------------- */
+.agenda {
+    img { display: block; }
+    .info {
+        background: #f0f0f0;
+        padding: .7em;
+        .period { text-align: right; }
+    }
+}
+
 /* -------------------------------------------- Представители ------------------------------------------------------- */
 #representatives {
     ul {

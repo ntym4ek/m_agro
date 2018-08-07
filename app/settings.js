@@ -3,10 +3,10 @@
  **************/
 
 // Uncomment to clear the app's local storage cache each time the app loads.
-window.localStorage.clear();
+// window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
-Drupal.settings.debug = true;
+// Drupal.settings.debug = true;
 
 /****************************************|
  * Drupal Settings (provided by jDrupal) |
@@ -48,11 +48,11 @@ Drupal.settings.cache.entity = {
 
             /* Content types (aka bundles) */
             bundles: {
-                articles: {
-                    expiration: 3600
+                agenda: {
+                    expiration: 86400
                 },
-                page: {
-                    enabled: true
+                product_agro: {
+                    expiration: 86400
                 }
             }
         }
@@ -133,6 +133,7 @@ Drupal.modules.custom['entityform'] = {};
 Drupal.modules.custom['agrohelp'] = {};
 Drupal.modules.custom['agroshop'] = {};
 Drupal.modules.custom['representatives'] = {};
+Drupal.modules.custom['agenda'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |

@@ -1000,8 +1000,22 @@ function commerce_cart_view_pageshow() {
 
 
 /**
+ * ----------------------------------------------- Функции ----------------------------------------------------------
+ */
+
+// преобразование timestamp в дату
+function unixToDate(timestamp)
+{
+    var date = new Date(timestamp*1000);
+    var day = '0' + date.getDay();
+    var month = '0' + date.getMonth();
+    var year = date.getFullYear();
+
+    return day.substr(-2) + '.' + month.substr(-2) + '.' + year;
+}
+
+/**
  * ----------------------------------------------- О компании ----------------------------------------------------------
- *
  */
 function about_us_page() {
     try {
