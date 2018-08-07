@@ -43,7 +43,7 @@ function agroshop_deviceready() {
         drupalgap.menu_links['node/%'].title_callback = 'agroshop_node_page_title';
 
         alert(navigator.userAgent);
-        if(navigator.userAgent.match(/iP[ha][od].*OS/)) {
+        if(navigator.userAgent.match(/iP[ad][od].*OS/)) { alert('!');
             document.body.style.marginTop = "20px";
             $(".ui-header").css("margin-top", "20px");
         }
