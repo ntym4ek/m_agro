@@ -40,9 +40,12 @@ function agroshop_menu() {
 function agroshop_deviceready() {
     try {
         drupalgap.menu_links['node/%'].title_callback = 'agroshop_node_page_title';
-        // drupalgap.menu_links['node/%'].title_arguments = 'agroshop_node_page_title';
 
         statusBar.overlaysWebView(false);
+        if(navigator.userAgent.match(/iP[ha][od].*OS/)) {
+            document.body.style.marginTop = "20px";
+            $(".ui-header").css("margin-top", "20px");
+        }
     }
     catch (error) { console.log('agroshop_deviceready - ' + error); }
 }
