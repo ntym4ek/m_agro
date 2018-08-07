@@ -39,9 +39,10 @@ function agroshop_menu() {
  */
 function agroshop_deviceready() {
     try {
+        console.log('agroshop_deviceready - ');
         drupalgap.menu_links['node/%'].title_callback = 'agroshop_node_page_title';
 
-        statusBar.overlaysWebView(false);
+        alert(navigator.userAgent);
         if(navigator.userAgent.match(/iP[ha][od].*OS/)) {
             document.body.style.marginTop = "20px";
             $(".ui-header").css("margin-top", "20px");
