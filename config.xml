@@ -54,7 +54,7 @@
 
 	<!-- stastusbar -->
 	<preference name="StatusBarOverlaysWebView" value="false" />
-	<preference name="StatusBarStyle" value="lightcontent" />
+	<preference name="StatusBarStyle" value="blacktranslucent" />
 	<preference name="StatusBarBackgroundColor" value="#0A6B36" />
 
 	<!-- splashscreen -->
@@ -72,7 +72,6 @@
 	<feature name="http://api.phonegap.com/1.0/device"/>
 
 	<!-- плагины ищем на http://cordova.apache.org/plugins/ -->
-	<!-- образец вставки <plugin name="cordova-plugin-inappbrowser" source="npm" /> -->
 
 	<!-- This plugin provides a web browser view that displays when calling cordova.InAppBrowser.open() -->
 	<plugin name="cordova-plugin-inappbrowser" source="npm" />
