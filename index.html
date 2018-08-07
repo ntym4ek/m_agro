@@ -61,6 +61,11 @@
 
       <!-- Load DrupalGap -->
       <script type="text/javascript">
+          document.addEventListener('deviceready', function() {
+              alert(StatusBar);
+              StatusBar.overlaysWebView(false);
+          }, false);
+
           drupalgap_onload();
       </script>
 
