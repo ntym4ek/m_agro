@@ -324,7 +324,7 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                         if (ingredient.field_pd_ai_active_ingredient_entities != undefined) {
                             var name = ingredient.field_pd_ai_active_ingredient_entities[ingredient.field_pd_ai_active_ingredient].name;
                             var conc = ingredient.field_pd_ai_concentration;
-                            ingredients += name + ', ' + conc + ' г/' + unit_name + '\n\r';
+                            ingredients += name + ', ' + conc + ' г/' + unit_name + '<br />';
                         }
                     });
                 }
