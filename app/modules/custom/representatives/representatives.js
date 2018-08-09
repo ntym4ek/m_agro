@@ -123,7 +123,7 @@ function representatives_get_card(delta, item)
                 '</div>' +
                 '<div class="card-title has-supporting-text">' +
                     '<h4 class="card-primary-title">' + name + '</h4>' +
-                    '<h5 class="card-subtitle font-small">' + item.office + '</h5>' +
+                    '<h5 class="card-subtitle">' + item.office + '</h5>' +
                 '</div>' +
                 '<div class="card-supporting-text has-action has-title">' + regions.join(', ') + '</div>' +
                 '<div class="card-action">' +

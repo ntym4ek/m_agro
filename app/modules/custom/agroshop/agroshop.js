@@ -183,7 +183,7 @@ function products_page_row(view, row) {
                     class: 'p-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
                     'data-wow-delay': '0.2s'
                 },
-                reloadPage: true
+                // reloadPage: true
             }
         );
     }

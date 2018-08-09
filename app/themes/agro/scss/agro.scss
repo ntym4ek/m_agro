@@ -254,6 +254,14 @@ div[id^="products_"] {
 }
 
 
+/* -------------------------------------------- Препараты в поле (список) ------------------------------------------- */
+#atfield {
+    .nd2-card {
+        .footer {
+            padding: 11px 8px 5px 8px;
+        }
+    }
+}
 /* -------------------------------------------- Афиша (список) ------------------------------------------------------ */
 #agenda {
     .card-supporting-text{
@@ -277,13 +285,6 @@ div[id^="products_"] {
         li:first-child { margin-top: 1em; }
     }
     .nd2-card {
-      margin: 0 auto;
-      h4 { font-size: $font-size-h4; line-height: 1.2; }
-      h5 {
-        font-size: $font-size-text; line-height: 1.2;
-        white-space: normal;
-        margin-top: 5px;
-      }
       &.card-media-right .card-title .card-primary-title,
       &.card-media-right .card-title .card-subtitle {
         margin-right: 100px;
@@ -329,18 +330,36 @@ div[id^="products_"] {
     font-family: 'Material-Design-Iconic-Font'!important;
 }
 
-.nd2-card.card-media-right.card-media-small.file-card {
+// карточки тизеров
+.nd2-card {
+    margin: 0 auto;
     .card-title {
-        padding: 1em;
-        .card-primary-title {
-            font-size: 14px; line-height: 18px;
-            white-space: normal;
-            margin-right: 50px;
+        h3.card-primary-title { font-size: $font-size-h3; line-height: 1.2; }
+        h4.card-primary-title { font-size: $font-size-h4; line-height: 1.2; }
+        h5.card-subtitle {
+            font-size: $font-size-small; line-height: 1.2; white-space: normal;
+            margin-top: 5px;
         }
-        .card-subtitle { font-size: 12px; }
     }
-    .card-media { width: 40px; height: 40px; }
-    .card-action { padding: 8px 1em; }
+    .card-supporting-text {
+        font-size: $font-size-text; white-space: normal;
+        h3 { font-size: $font-size-h3; }
+        h4 { font-size: $font-size-h4; }
+        a { text-decoration: none; }
+    }
+    &.card-media-right.card-media-small.file-card {
+        .card-title {
+            padding: 1em;
+            //.card-primary-title {
+            //    font-size: 14px; line-height: 18px;
+            //    white-space: normal;
+            //    margin-right: 50px;
+            //}
+            //.card-subtitle { font-size: 12px; }
+        }
+        .card-media { width: 40px; height: 40px; }
+        .card-action { padding: 8px 1em; }
+    }
 }
 
 // чтобы ширина псевдоэлемента :after (нижнее подчеркивание) не превышала род. элемент

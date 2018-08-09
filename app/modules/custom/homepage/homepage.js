@@ -57,11 +57,7 @@ function homepage_page() {
         html +=   '<div class="row">';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/field.png"></div><div class="r-title">Препараты в поле</div>', 'field', {
-                            attributes: {
-                                class: 'ui-disabled'
-                            }
-                        });
+        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/field.png"></div><div class="r-title">Препараты в поле</div>', 'atfield');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
