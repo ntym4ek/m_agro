@@ -90,6 +90,9 @@ function representatives_page_pageshow() {
     catch (error) { console.log('node_page_pageshow - ' + error); }
 }
 
+/**
+ * возвращает html карточки
+ */
 function representatives_get_card(delta, item)
 {
     var name = item.surname + '<br />' + item.name + ' ' + item.name2;
