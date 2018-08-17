@@ -52,7 +52,7 @@ function agroshop_node_page_title(callback, nid) {
     try {
         // Try to load the node title, then send it back to the given callback.
         var title = '';
-        var node = node_load(nid, {
+        node_load(nid, {
             success: function(node) {
                 if (node) {
                     if (node.title) { title = node.title; }
@@ -338,7 +338,7 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                     if (b_item != '') {
                         ba2 = b_item.split('</h4>');
                         ba2[0] = ba2[0].replace(/:/, '');
-                        description += '<div data-role="collapsible" data-inset="false"' + collapsed +'><h4' + brand_style + '>' + ba2[0] + '<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>' + ba2[1] + '</div>';
+                        description += '<div class="ui-collapsible-transparent" data-role="collapsible" data-inset="false"' + collapsed +'><h4' + brand_style + '>' + ba2[0] + '<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>' + ba2[1] + '</div>';
                         collapsed = '';
                     }
                 });
@@ -421,16 +421,16 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                 html +=   '</div>';
                 html +=   '<div class="row">';
                 // закладки
-                html +=     '<ul data-role="nd2tabs" data-swipe="true" class="nd2Tabs"' + brand_style + '>';
-                html +=       '<li data-tab="description" data-tab-active="true" class="nd2Tabs-nav-item nd2Tabs-active">Описание</li>';
-                if (sertificates !== '') html += '<li data-tab="sertificates" class="nd2Tabs-nav-item">Сертификат</li>';
-                if (files !== '')        html += '<li data-tab="files" class="nd2Tabs-nav-item">Файлы</li>';
+                html +=     '<ul data-role="nd2extTabs" data-swipe="true" ' + brand_style + '>';
+                html +=       '<li data-tab="description">Описание</li>';
+                if (sertificates !== '') html += '<li data-tab="sertificates">Сертификат</li>';
+                if (files !== '')        html += '<li data-tab="files">Файлы</li>';
                 html +=     '</ul>';
                 // панели закладок
-                html +=   '<div class="nd2tabs-content ui-content wow fadeIn" data-inset="false" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeIn;">';
-                html +=     '<div data-role="nd2tab" data-tab="description" class="nd2Tabs-content-tab p-description nd2Tab-active">' + description + '</div>';
-                if (sertificates !== '') html += '<div data-role="nd2tab" data-tab="sertificates" class="nd2Tabs-content-tab">' + sertificates + '</div>';
-                if (files !== '')        html += '<div data-role="nd2tab" data-tab="files" class="nd2Tabs-content-tab">' + files + '';
+                html +=   '<div class="tabs-content ui-content wow fadeIn" data-role="nd2extTabs-container" data-inset="false" data-wow-delay="0.2s">';
+                html +=     '<div data-tab="description" class="p-description">' + description + '</div>';
+                if (sertificates !== '') html += '<div data-role="nd2extTab" data-tab="sertificates">' + sertificates + '</div>';
+                if (files !== '')        html += '<div data-role="nd2extTab" data-tab="files">' + files + '';
                 html +=   '</div>';
 
                 html += '</div>';
@@ -440,6 +440,7 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                 // запустить действия, привязанные к событию pagebeforeshow
                 // здесь это нужно для привязки обработчиков на Закладки,
                 // т.к. Закладки вставляются в DOM уже после показа страницы
+                // можно заменить на прямой вызов id.tabs() как в atfield
                 $(document).trigger("pagebeforeshow");
             }
         });
