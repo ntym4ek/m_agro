@@ -85,11 +85,16 @@ function agenda_page_empty(view)
 }
 
 /**
+ * ----------------------------------------------- Страница мероприятия ------------------------------------------------
+ *
+ */
+/**
  * Implements hook_node_page_view_alter_TYPE().
+ * рендер ноды вместо стандартного agro_node_tpl_html
  */
 function agenda_node_page_view_alter_agenda(node, options)
 {
-    console.log('agenda_node_page_view_alter_agenda - ');
+    //console.log('agenda_node_page_view_alter_agenda - ');
     try {
         var content = {};
         content['prefix'] = {
