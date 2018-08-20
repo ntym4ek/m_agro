@@ -69,7 +69,8 @@ function atfield_list_page()
 /**
  * The pageshow callback for the atfield listing page.
  */
-function atfield_list_page_pageshow() {
+function atfield_list_page_pageshow()
+{
     try {
         // Grab some recent content and display it.
         views_datasource_get_view_result(
@@ -96,16 +97,19 @@ function atfield_list_page_pageshow() {
  */
 function atfield_get_card(item)
 {
+    //console.log('atfield_get_card - ');
     var photo = theme('image', {path: item.image_thumb});
+    photo = l(photo, 'atfield/' + item.sid);
 
     // список препаратов
     var preps = [];
     for (var index in item.preps) {
         preps.push(l(item.preps[index], 'node/' + index));
     }
+    var preps_list = preps.join('; ');
+    if (preps_list !== "") preps_list = 'не проводилась';
 
-    // ссылка на подробное описание
-    var atfield_button = l('Подробнее', 'atfield/' + item.sid, {
+    var button = l('Подробнее', 'atfield/' + item.sid, {
         attributes: {
             class: 'ui-btn ui-mini ui-btn-inline ui-btn-raised waves-effect waves-button clr-warning'
         }
@@ -114,14 +118,14 @@ function atfield_get_card(item)
     return  '<div class="nd2-card">' +
                 '<div class="card-title">' +
                     '<h4 class="card-primary-title">' + item.region + '</h4>' +
-                    '<h4 class="card-subtitle">' + item.farm + '</h4>' +
+                    '<h5 class="card-subtitle">' + item.farm + '</h5>' +
                 '</div>' +
                 '<div class="card-media">' +
                     photo +
                 '</div>' +
                 '<div class="card-supporting-text has-action">' +
                     '<h4>' + item.culture + '</h4>' +
-                    'Обработка препаратами: ' + preps.join('; ') + '<br />' +
+                    'Обработка препаратами: ' + preps_list + '<br />' +
                 '</div>' +
                 '<div class="card-action">' +
                     '<div class="row between-xs">' +
@@ -132,7 +136,7 @@ function atfield_get_card(item)
                         '</div>' +
                         '<div class="col-xs-6 align-right">' +
                             '<div class="box">' +
-                                atfield_button +
+                                button +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -322,10 +326,10 @@ function theme_atfield_season_page(vars)
             if (processing.preparation2 !== '')
                 html +=             ' + ' + l(processing.preparation, processing.prep_link);
             html +=                 '<br />';
-            html +=                 '<span>'
+            html +=                 '<span>';
             html +=                     processing.ingredients;
             if (processing.preparation2 !== '')
-                html +=                 '<br /> + ' + processing.ingredients2;
+                html +=                 '<br />' + processing.ingredients2;
             html +=                 '</span>';
             html +=             '</div>';
             html +=         '</div>';
@@ -335,6 +339,18 @@ function theme_atfield_season_page(vars)
 
         html += '</div>';
 
+        // будем биндить на коллапс, когда страница уже сформирована
+        $(document).bind("scroll", function (event) {
+            // найти все Табы
+            $('body').find('[data-role="nd2extTabs"]').each(function(index){
+                // просмотреть все закладки Таба и установить высоту контейнера
+                var height = 0;
+                $(this).next('[data-role="nd2extTabs-container"]').find('div[data-tab^="tab-"]').each(function(index){
+                    height = height < $(this).height() ?  $(this).height() : height;
+                });
+                if (height > 0) $(this).next('[data-role="nd2extTabs-container"]').height(height);
+            });
+        });
 
         return html;
     }
