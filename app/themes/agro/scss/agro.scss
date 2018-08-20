@@ -66,7 +66,7 @@ small, .font-small {font-size: $font-size-small; }
             -webkit-transform: rotate(-180deg); -ms-transform: rotate(-180deg); -o-transform: rotate(-180deg); transform: rotate(-180deg);
         }
     }
-    .ui-collapsible-content { padding: 1px 1rem; }
+    .ui-collapsible-content { padding: 1px 1rem; min-height: 100px; }
     &.ui-collapsible-transparent {
         background: none;
         h4 a{
@@ -76,7 +76,10 @@ small, .font-small {font-size: $font-size-small; }
     }
 }
 
-[data-role="nd2extTabs-container"] { touch-action: none; }
+// we can avoid [Intervention] Unable to preventDefault inside passive event listener due to target being treated as passive.
+// but cant scroll page down
+// todo solve
+// [data-role="nd2extTabs-container"] { touch-action: none; }
 
 
 /* -------------------------------------------- Header -------------------------------------------------------------- */
@@ -417,7 +420,7 @@ div[id^="products_"] {
         h3.card-primary-title { font-size: $font-size-h3; line-height: 1.2; }
         h4.card-primary-title { font-size: $font-size-h4; line-height: 1.2; }
         h5.card-subtitle {
-            font-size: $font-size-small; line-height: 1.2; white-space: normal;
+            font-size: $font-size-text; line-height: 1.2; white-space: normal;
             margin-top: 5px;
         }
     }
