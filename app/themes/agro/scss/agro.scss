@@ -66,7 +66,7 @@ small, .font-small {font-size: $font-size-small; }
             -webkit-transform: rotate(-180deg); -ms-transform: rotate(-180deg); -o-transform: rotate(-180deg); transform: rotate(-180deg);
         }
     }
-    .ui-collapsible-content { padding: 1px 1rem; min-height: 100px; }
+    .ui-collapsible-content { padding: 1px 1rem 1rem; min-height: 100px; }
     &.ui-collapsible-transparent {
         background: none;
         h4 a{
@@ -75,6 +75,11 @@ small, .font-small {font-size: $font-size-small; }
         }
     }
 }
+
+
+// nessesary for nonresizing tab content swiping
+[data-role=nd2extTabs-container] { position: relative; }
+
 
 // we can avoid [Intervention] Unable to preventDefault inside passive event listener due to target being treated as passive.
 // but cant scroll page down
@@ -278,6 +283,10 @@ div[id^="products_"] {
 /* -------------------------------------------- Препараты в поле ---------------------------------------------------- */
 .atfield {
     .ui-collapsible h4 a { text-transform: uppercase; }
+    .empty {
+        color: #aaa; font-size: 1.5em; font-weight: 100;
+        margin: 1.5em 0 1em 2em;
+    }
     img {
         border-radius: 5px;
         display: block;
@@ -298,6 +307,7 @@ div[id^="products_"] {
             margin: 0 .3em .3em 0;
             float: left;
         }
+        span { white-space: nowrap; }
     }
     .nd2Tabs {
         margin-left: 0;
