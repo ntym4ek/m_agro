@@ -221,7 +221,7 @@ function theme_atfield_season_page(vars)
         html += '<div data-role="collapsible" data-inset="false" data-collapsed="false" class="before ui-collapsible-transparent">' +
                     '<h4>До обработки<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>';
         html +=     '<div class="atf-title">Поле ' + before.date + '</div>';
-        html +=     theme('image', {path: before.image_field_thumb});
+        html +=     theme('image', {path: before.image_field_thumb, fancybox: {image: before.image_field_full, title: before.comment}});
         html +=     '<div class="atf-comment">' + before.comment + '</div>';
         // ВО
         html +=     '<div class="atf-hobjects row">';
@@ -232,14 +232,14 @@ function theme_atfield_season_page(vars)
             if (hobject.type === 'pest') icon = ' zmdi-bug';
             if (hobject.type === 'disease') icon = ' zmdi-gesture';
             html +=     '<div class="col-xs-4">';
-            html +=         theme('image', {path: hobject_photo});
+            html +=         theme('image', {path: hobject_photo, fancybox: {image: hobject_photo, title: hobject.name}});
             html +=         '<div class="atf-ho-title"><i class="zmdi' + icon + '"></i>' + hobject.name + '</div>';
             html +=     '</div>';
         });
         html +=     '</div>';
         // культура
         html +=     '<div class="atf-title">Культура ' + before.date + '</div>';
-        html +=     theme('image', {path: before.image_culture_thumb});
+        html +=     theme('image', {path: before.image_culture_thumb, fancybox: {image: before.image_culture_full}});
         html +=     '<dl class="atf-info">';
         html +=         '<dt>Фаза роста: <dd>' + before.phase;
         html +=         '<dt>Состояние: <dd>' + before.condition;
@@ -256,90 +256,105 @@ function theme_atfield_season_page(vars)
         });
         html +=     '</ul>';
 
+        if (vars.season.measurements.length > 0) {
         html +=     '<div data-role="nd2extTabs-container">';
-        $.each(vars.season.measurements, function(index, measurement) {
-            html +=     '<div data-tab="tab-m-' + index + '">';
-            html +=         '<div class="atf-title">Поле ' + measurement.date + '</div>';
-            html +=         theme('image', {path: measurement.image_field_thumb});
-            html +=         '<div class="atf-comment">' + measurement.comment + '</div>';
-            // ВО
-            html +=         '<div class="atf-hobjects row">';
-            $.each(measurement.hobjects, function(index, hobject) {
-                let hobject_photo = drupalgap_image_path('public://default_images/noimage.png');
-                if (hobject.photo !== '') hobject_photo = hobject.photo;
-
-                html +=         '<div class="col-xs-4">';
-                html +=             theme('image', {path: hobject_photo});
-                html +=             '<div class="atf-ho-title">' + hobject.name + '</div>';
+            $.each(vars.season.measurements, function(index, measurement) {
+                html +=     '<div data-tab="tab-m-' + index + '">';
+                html +=         '<div class="atf-title">Поле ' + measurement.date + '</div>';
+                html +=         theme('image', {path: measurement.image_field_thumb, fancybox: {image: measurement.image_field_full, title: measurement.comment}});
+                html +=         '<div class="atf-comment">' + measurement.comment + '</div>';
+                // ВО
+                html +=         '<div class="atf-hobjects row">';
+                $.each(measurement.hobjects, function(index, hobject) {
+                    let hobject_photo = drupalgap_image_path('public://default_images/noimage.png');
+                    if (hobject.photo !== '') hobject_photo = hobject.photo;
+                    let icon = ' zmdi-local-florist';
+                    if (hobject.type === 'pest') icon = ' zmdi-bug';
+                    if (hobject.type === 'disease') icon = ' zmdi-gesture';
+                    let ho_title = hobject.name;
+                    ho_title += hobject.percent !== '' ? ' <span>( -' + hobject.percent + ' %)</span>' : '';
+                    html +=         '<div class="col-xs-4">';
+                    html +=             theme('image', {path: hobject_photo, fancybox: {image: hobject_photo, title: ho_title}});
+                    html +=             '<div class="atf-ho-title"><i class="zmdi' + icon + '"></i>' + ho_title + '</div>';
+                    html +=         '</div>';
+                });
                 html +=         '</div>';
-            });
-            html +=         '</div>';
 
-            // культура
-            html +=         '<div class="atf-title">Культура ' + measurement.date + '</div>';
-            html +=         theme('image', {path: measurement.image_culture_thumb});
-            html +=         '<dl class="atf-info">';
-            html +=            '<dt>Фаза роста: <dd>' + measurement.phase;
-            html +=            '<dt>Состояние: <dd>' + measurement.condition;
-            html +=         '</dl>';
-            html +=     '</div>';
-        });
+                // культура
+                html +=         '<div class="atf-title">Культура ' + measurement.date + '</div>';
+                html +=         theme('image', {path: measurement.image_culture_thumb, fancybox: {image: measurement.image_culture_full}});
+                html +=         '<dl class="atf-info">';
+                html +=            '<dt>Фаза роста: <dd>' + measurement.phase;
+                html +=            '<dt>Состояние: <dd>' + measurement.condition;
+                html +=         '</dl>';
+                html +=     '</div>';
+            });
+         }
+        else {
+            html += '<div class="empty">Замеры не проводились</div>';
+        }
         html +=     '</div>';
         html += '</div>';
 
         // ПРОВЕДЕННЫЕ обработки
         html += '<div data-role="collapsible" data-inset="false" data-collapsed="false" class="processings ui-collapsible-transparent">' +
                     '<h4>Проведенные обработки<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>';
-        html +=     '<ul id="after" data-role="nd2extTabs" data-swipe="true">';
-        $.each(vars.season.processings, function(index, processing) {
-            html +=     '<li data-tab="tab-p-' + index + '">';
-            html +=         '<div class="r1">' + processing.date + '</div><div class="r2">' + processing.preparation + '</div>';
-            html +=     '</li>';
-        });
-        html +=     '</ul>';
+        if (vars.season.processings.length > 0) {
+            html +=     '<ul id="after" data-role="nd2extTabs" data-swipe="true">';
+            $.each(vars.season.processings, function(index, processing) {
+                html +=     '<li data-tab="tab-p-' + index + '">';
+                html +=         '<div class="r1">' + processing.date + '</div><div class="r2">' + processing.preparation + '</div>';
+                html +=     '</li>';
+            });
+            html +=     '</ul>';
 
-        html +=     '<div data-role="nd2extTabs-container">';
-        $.each(vars.season.processings, function(index, processing) {
-            html +=     '<div data-tab="tab-p-' + index + '">';
-            html +=         '<div class="atf-image-wr">';
-            html +=             theme('image', {path: processing.image_thumb});
-            html +=             '<div class="atf-title">Обработка ' + processing.date + ' в ' + processing.time + '</div>';
-            html +=         '</div>';
-            html +=         '<dl class="atf-info">';
-            html +=             '<dt>Расход раб. жидкости:<dd>' + processing.consumption + ' л/га';
-            html +=             '<dt>Кислотность почвы:<dd>'    + processing.acidity;
-            html +=             '<dt>Влажность почвы:<dd>'      + processing.humidity + ' %';
-            html +=             '<dt>Температура, ночь:<dd>'    + processing.t_night + ' град. С';
-            html +=             '<dt>Температура, день:<dd>'    + processing.t_day + ' град. С';
-            html +=             '<dt>Скорость ветра:<dd>'       + processing.wind + ' м/с';
-            html +=             '<dt>Осадки:<dd>'               + processing.precipitation;
-            html +=             '<dt>Механизм внесения:<dd>'    + processing.mechanism;
-            html +=         '</dl>';
-            html +=         '<div class="atf-preparation">';
-            html +=             '<div class="atf-prep-images">';
-            html +=                 l(theme('image', {path: processing.image_prep_thumb}), processing.prep_link, {'attributes': {'class': 'atf-prep'}});
-            if (processing.preparation2 !== '')
-                html +=             l(theme('image', {path: processing.image_prep_thumb2}), processing.prep_link2, {'attributes': {'class': 'atf-prep2'}});
-            html +=             '</div>';
-            html +=             '<div>';
-            html +=                 l(processing.preparation, processing.prep_link);
-            if (processing.preparation2 !== '')
-                html +=             ' + ' + l(processing.preparation, processing.prep_link);
-            html +=                 '<br />';
-            html +=                 '<span>';
-            html +=                     processing.ingredients;
-            if (processing.preparation2 !== '')
-                html +=                 '<br />' + processing.ingredients2;
-            html +=                 '</span>';
-            html +=             '</div>';
-            html +=         '</div>';
-            html +=     '</div>';
-        });
+            html +=     '<div data-role="nd2extTabs-container">';
+            $.each(vars.season.processings, function(index, processing) {
+                let comment = 'Обработка ' + processing.date + ' в ' + processing.time;
+                html +=     '<div data-tab="tab-p-' + index + '">';
+                html +=         '<div class="atf-image-wr">';
+                html +=             theme('image', {path: processing.image_thumb, fancybox: {image: processing.image_full, title: comment}});
+                html +=             '<div class="atf-title">' + comment + '</div>';
+                html +=         '</div>';
+                html +=         '<dl class="atf-info">';
+                html +=             '<dt>Расход раб. жидкости:<dd>' + processing.consumption + ' л/га';
+                html +=             '<dt>Кислотность почвы:<dd>'    + processing.acidity;
+                html +=             '<dt>Влажность почвы:<dd>'      + processing.humidity + ' %';
+                html +=             '<dt>Температура, ночь:<dd>'    + processing.t_night + ' град. С';
+                html +=             '<dt>Температура, день:<dd>'    + processing.t_day + ' град. С';
+                html +=             '<dt>Скорость ветра:<dd>'       + processing.wind + ' м/с';
+                html +=             '<dt>Осадки:<dd>'               + processing.precipitation;
+                html +=             '<dt>Механизм внесения:<dd>'    + processing.mechanism;
+                html +=         '</dl>';
+                html +=         '<div class="atf-preparation">';
+                html +=             '<div class="atf-prep-images">';
+                html +=                 l(theme('image', {path: processing.image_prep_thumb}), processing.prep_link, {'attributes': {'class': 'atf-prep'}});
+                if (processing.preparation2 !== '')
+                    html +=             l(theme('image', {path: processing.image_prep_thumb2}), processing.prep_link2, {'attributes': {'class': 'atf-prep2'}});
+                html +=             '</div>';
+                html +=             '<div>';
+                html +=                 l(processing.preparation, processing.prep_link);
+                if (processing.preparation2 !== '')
+                    html +=             ' + ' + l(processing.preparation, processing.prep_link);
+                html +=                 '<br />';
+                html +=                 '<span>';
+                html +=                     processing.ingredients;
+                if (processing.preparation2 !== '')
+                    html +=                 '<br />' + processing.ingredients2;
+                html +=                 '</span>';
+                html +=             '</div>';
+                html +=         '</div>';
+                html +=     '</div>';
+            });
+        }
+        else {
+            html += '<div class="empty">Нет данных</div>';
+        }
         html +=     '</div>';
 
         html += '</div>';
 
-        // будем биндить на коллапс, когда страница уже сформирована
+        // будем биндить на скролл, вероятность прогрузки изображений - 99%
         $(document).bind("scroll", function (event) {
             // найти все Табы
             $('body').find('[data-role="nd2extTabs"]').each(function(index){
