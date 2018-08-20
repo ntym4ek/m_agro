@@ -149,7 +149,6 @@
         	
             if (_self.element.data('swipe')){
 	            newContent.addClass("nd2Tab-active from-" + direction);
-	
 	            window.setTimeout(function() {
 	                newContent.removeClass("from-" + direction);
 	            }, 150);
