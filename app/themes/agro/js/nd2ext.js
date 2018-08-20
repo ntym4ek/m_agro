@@ -169,11 +169,12 @@
                     if ($(this).data('tab') == _self.options.activeTab) {
                         $(this).addClass('nd2Tab-active');
                     }
-                    if ($(tab).height() > height) height = $(tab).height();
+                   // if ($(tab).height() > height) height = $(tab).height();
                 });
                 // set container height to max tab height
                 // to remove tabs downshifting
-                el.nextAll('[data-role=nd2extTabs-container]').height(height);
+                // while images not loaded - height is wrong
+                //el.nextAll('[data-role=nd2extTabs-container]').height(height);
             } else {
                 _self.destroyTabs();
             }
@@ -184,5 +185,4 @@
         $(document).trigger("includebeforecreate");
         return $("[data-role='nd2extTabs']", e.target).extTabs();
     });
-
 }));
