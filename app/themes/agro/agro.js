@@ -108,3 +108,28 @@ function agro_radios(variables) {
     catch (error) { console.log('agro_radios - ' + error); }
 }
 
+/**
+ * Implementation of theme_image().
+ * @param {Object} variables
+ * @return {String}
+ */
+function agro_image(variables) {
+    try {
+        console.log('agro_image - ');
+        // Turn the path, alt and title into attributes if they are present.
+        if (variables.path) { variables.attributes.src = variables.path; }
+        if (variables.alt) { variables.attributes.alt = variables.alt; }
+        if (variables.title) { variables.attributes.title = variables.title; }
+        // Render the image.
+        var image = '<img ' + drupalgap_attributes(variables.attributes) + ' />';
+
+        if (variables.fancybox !== undefined && variables.fancybox.image !== undefined) {
+            let caption = variables.fancybox.title !== undefined ? variables.fancybox.title : '';
+            image = '<a href="' + variables.fancybox.image + '" data-fancybox data-caption="' + caption + '">' + image + '</a>';
+        }
+
+        return image;
+    }
+    catch (error) { console.log('agro_image - ' + error); }
+}
+
