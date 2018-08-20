@@ -134,6 +134,7 @@ Drupal.modules.custom['agrohelp'] = {};
 Drupal.modules.custom['agroshop'] = {};
 Drupal.modules.custom['representatives'] = {};
 Drupal.modules.custom['agenda'] = {};
+Drupal.modules.custom['atfield'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
