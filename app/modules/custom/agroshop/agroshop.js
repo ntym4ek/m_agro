@@ -329,10 +329,9 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                 }
 
                 // описание
-                var description = '';
-
                 var body = pd.body.safe_value;
                 ba = body.split('<h4>');
+                var description = ba.shift();
                 var collapsed = '  data-collapsed="false"';
                 $.each(ba, function(index, b_item) {
                     if (b_item != '') {
