@@ -133,7 +133,7 @@ function agro_image(variables) {
         if (!$('body').data('fancybox-back')) {
             $(document).on("pagecontainerbeforechange", function (e, data) {
                 if (typeof data.toPage == "string" && data.options.direction == "back") {
-                    if ($(".fancybox-is-open").length) {
+                    if ($(".fancybox-is-open").length) { alert('open');
                         $.fancybox.close();
                         e.preventDefault();
                     }
