@@ -107,7 +107,7 @@ function atfield_get_card(item)
         preps.push(l(item.preps[index], 'node/' + index));
     }
     var preps_list = preps.join('; ');
-    if (preps_list !== "") preps_list = 'не проводилась';
+    if (preps_list === "") preps_list = 'не проводилась';
 
     var button = l('Подробнее', 'atfield/' + item.sid, {
         attributes: {
@@ -213,12 +213,12 @@ function atfield_load(sid, options) {
 function theme_atfield_season_page(vars)
 {
     try {
-        console.log('theme_atfield_season_page - ');
+        // console.log('theme_atfield_season_page - ');
         var html = '';
 
         // ДО обработки
         var before = vars.season.measurements.shift();
-        html += '<div data-role="collapsible" data-inset="false" data-collapsed="false" class="before ui-collapsible-transparent">' +
+        html += '<div data-role="collapsible" data-inset="false" data-collapsed="false" class="before">' +
                     '<h4>До обработки<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>';
         html +=     '<div class="atf-title">Поле ' + before.date + '</div>';
         html +=     theme('image', {path: before.image_field_thumb, fancybox: {image: before.image_field_full, title: before.comment}});
@@ -247,7 +247,7 @@ function theme_atfield_season_page(vars)
         html += '</div>';
 
         // ПОСЛЕ обработки
-        html += '<div data-role="collapsible" data-inset="false" data-collapsed="false" class="after ui-collapsible-transparent">' +
+        html += '<div data-role="collapsible" data-inset="false" data-collapsed="false" class="after">' +
                     '<h4>После обработки<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>';
         // закладки
         html +=     '<ul id="before" data-role="nd2extTabs" data-swipe="true">';
@@ -297,7 +297,7 @@ function theme_atfield_season_page(vars)
         html += '</div>';
 
         // ПРОВЕДЕННЫЕ обработки
-        html += '<div data-role="collapsible" data-inset="false" data-collapsed="false" class="processings ui-collapsible-transparent">' +
+        html += '<div data-role="collapsible" data-inset="false" data-collapsed="false" class="processings">' +
                     '<h4>Проведенные обработки<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>';
         if (vars.season.processings.length > 0) {
             html +=     '<ul id="after" data-role="nd2extTabs" data-swipe="true">';
@@ -328,14 +328,14 @@ function theme_atfield_season_page(vars)
                 html +=         '</dl>';
                 html +=         '<div class="atf-preparation">';
                 html +=             '<div class="atf-prep-images">';
-                html +=                 l(theme('image', {path: processing.image_prep_thumb}), processing.prep_link, {'attributes': {'class': 'atf-prep'}});
+                html +=                 l(theme('image', {path: processing.image_prep_thumb}), 'node/' + processing.prep_nid, {'attributes': {'class': 'atf-prep'}});
                 if (processing.preparation2 !== '')
-                    html +=             l(theme('image', {path: processing.image_prep_thumb2}), processing.prep_link2, {'attributes': {'class': 'atf-prep2'}});
+                    html +=             l(theme('image', {path: processing.image_prep_thumb2}), 'node/' + processing.prep_nid2, {'attributes': {'class': 'atf-prep2'}});
                 html +=             '</div>';
                 html +=             '<div>';
-                html +=                 l(processing.preparation, processing.prep_link);
+                html +=                 l(processing.preparation, 'node/' + processing.prep_nid);
                 if (processing.preparation2 !== '')
-                    html +=             ' + ' + l(processing.preparation, processing.prep_link);
+                    html +=             ' + ' + l(processing.preparation2, 'node/' + processing.prep_nid2);
                 html +=                 '<br />';
                 html +=                 '<span>';
                 html +=                     processing.ingredients;

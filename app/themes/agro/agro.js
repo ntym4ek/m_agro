@@ -128,30 +128,6 @@ function agro_image(variables) {
             image = '<a href="' + variables.fancybox.image + '" data-fancybox="gallery" data-caption="' + caption + '">' + image + '</a>';
         }
 
-        // при нажатии кнопки Back проверить наличие открытых картинок
-        // при наличии закрыть их и не переходить на предыдущую страницу
-        // if (!$('body').data('fancybox-back')) {
-        //     $(document).on("pagecontainerbeforechange", function (e, data) {
-        //
-        //         if (typeof data.toPage == "string" && data.options.direction == "back") {
-        //             if ($(".fancybox-is-open").length) {
-        //                 console.log('agro_image - ');
-        //                 $.fancybox.close();
-        //
-        //                 // не нашел способа остаться на странице и сохранить историю страниц
-        //                 // костыль для перехода назад со страницы Преп в поле на страницу списка
-        //                 if ($.mobile.activePage.data('url').indexOf("atfield_") === 0) {
-        //                     data.toPage = '#atfield';
-        //                     $.extend(data.options, {
-        //                         changeHash: true
-        //                     });
-        //                 }
-        //             }
-        //         }
-        //     });
-        //     $('body').data('fancybox-back', true);
-        // }
-
         return image;
     }
     catch (error) { console.log('agro_image - ' + error); }

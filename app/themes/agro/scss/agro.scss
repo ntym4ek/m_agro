@@ -71,7 +71,9 @@ small, .font-small {font-size: $font-size-small; }
         background: none;
         h4 a{
             padding: .3rem 1rem;
-            &.ui-btn { background: none; }
+            &.ui-btn {
+                background: none;
+            }
         }
     }
 }
@@ -282,13 +284,22 @@ div[id^="products_"] {
 }
 /* -------------------------------------------- Препараты в поле ---------------------------------------------------- */
 .atfield {
-    .ui-collapsible h4 a { text-transform: uppercase; }
+    .ui-collapsible h4 a {
+        text-transform: uppercase;
+        &.ui-btn {
+            background: $brand-green;
+            border-radius: 0;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+    }
     .empty {
         color: #aaa; font-size: 1.5em; font-weight: 100;
         margin: 1.5em 0 1em 2em;
     }
     img {
         border-radius: 5px;
+        box-shadow: 1px 1px 20px #eee;
         display: block;
         margin: 0 auto;
     }
