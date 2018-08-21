@@ -115,7 +115,7 @@ function agro_radios(variables) {
  */
 function agro_image(variables) {
     try {
-        //console.log('agro_image - ');
+
         // Turn the path, alt and title into attributes if they are present.
         if (variables.path) { variables.attributes.src = variables.path; }
         if (variables.alt) { variables.attributes.alt = variables.alt; }
@@ -125,22 +125,32 @@ function agro_image(variables) {
 
         if (variables.fancybox !== undefined && variables.fancybox.image !== undefined) {
             let caption = variables.fancybox.title !== undefined ? variables.fancybox.title : '';
-            image = '<a href="' + variables.fancybox.image + '" data-fancybox data-caption="' + caption + '">' + image + '</a>';
+            image = '<a href="' + variables.fancybox.image + '" data-fancybox="gallery" data-caption="' + caption + '">' + image + '</a>';
         }
 
         // при нажатии кнопки Back проверить наличие открытых картинок
         // при наличии закрыть их и не переходить на предыдущую страницу
-        if (!$('body').data('fancybox-back')) {
-            $(document).on("pagecontainerbeforechange", function (e, data) {
-                if (typeof data.toPage == "string" && data.options.direction == "back") {
-                    if ($(".fancybox-is-open").length) { alert('open');
-                        $.fancybox.close();
-                        e.preventDefault();
-                    }
-                }
-            });
-            $('body').data('fancybox-back', true);
-        }
+        // if (!$('body').data('fancybox-back')) {
+        //     $(document).on("pagecontainerbeforechange", function (e, data) {
+        //
+        //         if (typeof data.toPage == "string" && data.options.direction == "back") {
+        //             if ($(".fancybox-is-open").length) {
+        //                 console.log('agro_image - ');
+        //                 $.fancybox.close();
+        //
+        //                 // не нашел способа остаться на странице и сохранить историю страниц
+        //                 // костыль для перехода назад со страницы Преп в поле на страницу списка
+        //                 if ($.mobile.activePage.data('url').indexOf("atfield_") === 0) {
+        //                     data.toPage = '#atfield';
+        //                     $.extend(data.options, {
+        //                         changeHash: true
+        //                     });
+        //                 }
+        //             }
+        //         }
+        //     });
+        //     $('body').data('fancybox-back', true);
+        // }
 
         return image;
     }
