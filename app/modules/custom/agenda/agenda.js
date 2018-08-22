@@ -32,7 +32,7 @@ function agenda_list_page()
             format: 'ul',
             format_attributes: {
                 // 'data-inset': 'true',
-                'class': 'row'
+                // 'class': 'row'
             },
             path: 'agenda.json',
             row_callback: 'agenda_list_page_row',
