@@ -290,7 +290,7 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
 
                 // изображение
                 var image_src = pd.field_product_entities[pid].field_p_images_url[0];
-                var image = theme('image', {path: image_src});
+                var image = theme('image', {path: image_src, fancybox: {image: image_src, title: pd.title}});
 
                 // норма расхода
                 var consumption = '';
