@@ -6,7 +6,7 @@ function agenda_menu() {
         var items = {};
         items['agenda'] = {
             title: 'Афиша',
-            page_callback: 'agenda_page'
+            page_callback: 'agenda_list_page'
         };
 
         return items;
@@ -23,19 +23,20 @@ function agenda_menu() {
  */
 
 // содержимое страницы
-function agenda_page()
+function agenda_list_page()
 {
     try {
         var content = {};
         content['list'] = {
             theme: 'view',
+            format: 'ul',
             format_attributes: {
-                'data-inset': 'true',
+                // 'data-inset': 'true',
                 'class': 'row'
             },
             path: 'agenda.json',
-            row_callback: 'agenda_page_row',
-            empty_callback: 'agenda_page_empty'
+            row_callback: 'agenda_list_page_row',
+            empty_callback: 'agenda_list_page_empty'
         };
 
         return content;
@@ -43,40 +44,38 @@ function agenda_page()
     catch (error) { console.log('agenda_page - ' + error); }
 }
 
-function agenda_page_row(view, row) {
+function agenda_list_page_row(view, row) {
     try {
         // console.log('agenda_page_row');
         var image = theme('image', { path: row.img.src });
+        image = l(image, 'node/' + row.nid);
+
+        var over = '' +
+            '<div class="card-media-overlay with-background">' +
+                '<div class="card-title has-supporting-text">' +
+                    '<h3 class="card-primary-title">' + row.title + '</h3>' +
+                    '<h5 class="card-subtitle">' + row.place + '</h5>' +
+                '</div>' +
+                '<div class="card-supporting-text has-title">' +
+                    row.date_start + ' - ' + row.date_end +
+                '</div>' +
+            '</div>';
+        over = l(over, 'node/' + row.nid);
 
         var content = '' +
         '<div class="nd2-card">' +
             '<div class="card-media">' +
                 image +
-                '<div class="card-media-overlay with-background">' +
-                    '<div class="card-title has-supporting-text">' +
-                        '<h3 class="card-primary-title">' + row.title + '</h3>' +
-                        '<h5 class="card-subtitle">' + row.place + '</h5>' +
-                    '</div>' +
-                    '<div class="card-supporting-text has-title">' +
-                        row.date_start + ' - ' + row.date_end +
-                    '</div>' +
-                '</div>' +
+                over +
             '</div>' +
         '</div>';
 
-        return l(content, 'node/' + row.nid, {
-                attributes: {
-                    class: 'col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
-                    'data-wow-delay': '0.2s'
-                },
-                reloadPage: true
-            }
-        );
+        return content;
     }
     catch (error) { console.log('agenda_page_row - ' + error); }
 }
 
-function agenda_page_empty(view)
+function agenda_list_page_empty(view)
 {
     try {
         return "Событий не найдено";
