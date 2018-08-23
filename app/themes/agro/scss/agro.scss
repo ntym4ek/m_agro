@@ -66,13 +66,14 @@ small, .font-small {font-size: $font-size-small; }
             -webkit-transform: rotate(-180deg); -ms-transform: rotate(-180deg); -o-transform: rotate(-180deg); transform: rotate(-180deg);
         }
     }
-    .ui-collapsible-content { padding: 1px 1rem 1rem; min-height: 100px; }
+    .ui-collapsible-content { padding: 1px 1rem 1rem; }
     &.ui-collapsible-transparent {
         background: none;
         h4 a{
             padding: .3rem 1rem;
             &.ui-btn {
                 background: none;
+                color: inherit;
             }
         }
     }
@@ -269,7 +270,10 @@ div[id^="products_"] {
     .tabs-content {
         width: 100%;
         .nd2tab { min-height: 150px; }
-        .p-description p { text-align: justify; }
+        .p-description p {
+            text-align: justify;
+            &:last-child { margin-bottom: 0; }
+        }
     }
 }
 
