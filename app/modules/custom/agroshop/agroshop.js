@@ -357,8 +357,8 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
                     files +=     '<div class="card-media">';
                     files +=         '<img src="app/themes/agro/images/icons/file_sheet.png">';
                     files +=     '</div>';
-                    files +=     '<div class="card-title has-supporting-text">';
-                    files +=         '<h3 class="card-primary-title">' + file.description + '</h3>';
+                    files +=     '<div class="card-title">';
+                    files +=         '<h4 class="card-primary-title">' + file.description + '</h4>';
                     files +=         '<h5 class="card-subtitle">' + file_info + '</h5>';
                     files +=     '</div>';
                     files +=    '<div class="card-action">';
