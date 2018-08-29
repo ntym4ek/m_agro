@@ -8,14 +8,18 @@
 function agroshop_menu() {
     try {
         var items = {};
-        items['catalog'] = {
-            title: 'Каталог',
-            page_callback: 'catalog_page'
+        items['prot-cat'] = {
+            title: 'Средства защиты',
+            page_callback: 'prot_cat_page'
         };
-        items['products/%'] = {
+        items['prot-products/%'] = {
             title: 'Препараты',
-            title_callback: 'products_page_title_callback',
-            page_callback: 'products_page'
+            title_callback: 'prot_products_page_title_callback',
+            page_callback: 'prot_products_page'
+        };
+        items['fert-products'] = {
+            title: 'Удобрения',
+            page_callback: 'fert_products_page'
         };
         items['about-us'] = {
             title: t('About us'),
@@ -45,6 +49,18 @@ function agroshop_deviceready() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+// function agroshop_theme()
+// {
+//     return {
+//         product_agro: {
+//             template: 'atfield-season-page'
+//         }
+//     };
+// }
+
+/**
  * Функция определения заголовка страницы на основе стандартного node_page_title
  * для продукции вместо заголовка выводим категорию
  */
@@ -59,8 +75,11 @@ function agroshop_node_page_title(callback, nid) {
                     if (node.type === 'product_agro') {
                         if (_GET('cname')) { title = _GET('cname') };
                         if (_GET('cid')) {
-                            title = l(title, 'products/' + _GET('cid'));
+                            title = l(title, 'prot-products/' + _GET('cid'));
                         }
+                    }
+                    if (node.type === 'product_fert') {
+                        title = l('Удобрения', 'fert-products');
                     }
                     if (node.type === 'agenda') {
                         title = l('Афиша', 'agenda');
@@ -74,13 +93,13 @@ function agroshop_node_page_title(callback, nid) {
     catch (error) { console.log('node_page_title - ' + error); }
 }
 
+
 /**
- * ----------------------------------------------- Каталог -------------------------------------------------------------
- *
+ * ----------------------------------------------- Каталог СЗР ---------------------------------------------------------
  */
-function catalog_page() {
+function prot_cat_page() {
     try {
-        // console.log('catalog_page - ');
+        // console.log('prot_cat_page - ');
         var content = {};
         content['list'] = {
             theme: 'view',
@@ -89,14 +108,14 @@ function catalog_page() {
                 'class': 'row'
             },
             path: 'agro-catalog.json',
-            row_callback: 'catalog_page_row'
+            row_callback: 'prot_cat_page_row'
         };
         return content;
     }
-    catch (error) { console.log('catalog_page - ' + error); }
+    catch (error) { console.log('prot_cat_page - ' + error); }
 }
 
-function catalog_page_row(view, row) {
+function prot_cat_page_row(view, row) {
     try {
         var html = '';
         // вернуть html код строки любой категории, кроме "Все продукты"
@@ -106,7 +125,7 @@ function catalog_page_row(view, row) {
             content +=   '<div class="c-icon"><img src="' + row.icon_img.src + '"></div>';
             content += '</div>';
             content += '<div class="c-title">' + row.name + '</div>';
-            html = l(content, 'products/' + row.tid, {
+            html = l(content, 'prot-products/' + row.tid, {
                 'attributes': {
                     'class': 'c-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
                     'data-wow-delay': '0.2s'
@@ -116,17 +135,73 @@ function catalog_page_row(view, row) {
 
         return html;
     }
-    catch (error) { console.log('catalog_page_row - ' + error); }
+    catch (error) { console.log('prot_cat_page_row - ' + error); }
 }
 
+/**
+ * ----------------------------------------------- Список препаратов МУ ------------------------------------------------
+ *
+ */
+
+// содержимое страницы
+function fert_products_page() {
+    try {
+        var content = {};
+        content['list'] = {
+            theme: 'view',
+            format_attributes: {
+                'data-inset': 'true',
+                'class': 'row'
+            },
+            path: 'fert.json',
+            row_callback: 'fert_products_page_row',
+            empty_callback: 'fert_products_page_empty'
+        };
+
+        return content;
+    }
+    catch (error) { console.log('fert_products_page - ' + error); }
+}
+
+function fert_products_page_row(view, row) {
+    try {
+        console.log('fert_products_page_row');
+        var image = theme('image', { path: row.img.src });
+        var icon = theme('image', { path: row.icon_img.src });
+
+        var content = '';
+        content += '<div class="p-box">';
+        content +=   '<div class="p-image">' + image + '</div>';
+        content +=   '<p class="font-small">' + row.descr + '</p>';
+        content +=   '<div class="p-icon">' + icon + '</div>';
+        content += '</div>';
+        content += '<div class="p-title">' + row.title + '</div>';
+
+        return l(content, 'node/' + row.nid, {
+                attributes: {
+                    class: 'p-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
+                    'data-wow-delay': '0.2s'
+                },
+            }
+        );
+    }
+    catch (error) { console.log('fert_products_page_row - ' + error); }
+}
+
+function fert_products_page_empty(view) {
+    try {
+        return "Препаратов не найдено";
+    }
+    catch (error) { console.log('fert_products_page_empty - ' + error); }
+}
 
 /**
- * ----------------------------------------------- Список препаратов ---------------------------------------------------
+ * ----------------------------------------------- Список препаратов СЗР -----------------------------------------------
  *
  */
 
 // заголовок страницы списка
-function products_page_title_callback(callback, title) {
+function prot_products_page_title_callback(callback, title) {
     try {
         var tid = arg(1);
         // асинхронно получаем термин по id и асинхронно обновляем заголовок
@@ -136,11 +211,11 @@ function products_page_title_callback(callback, title) {
             }
         });
     }
-    catch (error) { console.log('products_page_title_callback - ' + error); }
+    catch (error) { console.log('prot_products_page_title_callback - ' + error); }
 }
 
 // содержимое страницы
-function products_page() {
+function prot_products_page() {
     try {
         // Grab the collection from the path.
         var category_tid = arg(1);
@@ -154,19 +229,19 @@ function products_page() {
                 'data-inset': 'true',
                 'class': 'row'
             },
-            path: 'agro.json/' + category_tid,
-            row_callback: 'products_page_row',
-            empty_callback: 'products_page_empty'
+            path: 'prot.json/' + category_tid,
+            row_callback: 'prot_products_page_row',
+            empty_callback: 'prot_products_page_empty'
         };
 
         return content;
     }
-    catch (error) { console.log('products_page - ' + error); }
+    catch (error) { console.log('prot_products_page - ' + error); }
 }
 
-function products_page_row(view, row) {
+function prot_products_page_row(view, row) {
     try {
-        //console.log('products_page_row');
+        //console.log('prot_products_page_row');
         var image = theme('image', { path: row.img.src });
         var icon = theme('image', { path: row.icon_img.src });
 
@@ -183,18 +258,17 @@ function products_page_row(view, row) {
                     class: 'p-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
                     'data-wow-delay': '0.2s'
                 },
-                // reloadPage: true
             }
         );
     }
-    catch (error) { console.log('products_page_row - ' + error); }
+    catch (error) { console.log('prot_products_page_row - ' + error); }
 }
 
-function products_page_empty(view) {
+function prot_products_page_empty(view) {
     try {
         return "Препаратов не найдено";
     }
-    catch (error) { console.log('products_page_empty - ' + error); }
+    catch (error) { console.log('prot_products_page_empty - ' + error); }
 }
 
 /**
@@ -217,6 +291,23 @@ function agroshop_node_page_view_alter_product_agro(node, options)
         options.success(node.content);
     }
     catch (error) { console.log('agroshop_node_page_view_alter_product_agro - ' + error); }
+}
+
+/**
+ * Implements hook_node_page_view_alter_TYPE().
+ * изменение страницы препарата
+ */
+function agroshop_node_page_view_alter_product_fert(node, options)
+{
+    try {
+        var content = {};
+
+        // выведем контент без title
+        content['content'] = node.content;
+
+        options.success(node.content);
+    }
+    catch (error) { console.log('agroshop_node_page_view_alter_product_fert - ' + error); }
 }
 
 /**
@@ -265,174 +356,11 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
     try {
         var entity_type = options.entity_type;
         var entity_id = options.entity_id;
+        console.log('_commerce_product_reference_field_formatter_view_pageshow - ');
         // Load the product display.
         commerce_product_display_load(entity_id, {
             success: function(pd) {
-                // dpm(pd);
-                // console.log('_commerce_product_reference_field_formatter_view_pageshow');
-                // сформировать страницу
-                // var form_html = drupalgap_get_form('commerce_cart_add_to_cart_form', pd);
-                var html = '';
-                var pid = Object.keys(pd.field_product_entities)[0];
-
-                // цена
-                var price = 'Цена на рассмотрении';
-                if (pd.field_product_entities[pid].commerce_price['amount'] != 0) {
-                    price = pd.field_product_entities[pid].commerce_price_formatted;
-                }
-
-                // единица измерения препарата
-                var unit_name = pd.field_pd_units_entities[pd.field_pd_units].field_tax_short_name;
-
-                // brand_style
-                var tid = Object.keys(pd.field_pd_category_entities)[0];
-                var brand_style = ' style="color: #' + pd.field_pd_category_entities[tid].field_color + '"';
-
-                // изображение
-                var image_src = pd.field_product_entities[pid].field_p_images_url[0];
-                var image = theme('image', {path: image_src, fancybox: {image: image_src, title: pd.title}});
-
-                // норма расхода
-                var consumption = '';
-                if (pd.field_pd_consumption_rate != undefined) {
-                    var from = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.from), 2, " ");
-                    var to = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.to), 2, " ");
-                    consumption = from + '-' + to + ' ' + unit_name + '/га';
-                }
-
-                // стоимость обработки
-                var cost = 0;
-                var price_per_unit = '';
-                if (pd.field_pd_consumption_rate != undefined && pd.field_pd_price_per_unit != undefined) {
-                    price_per_unit = pd.field_pd_price_per_unit['amount'] / 100;
-                    from = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.from) * price_per_unit, 0, " ");
-                    to = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.to) * price_per_unit, 0, " ");
-                    cost = from + '-' + to + ' руб./га';
-                }
-
-                // препаративная форма
-                var prep_form = '';
-                if (pd.field_pd_formulation_entities != undefined) {
-                    prep_form = pd.field_pd_formulation_entities[pd.field_pd_formulation].name;
-                }
-
-                // действующие вещества
-                var ingredients = '';
-                if (pd.field_pd_active_ingredients_entities != undefined) {
-                    $.each(pd.field_pd_active_ingredients_entities, function (index, ingredient) {
-                        if (ingredient.field_pd_ai_active_ingredient_entities != undefined) {
-                            var name = ingredient.field_pd_ai_active_ingredient_entities[ingredient.field_pd_ai_active_ingredient].name;
-                            var conc = ingredient.field_pd_ai_concentration;
-                            ingredients += name + ', ' + conc + ' г/' + unit_name + '<br />';
-                        }
-                    });
-                }
-
-                // описание
-                var body = pd.body.safe_value;
-                ba = body.split('<h4>');
-                var description = ba.shift();
-                var collapsed = '  data-collapsed="false"';
-                $.each(ba, function(index, b_item) {
-                    if (b_item != '') {
-                        ba2 = b_item.split('</h4>');
-                        ba2[0] = ba2[0].replace(/:/, '');
-                        description += '<div class="ui-collapsible-transparent" data-role="collapsible" data-inset="false"' + collapsed +'><h4' + brand_style + '>' + ba2[0] + '<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>' + ba2[1] + '</div>';
-                        collapsed = '';
-                    }
-                });
-
-                // сертификат
-                var sertificates = '';
-                $.each(pd.field_pd_certificate_url, function(index, sert_src) {
-                    sertificates += theme('image', {path: sert_src})
-                });
-
-                // сертификат
-                var files = '';
-                $.each(pd.field_file_attachments, function(index, file) {
-                    var file_info = file.filename + ', ' + accounting.formatNumber(file.filesize/1024, 2, " ") + 'KB';
-                    var file_url = pd.field_file_attachments_url[index];
-                    files += '<div class="nd2-card file-card card-media-right card-media-small">';
-                    files +=     '<div class="card-media">';
-                    files +=         '<img src="app/themes/agro/images/icons/file_sheet.png">';
-                    files +=     '</div>';
-                    files +=     '<div class="card-title">';
-                    files +=         '<h4 class="card-primary-title">' + file.description + '</h4>';
-                    files +=         '<h5 class="card-subtitle">' + file_info + '</h5>';
-                    files +=     '</div>';
-                    files +=    '<div class="card-action">';
-                    files +=        '<div class="row between-xs">';
-                    files +=             '<div class="col-xs-12">';
-                    files +=                '<div class="box">';
-                    files +=                    '<a href="' + file_url + '" class="ui-btn ui-mini ui-btn-inline ui-btn-raised clr-primary waves-effect waves-button">Скачать</a>';
-                    // files +=                    '  ' + '<a href="#" class="ui-btn ui-mini ui-btn-inline ui-btn-raised clr-primary waves-effect waves-button">Открыть</a>';
-                    files +=                 '</div>';
-                    files +=             '</div>';
-                    files +=        '</div>';
-                    files +=     '</div>';
-                    files += '</div>';
-                });
-
-                html  = '<div class="product">';
-                html +=   '<div class="row">';
-                html +=     '<div class="col-xs">';
-                html +=     '<h2 class="p-title"' + brand_style + '>' + pd.title + '</h2>';
-                html +=     '</div>';
-                html +=   '</div>';
-                html +=   '<div class="row">';
-                html +=     '<div class="col-xs-5">';
-                html +=       '<div class="p-image">';
-                html +=         image;
-                html +=       '</div>';
-                html +=     '</div>';
-                html +=     '<div class="col-xs-7">';
-                html +=       '<div class="p-brief">';
-                html +=         '<div class="row">';
-                html +=           '<div class="col-xs p-price">' + price + '</div>';
-                html +=         '</div>';
-                if (consumption !== '') {
-                    html += '<div class="row">';
-                    html += '<div class="col-xs-5"' + brand_style + '>' + 'Норма расхода' + '</div>';
-                    html += '<div class="col-xs-7">' + consumption + '</div>';
-                    html += '</div>';
-                }
-                if (cost !== 0) {
-                    html += '<div class="row">';
-                    html += '<div class="col-xs-5"' + brand_style + '>' + 'Стоимость обработки' + '</div>';
-                    html += '<div class="col-xs-7">' + cost + '</div>';
-                    html += '</div>';
-                }
-                if (prep_form !== '') {
-                    html += '<div class="row">';
-                    html += '<div class="col-xs-5"' + brand_style + '>' + 'Препаративная форма' + '</div>';
-                    html += '<div class="col-xs-7">' + prep_form + '</div>';
-                    html += '</div>';
-                }
-                if (ingredients !== '') {
-                    html += '<div class="row">';
-                    html += '<div class="col-xs-5"' + brand_style + '>' + 'Действующие вещества' + '</div>';
-                    html += '<div class="col-xs-7">' + ingredients + '</div>';
-                    html += '</div>';
-                }
-                html +=       '</div>';
-                html +=     '</div>';
-                html +=   '</div>';
-                html +=   '<div class="row">';
-                // закладки
-                html +=     '<ul data-role="nd2extTabs" data-swipe="true" ' + brand_style + '>';
-                html +=       '<li data-tab="description">Описание</li>';
-                if (sertificates !== '') html += '<li data-tab="sertificates">Сертификат</li>';
-                if (files !== '')        html += '<li data-tab="files">Файлы</li>';
-                html +=     '</ul>';
-                // панели закладок
-                html +=   '<div class="tabs-content ui-content wow fadeIn" data-role="nd2extTabs-container" data-inset="false" data-wow-delay="0.2s">';
-                html +=     '<div data-tab="description" class="p-description">' + description + '</div>';
-                if (sertificates !== '') html += '<div data-role="nd2extTab" data-tab="sertificates">' + sertificates + '</div>';
-                if (files !== '')        html += '<div data-role="nd2extTab" data-tab="files">' + files + '';
-                html +=   '</div>';
-
-                html += '</div>';
+                let html = theme('product_display', pd);
 
                 $('#' + commerce_cart_container_id(entity_type, entity_id)).html(html).trigger('create');
 
@@ -446,6 +374,237 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
     }
     catch (error) {
         console.log('_commerce_product_reference_field_formatter_view_pageshow - ' + error);
+    }
+}
+
+/**
+ * функция темизации вывода Product Display
+ */
+function theme_product_display(pd) {
+    try {
+        console.log('theme_product_display');
+
+        var html = '';
+        var pid = Object.keys(pd.field_product_entities)[0];
+
+        // заголовок
+        var title = pd.title;
+        var subtitle = '';
+        if (pd.type === 'product_fert') {
+            title = pd.title.split('|')[0];
+            subtitle = pd.title.split('|')[1];
+        }
+
+        // цена
+        var price = 'Цена на рассмотрении';
+        if (pd.field_product_entities[pid].commerce_price['amount'] !== 0) {
+            price = pd.field_product_entities[pid].commerce_price_formatted;
+        }
+
+        // единица измерения препарата
+        var unit_name = pd.field_pd_units_entities[pd.field_pd_units].field_tax_short_name;
+
+        // упаковано
+        var packed = pd.field_product_entities[pid].field_p_in_package;
+
+        // brand_style
+        var tid = Object.keys(pd.field_pd_category_entities)[0];
+        var brand_style = ' style="color: #' + pd.field_pd_category_entities[tid].field_color + '"';
+
+        // изображение
+        var image_src = pd.field_product_entities[pid].field_p_images_url[0];
+        var image = theme('image', {path: image_src, fancybox: {image: image_src, title: pd.title}});
+
+        // норма расхода берем из регламентов
+        var consumption = '', cons_from = 99999, cons_to = 0;
+        if (pd.field_pd_reglaments_entities !== undefined) {
+            $.each(pd.field_pd_reglaments_entities, function (index, reglament) {
+                let f = parseFloat(reglament.field_pd_r_prep_rate[0].from);
+                let t = parseFloat(reglament.field_pd_r_prep_rate[0].to);
+                cons_from = cons_from > f ? f : cons_from;
+                cons_to   = cons_to   < t ? t : cons_to;
+            });
+            consumption = accounting.formatNumber(cons_from, 2, " ") + '-' + accounting.formatNumber(cons_to, 2, " ") + ' ' + unit_name + '/га';
+        }
+
+        // if (pd.field_pd_consumption_rate != undefined) {
+        //     var from = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.from), 2, " ");
+        //     var to = accounting.formatNumber(parseFloat(pd.field_pd_consumption_rate.to), 2, " ");
+        //     consumption = from + '-' + to + ' ' + unit_name + '/га';
+        // }
+
+        // стоимость обработки
+        var cost = 0;
+        var price_per_unit = '';
+        if (pd.field_pd_reglaments_entities !== undefined && pd.field_pd_price_per_unit !== undefined) {
+            price_per_unit = pd.field_pd_price_per_unit['amount'] / 100;
+            cost = accounting.formatNumber(cons_from * price_per_unit, 0, " ") + '-' + accounting.formatNumber(cons_to * price_per_unit, 0, " ") + ' руб./га';
+        }
+
+        // препаративная форма
+        var prep_form = '';
+        if (pd.field_pd_formulation_entities != undefined) {
+            prep_form = pd.field_pd_formulation_entities[pd.field_pd_formulation].name;
+        }
+
+        // действующие вещества
+        var ingredients = '';
+        if (pd.field_pd_active_ingredients_entities !== undefined) {
+            $.each(pd.field_pd_active_ingredients_entities, function (index, ingredient) {
+                if (ingredient.field_pd_ai_active_ingredient_entities !== undefined) {
+                    var name = ingredient.field_pd_ai_active_ingredient_entities[ingredient.field_pd_ai_active_ingredient].name;
+                    var conc = ingredient.field_pd_ai_concentration;
+                    ingredients += name + ', ' + conc + ' г/' + unit_name + '<br />';
+                }
+            });
+        }
+
+        // описание
+        var description = h4ToCollapse(pd.body.safe_value, brand_style);
+
+        // состав (для удобрений)
+        var composition = '';
+        if (pd.field_pd_micronutrients_entities !== undefined) {
+            composition = '<table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">' +
+                '<thead><tr>' +
+                    '<th>Микроэлемент</th>' +
+                    '<th>Символ</th>' +
+                    '<th>Кол-во, %</th>' +
+                '</tr></thead>' +
+                '<tbody>';
+
+            $.each(pd.field_pd_micronutrients_entities, function (index, micron) {
+                let element = micron.field_pd_mn_element_entities[micron.field_pd_mn_element];
+                composition +=  '<tr>';
+                composition +=      '<td>' + element.name + '</td>';
+                composition +=      '<td>' + element.field_mn_html + '</td>';
+                composition +=      '<td>' + micron.field_pd_mn_percent + '</td>';
+                composition +=  '</tr>';
+            });
+            composition += '</tbody></table>';
+
+        }
+
+        // исследования (удобрения)
+        var research = '';
+        if (pd.field_pd_research !== undefined) {
+            research = h4ToCollapse(pd.field_pd_research.safe_value, brand_style);
+            research = research.replace(/<table/, '<table data-role="table" id="table-column-toggle" data-mode="columntoggle"');
+            research = research.replace(/table table-bordered/, 'ui-responsive table-stroke');
+        }
+
+        // сертификат
+        var sertificates = '';
+        $.each(pd.field_pd_certificate_url, function(index, sert_src) {
+            sertificates += theme('image', {path: sert_src})
+        });
+
+        // файлы
+        var files = '';
+        if (pd.field_file_attachments != undefined) {
+            $.each(pd.field_file_attachments, function(index, file) {
+                var file_info = file.filename + ', ' + accounting.formatNumber(file.filesize/1024, 2, " ") + 'KB';
+                var file_url = pd.field_file_attachments_url[index];
+                files += '<div class="nd2-card file-card card-media-right card-media-small">';
+                files +=     '<div class="card-media">';
+                files +=         '<img src="app/themes/agro/images/icons/file_sheet.png">';
+                files +=     '</div>';
+                files +=     '<div class="card-title">';
+                files +=         '<h4 class="card-primary-title">' + file.description + '</h4>';
+                files +=         '<h5 class="card-subtitle">' + file_info + '</h5>';
+                files +=     '</div>';
+                files +=    '<div class="card-action">';
+                files +=        '<div class="row between-xs">';
+                files +=             '<div class="col-xs-12">';
+                files +=                '<div class="box">';
+                files +=                    '<a href="' + file_url + '" class="ui-btn ui-mini ui-btn-inline ui-btn-raised clr-primary waves-effect waves-button">Скачать</a>';
+                // files +=                    '  ' + '<a href="#" class="ui-btn ui-mini ui-btn-inline ui-btn-raised clr-primary waves-effect waves-button">Открыть</a>';
+                files +=                 '</div>';
+                files +=             '</div>';
+                files +=        '</div>';
+                files +=     '</div>';
+                files += '</div>';
+            });
+        }
+
+        html  = '<div class="product">';
+        html +=   '<div class="row">';
+        html +=     '<div class="col-xs">';
+        html +=         '<div class="p-title">';
+        html +=             '<h2' + brand_style + '>' + title + '</h2>';
+        if (subtitle)
+            html +=         '<h3>' + subtitle + '</h3>';
+        html +=         '</div>';
+        html +=     '</div>';
+        html +=   '</div>';
+        html +=   '<div class="row">';
+        html +=     '<div class="col-xs-5">';
+        html +=       '<div class="p-image">';
+        html +=         image;
+        html +=       '</div>';
+        html +=     '</div>';
+        html +=     '<div class="col-xs-7">';
+        html +=       '<div class="p-brief">';
+        html +=         '<div class="row">';
+        html +=           '<div class="col-xs p-price">' + price + '</div>';
+        html +=         '</div>';
+
+        html += '<div class="row">';
+        html +=   '<div class="col-xs-5"' + brand_style + '>' + 'Количество' + '</div>';
+        html +=   '<div class="col-xs-7">' + packed + '</div>';
+        html += '</div>';
+        if (consumption !== '') {
+            html += '<div class="row">';
+            html += '<div class="col-xs-5"' + brand_style + '>' + 'Норма расхода' + '</div>';
+            html += '<div class="col-xs-7">' + consumption + '</div>';
+            html += '</div>';
+        }
+        if (cost !== 0) {
+            html += '<div class="row">';
+            html += '<div class="col-xs-5"' + brand_style + '>' + 'Стоимость обработки' + '</div>';
+            html += '<div class="col-xs-7">' + cost + '</div>';
+            html += '</div>';
+        }
+        if (prep_form !== '') {
+            html += '<div class="row">';
+            html += '<div class="col-xs-5"' + brand_style + '>' + 'Препаративная форма' + '</div>';
+            html += '<div class="col-xs-7">' + prep_form + '</div>';
+            html += '</div>';
+        }
+        if (ingredients !== '') {
+            html += '<div class="row">';
+            html += '<div class="col-xs-5"' + brand_style + '>' + 'Действующие вещества' + '</div>';
+            html += '<div class="col-xs-7">' + ingredients + '</div>';
+            html += '</div>';
+        }
+        html +=       '</div>';
+        html +=     '</div>';
+        html +=   '</div>';
+        html +=   '<div class="row">';
+        // закладки
+        html +=     '<ul data-role="nd2extTabs" data-swipe="true" ' + brand_style + '>';
+        html +=       '<li data-tab="description">Описание</li>';
+        if (composition !== '')  html += '<li data-tab="composition">Состав</li>';
+        if (research !== '')     html += '<li data-tab="research">Исследования</li>';
+        if (sertificates !== '') html += '<li data-tab="sertificates">Сертификат</li>';
+        if (files !== '')        html += '<li data-tab="files">Файлы</li>';
+        html +=     '</ul>';
+        // панели закладок
+        html +=   '<div class="tabs-content ui-content wow fadeIn" data-role="nd2extTabs-container" data-inset="false" data-wow-delay="0.2s">';
+        html +=     '<div data-role="nd2extTab" data-tab="description" class="p-description">' + description + '</div>';
+        if (composition !== '')  html += '<div data-role="nd2extTab" data-tab="composition" class="p-composition">' + composition + '</div>';
+        if (research !== '')     html += '<div data-role="nd2extTab" data-tab="research" class="p-research">' + research + '</div>';
+        if (sertificates !== '') html += '<div data-role="nd2extTab" data-tab="sertificates">' + sertificates + '</div>';
+        if (files !== '')        html += '<div data-role="nd2extTab" data-tab="files">' + files + '</div>';
+        html +=   '</div>';
+
+        html += '</div>';
+
+        return html;
+
+    }
+    catch (error) {
+        console.log('theme_product_display - ' + error);
     }
 }
 
@@ -477,6 +636,8 @@ function agroshop_form_alter(form, form_state) {
         var elements = {};
         switch(form.id) {
             case 'commerce_cart_add_to_cart_form':
+                console.log('agroshop_form_commerce_cart_add_to_cart_form_alter - ');
+
                 var arguments = form["arguments"];
                 var pid = _commerce_product_display_product_id;
                 var src = arguments[0].field_product_entities[pid].field_p_images_url[0];
@@ -552,16 +713,16 @@ function agroshop_form_alter(form, form_state) {
 
 // перекрытие функции из commerce.js (строка 824)
 // при смене атрибутов меняем цену и картинку
-function _commerce_cart_attribute_change() {
-    try {
-        var pid = _commerce_product_display_get_current_product_id();
-        _commerce_product_display_product_id = pid;
-        $('#p_sku').html(_commerce_product_display['field_product_entities'][pid]['sku']);
-        $('#p_price').html('<b>Цена: </b>' + _commerce_product_display['field_product_entities'][pid]['commerce_price_formatted']);
-        $('#p_image').html('<img src="' + _commerce_product_display['field_product_entities'][pid]['field_p_images_url'][0] + '" />');
-    }
-    catch (error) { console.log('_commerce_cart_attribute_change - ' + error); }
-}
+// function _commerce_cart_attribute_change() {
+//     try {
+//         var pid = _commerce_product_display_get_current_product_id();
+//         _commerce_product_display_product_id = pid;
+//         $('#p_sku').html(_commerce_product_display['field_product_entities'][pid]['sku']);
+//         $('#p_price').html('<b>Цена: </b>' + _commerce_product_display['field_product_entities'][pid]['commerce_price_formatted']);
+//         $('#p_image').html('<img src="' + _commerce_product_display['field_product_entities'][pid]['field_p_images_url'][0] + '" />');
+//     }
+//     catch (error) { console.log('_commerce_cart_attribute_change - ' + error); }
+// }
 
 
 /**
@@ -590,165 +751,165 @@ function _commerce_cart_attribute_change() {
 //    catch (error) { console.log('agroshop_user_data_retreive - ' + error); }
 //}
 
-/**
- * создание профиля пользователя (commerce_customer_profile) через Services
- */
-function agroshop_user_data_create(options) {
-    try {
-        // в правах пользователям нужно разрешить создание и редактирование customer_profile_shipping
-        options.method = 'POST';
-        options.path = 'profile';
-        options.service = 'profile';
-        options.resource = 'create';
-        options.entity_type = 'commerce_customer_profile';
-        Drupal.services.call(options);
-    }
-    catch (error) { console.log('agroshop_user_data_create - ' + error); }
-}
+// /**
+//  * создание профиля пользователя (commerce_customer_profile) через Services
+//  */
+// function agroshop_user_data_create(options) {
+//     try {
+//         // в правах пользователям нужно разрешить создание и редактирование customer_profile_shipping
+//         options.method = 'POST';
+//         options.path = 'profile';
+//         options.service = 'profile';
+//         options.resource = 'create';
+//         options.entity_type = 'commerce_customer_profile';
+//         Drupal.services.call(options);
+//     }
+//     catch (error) { console.log('agroshop_user_data_create - ' + error); }
+// }
+//
+// /**
+//  * обновление заказа через Services
+//  */
+// function agroshop_order_update(options) {
+//     try {
+//         options.method = 'PUT';
+//         options.path = 'order/' + options.order_id,
+//         options.service = 'order';
+//         options.resource = 'update';
+//         Drupal.services.call(options);
+//     }
+//     catch (error) { console.log('agroshop_order_update - ' + error); }
+// }
 
-/**
- * обновление заказа через Services
- */
-function agroshop_order_update(options) {
-    try {
-        options.method = 'PUT';
-        options.path = 'order/' + options.order_id,
-        options.service = 'order';
-        options.resource = 'update';
-        Drupal.services.call(options);
-    }
-    catch (error) { console.log('agroshop_order_update - ' + error); }
-}
-
-/**
- * перекрытие страницы checkout (commerce.js - 244 строка)
- * запрашиваем данные пользователя
- */
-function agroshop_commerce_checkout_view(form, form_state, order_id) {
-    try {
-        // Order ID
-        form.elements['order_id'] = {
-            type: 'hidden',
-            default_value: order_id
-        };
-        form.elements['customer_surname'] = {
-            type: 'textfield',
-            title: 'Фамилия',
-            title_placeholder: true,
-            required: true
-        };
-        form.elements['customer_name'] = {
-            type: 'textfield',
-            title: 'Имя',
-            title_placeholder: true,
-            required: true
-        };
-        form.elements['customer_name2'] = {
-            type: 'textfield',
-            title: 'Отчество',
-            title_placeholder: true
-        };
-        form.elements['customer_phone'] = {
-            type: 'textfield',
-            title: 'Телефон',
-            title_placeholder: true,
-            required: true
-        };
-        form.elements['customer_region'] = {
-            type: 'textfield',
-            title: 'Регион',
-            title_placeholder: true,
-            required: true
-        };
-
-        // Buttons
-        form.elements['submit'] = {
-            type: 'submit',
-            value: 'Отправить заказ'
-        };
-        //form.buttons['cancel'] = drupalgap_form_cancel_button();
-
-        return form;
-    }
-    catch (error) { console.log('commerce_checkout_view - ' + error); }
-}
+// /**
+//  * перекрытие страницы checkout (commerce.js - 244 строка)
+//  * запрашиваем данные пользователя
+//  */
+// function agroshop_commerce_checkout_view(form, form_state, order_id) {
+//     try {
+//         // Order ID
+//         form.elements['order_id'] = {
+//             type: 'hidden',
+//             default_value: order_id
+//         };
+//         form.elements['customer_surname'] = {
+//             type: 'textfield',
+//             title: 'Фамилия',
+//             title_placeholder: true,
+//             required: true
+//         };
+//         form.elements['customer_name'] = {
+//             type: 'textfield',
+//             title: 'Имя',
+//             title_placeholder: true,
+//             required: true
+//         };
+//         form.elements['customer_name2'] = {
+//             type: 'textfield',
+//             title: 'Отчество',
+//             title_placeholder: true
+//         };
+//         form.elements['customer_phone'] = {
+//             type: 'textfield',
+//             title: 'Телефон',
+//             title_placeholder: true,
+//             required: true
+//         };
+//         form.elements['customer_region'] = {
+//             type: 'textfield',
+//             title: 'Регион',
+//             title_placeholder: true,
+//             required: true
+//         };
+//
+//         // Buttons
+//         form.elements['submit'] = {
+//             type: 'submit',
+//             value: 'Отправить заказ'
+//         };
+//         //form.buttons['cancel'] = drupalgap_form_cancel_button();
+//
+//         return form;
+//     }
+//     catch (error) { console.log('commerce_checkout_view - ' + error); }
+// }
 
 /**
  *  сохранение введенных данных покупателя в новом профиле и привязка к заказу
  */
-function agroshop_commerce_checkout_view_submit(form, form_state) {
-    try {
-        variable_set('commerce_checkout_form_state', form_state);
-        var order_id = form_state.values['order_id'];
-
-        // создаём профиль пользователя с полученными данными
-        var profile = {
-            type: 'shipping',
-            uid : Drupal.user.uid,
-            field_profile_surname:  { ru: { 0: { value: form_state.values['customer_surname'] }}},
-            field_profile_name:     { ru: { 0: { value: form_state.values['customer_name'] }}},
-            field_profile_name2:    { ru: { 0: { value: form_state.values['customer_name2'] }}},
-            field_profile_phone:    { ru: { 0: { value: form_state.values['customer_phone'] }}},
-            field_profile_region:   { ru: { 0: { value: form_state.values['customer_region'] }}}
-        };
-        agroshop_user_data_create({
-            data: JSON.stringify(profile),
-            success:function(result) {
-                // в случае успешного создания профиля, привязываем его к заказу
-                var ord = _commerce_order[order_id];
-                var order = {};
-
-                order['order_id'] = ord.order_id;
-                order['type'] = ord.type;
-                var items = {};
-                $.each(ord.commerce_line_items, function(key, item) {
-                    items[key] = { line_item_id: item };
-                });
-                order['commerce_line_items'] = {
-                    und: items
-                };
-                order['commerce_order_total'] = {
-                    und: { 0: ord.commerce_order_total }
-                };
-                order['commerce_customer_shipping'] = {
-                    und: { 0: { profile_id: result['profile_id'] }}
-                };
-                agroshop_order_update({
-                    order_id: order_id,
-                    data: JSON.stringify(order),
-                    success:function() {}
-                });
-            },
-            error:function(xhr, status, message) {
-                try {
-                    if (options.error) { options.error(xhr, status, message); }
-                }
-                catch (error) { console.log('agroshop_user_data_create - error - ' + error); }
-            }
-        });
-
-        drupalgap_goto('checkout/complete/' + order_id);
-    }
-    catch (error) { console.log('commerce_checkout_view_submit - ' + error); }
-}
+// function agroshop_commerce_checkout_view_submit(form, form_state) {
+//     try {
+//         variable_set('commerce_checkout_form_state', form_state);
+//         var order_id = form_state.values['order_id'];
+//
+//         // создаём профиль пользователя с полученными данными
+//         var profile = {
+//             type: 'shipping',
+//             uid : Drupal.user.uid,
+//             field_profile_surname:  { ru: { 0: { value: form_state.values['customer_surname'] }}},
+//             field_profile_name:     { ru: { 0: { value: form_state.values['customer_name'] }}},
+//             field_profile_name2:    { ru: { 0: { value: form_state.values['customer_name2'] }}},
+//             field_profile_phone:    { ru: { 0: { value: form_state.values['customer_phone'] }}},
+//             field_profile_region:   { ru: { 0: { value: form_state.values['customer_region'] }}}
+//         };
+//         agroshop_user_data_create({
+//             data: JSON.stringify(profile),
+//             success:function(result) {
+//                 // в случае успешного создания профиля, привязываем его к заказу
+//                 var ord = _commerce_order[order_id];
+//                 var order = {};
+//
+//                 order['order_id'] = ord.order_id;
+//                 order['type'] = ord.type;
+//                 var items = {};
+//                 $.each(ord.commerce_line_items, function(key, item) {
+//                     items[key] = { line_item_id: item };
+//                 });
+//                 order['commerce_line_items'] = {
+//                     und: items
+//                 };
+//                 order['commerce_order_total'] = {
+//                     und: { 0: ord.commerce_order_total }
+//                 };
+//                 order['commerce_customer_shipping'] = {
+//                     und: { 0: { profile_id: result['profile_id'] }}
+//                 };
+//                 agroshop_order_update({
+//                     order_id: order_id,
+//                     data: JSON.stringify(order),
+//                     success:function() {}
+//                 });
+//             },
+//             error:function(xhr, status, message) {
+//                 try {
+//                     if (options.error) { options.error(xhr, status, message); }
+//                 }
+//                 catch (error) { console.log('agroshop_user_data_create - error - ' + error); }
+//             }
+//         });
+//
+//         drupalgap_goto('checkout/complete/' + order_id);
+//     }
+//     catch (error) { console.log('commerce_checkout_view_submit - ' + error); }
+// }
 
 /**
  *
  */
-function agroshop_commerce_checkout_complete_view_pageshow(order_id) {
-    try {
-        commerce_checkout_complete({
-            data: { order_id: order_id },
-            success: function(result) {
-                var checkout_complete_html = '<div>Номер заказа: ' + order_id + '.<br/> Менеджер свяжется с Вами в ближайшее время.</div>';
-                $('#commerce_checkout_complete_' + order_id).html(checkout_complete_html).trigger('create');
-            }
-        });
-    }
-    catch (error) {
-        console.log('agroshop_commerce_checkout_complete_view_pageshow - ' + error);
-    }
-}
+// function agroshop_commerce_checkout_complete_view_pageshow(order_id) {
+//     try {
+//         commerce_checkout_complete({
+//             data: { order_id: order_id },
+//             success: function(result) {
+//                 var checkout_complete_html = '<div>Номер заказа: ' + order_id + '.<br/> Менеджер свяжется с Вами в ближайшее время.</div>';
+//                 $('#commerce_checkout_complete_' + order_id).html(checkout_complete_html).trigger('create');
+//             }
+//         });
+//     }
+//     catch (error) {
+//         console.log('agroshop_commerce_checkout_complete_view_pageshow - ' + error);
+//     }
+// }
 
 
 
@@ -770,94 +931,94 @@ function agroshop_locale() {
 /**
  * Theme a commerce cart. (темизация корзины, перекрытие функции из commerce.js с.1494)
  */
-function theme_commerce_cart(variables) {
-    try {
-        // вернуть настройки после входа или регистрации
-        drupalgap.settings.front = 'catalog';
-
-        var html = '';
-
-        // Determine how many line items are in the cart.
-        var item_count = 0;
-        if (variables.order.commerce_line_items) {
-            item_count = variables.order.commerce_line_items.length;
-        }
-        if (item_count == 0) { return 'Вы не добавили ни одного препарата.'; }
-
-        // Render each line item.
-        var items = [];
-        $.each(variables.order.commerce_line_items_entities, function(line_item_id, line_item) {
-            var item = theme('commerce_cart_line_item', {
-                line_item: line_item,
-                order: variables.order
-            });
-            html += item;
-        });
-
-
-        // Render the order total and the buttons.
-        html += theme('commerce_cart_total', { order: variables.order });
-
-        // Return the rendered cart.
-        return html;
-    }
-    catch (error) { console.log('theme_commerce_cart - ' + error); }
-}
+// function theme_commerce_cart(variables) {
+//     try {
+//         // вернуть настройки после входа или регистрации
+//         drupalgap.settings.front = 'catalog';
+//
+//         var html = '';
+//
+//         // Determine how many line items are in the cart.
+//         var item_count = 0;
+//         if (variables.order.commerce_line_items) {
+//             item_count = variables.order.commerce_line_items.length;
+//         }
+//         if (item_count == 0) { return 'Вы не добавили ни одного препарата.'; }
+//
+//         // Render each line item.
+//         var items = [];
+//         $.each(variables.order.commerce_line_items_entities, function(line_item_id, line_item) {
+//             var item = theme('commerce_cart_line_item', {
+//                 line_item: line_item,
+//                 order: variables.order
+//             });
+//             html += item;
+//         });
+//
+//
+//         // Render the order total and the buttons.
+//         html += theme('commerce_cart_total', { order: variables.order });
+//
+//         // Return the rendered cart.
+//         return html;
+//     }
+//     catch (error) { console.log('theme_commerce_cart - ' + error); }
+// }
 
 /**
  * Themes a commerce cart line item.
  */
-function theme_commerce_cart_line_item(variables) {
-    try {
-        var id = 'commerce_cart_line_item_quantity_' + variables.line_item.line_item_id;
-        var attributes = {
-            type: 'text',
-            id: id,
-            value: Math.floor(variables.line_item.quantity),
-            line_item_id: variables.line_item.line_item_id,
-            'data-wrapper-class': 'controlgroup-textinput ui-btn',
-            onblur: 'commerce_cart_button_update_click(' + variables.order.order_id + ')'
-        };
-
-        var html = '<div class="line-item ui-corner-all custom-corners">'+
-
-                '<div class="ui-bar ui-bar-a">'+
-                    '<h3>' + variables.line_item.line_item_title + '</h3>'+
-                    '<a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" onclick = "_commerce_cart_line_item_remove(' + variables.order.order_id + ', ' + variables.line_item.line_item_id + ');">No text</a>'+
-                '</div>'+
-                '<div class="ui-body ui-body-a">'+
-                    '<div class="group" data-role="controlgroup" data-type="horizontal" data-mini="true">'+
-                        '<button class="name">Цена:</button>'+
-                        '<button>' + variables.line_item.commerce_unit_price_formatted + '</button>'+
-                    '</div>'+
-                    '<div class="group" data-role="controlgroup" data-type="horizontal" data-mini="true">'+
-                        '<button class="name">Количество:</button>'+
-                        '<button onclick = "_agroshop_cart_qty_update(\'dec\',' + variables.line_item.line_item_id + ',' + variables.order.order_id + ');" class="ui-btn ui-corner-all ui-icon-carat-d ui-btn-icon-notext">Icon only</button>'+
-                        '<input ' +  drupalgap_attributes(attributes) + ' />'+
-                        '<button onclick = "_agroshop_cart_qty_update(\'inc\',' + variables.line_item.line_item_id + ',' + variables.order.order_id + ');"'+'class="ui-btn ui-corner-all ui-icon-carat-u ui-btn-icon-notext">Icon only</button>'+
-                    '</div>'+
-                    '<div class="group" data-role="controlgroup" data-type="horizontal" data-mini="true">'+
-                        '<button class="name">Всего:</button>'+
-                        '<button>' + variables.line_item.commerce_total_formatted + '</button>'+
-                    '</div>'+
-                '</div>'+
-            '</div>';
-
-        return html;
-    }
-    catch (error) { console.log('theme_commerce_cart_line_item - ' + error); }
-}
+// function theme_commerce_cart_line_item(variables) {
+//     try {
+//         var id = 'commerce_cart_line_item_quantity_' + variables.line_item.line_item_id;
+//         var attributes = {
+//             type: 'text',
+//             id: id,
+//             value: Math.floor(variables.line_item.quantity),
+//             line_item_id: variables.line_item.line_item_id,
+//             'data-wrapper-class': 'controlgroup-textinput ui-btn',
+//             onblur: 'commerce_cart_button_update_click(' + variables.order.order_id + ')'
+//         };
+//
+//         var html = '<div class="line-item ui-corner-all custom-corners">'+
+//
+//                 '<div class="ui-bar ui-bar-a">'+
+//                     '<h3>' + variables.line_item.line_item_title + '</h3>'+
+//                     '<a href="#" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" onclick = "_commerce_cart_line_item_remove(' + variables.order.order_id + ', ' + variables.line_item.line_item_id + ');">No text</a>'+
+//                 '</div>'+
+//                 '<div class="ui-body ui-body-a">'+
+//                     '<div class="group" data-role="controlgroup" data-type="horizontal" data-mini="true">'+
+//                         '<button class="name">Цена:</button>'+
+//                         '<button>' + variables.line_item.commerce_unit_price_formatted + '</button>'+
+//                     '</div>'+
+//                     '<div class="group" data-role="controlgroup" data-type="horizontal" data-mini="true">'+
+//                         '<button class="name">Количество:</button>'+
+//                         '<button onclick = "_agroshop_cart_qty_update(\'dec\',' + variables.line_item.line_item_id + ',' + variables.order.order_id + ');" class="ui-btn ui-corner-all ui-icon-carat-d ui-btn-icon-notext">Icon only</button>'+
+//                         '<input ' +  drupalgap_attributes(attributes) + ' />'+
+//                         '<button onclick = "_agroshop_cart_qty_update(\'inc\',' + variables.line_item.line_item_id + ',' + variables.order.order_id + ');"'+'class="ui-btn ui-corner-all ui-icon-carat-u ui-btn-icon-notext">Icon only</button>'+
+//                     '</div>'+
+//                     '<div class="group" data-role="controlgroup" data-type="horizontal" data-mini="true">'+
+//                         '<button class="name">Всего:</button>'+
+//                         '<button>' + variables.line_item.commerce_total_formatted + '</button>'+
+//                     '</div>'+
+//                 '</div>'+
+//             '</div>';
+//
+//         return html;
+//     }
+//     catch (error) { console.log('theme_commerce_cart_line_item - ' + error); }
+// }
 
 /*
 * изменить значение поля "Количество" и обновить корзину
 */
-function _agroshop_cart_qty_update(op, item_id, order_id){
-    var val = $('#commerce_cart_line_item_quantity_' + item_id).val();
-    if (op == 'inc') $('#commerce_cart_line_item_quantity_' + item_id).val(++val);
-    else if (val>1) $('#commerce_cart_line_item_quantity_' + item_id).val(--val);
-
-    commerce_cart_button_update_click(order_id);
-}
+// function _agroshop_cart_qty_update(op, item_id, order_id){
+//     var val = $('#commerce_cart_line_item_quantity_' + item_id).val();
+//     if (op == 'inc') $('#commerce_cart_line_item_quantity_' + item_id).val(++val);
+//     else if (val>1) $('#commerce_cart_line_item_quantity_' + item_id).val(--val);
+//
+//     commerce_cart_button_update_click(order_id);
+// }
 
 
 
@@ -972,30 +1133,30 @@ function agroshop_block_view(delta, region) {
  *   перекрытие стандартной функции commerce.js (ст. 220)
  *   вывод сообщения для анонимов без добавленных товаров
  */
-function commerce_cart_view_pageshow() {
-    try {
-        commerce_cart_index(null, {
-            success: function(result) {
-                if (result.length != 0) {
-                    $.each(result, function(order_id, order) {
-                        // Set aside the order so it can be used later without fetching
-                        // it again.
-                        _commerce_order[order_id] = order;
-                        // Theme the cart and render it on the page.
-                        var html = theme('commerce_cart', { order: order });
-                        $('#commerce_cart').html(html).trigger('create');
-                        return false; // Process only one cart.
-                    });
-                } else {
-                    // добавить сообщение в корзине
-                    var html = 'Вы не добавили ни одного препарата.';
-                    $('#commerce_cart').html(html).trigger('create');
-                }
-            }
-        });
-    }
-    catch (error) { console.log('covered! commerce_cart_view_pageshow - ' + error); }
-}
+// function commerce_cart_view_pageshow() {
+//     try {
+//         commerce_cart_index(null, {
+//             success: function(result) {
+//                 if (result.length != 0) {
+//                     $.each(result, function(order_id, order) {
+//                         // Set aside the order so it can be used later without fetching
+//                         // it again.
+//                         _commerce_order[order_id] = order;
+//                         // Theme the cart and render it on the page.
+//                         var html = theme('commerce_cart', { order: order });
+//                         $('#commerce_cart').html(html).trigger('create');
+//                         return false; // Process only one cart.
+//                     });
+//                 } else {
+//                     // добавить сообщение в корзине
+//                     var html = 'Вы не добавили ни одного препарата.';
+//                     $('#commerce_cart').html(html).trigger('create');
+//                 }
+//             }
+//         });
+//     }
+//     catch (error) { console.log('covered! commerce_cart_view_pageshow - ' + error); }
+// }
 
 
 /**
@@ -1033,4 +1194,20 @@ function about_us_page() {
         return html;
     }
     catch (error) { console.log('about_us_page - ' + error); }
+}
+
+function h4ToCollapse(text, style = '') {
+    let ba = text.split('<h4>');
+    let result = ba.shift();
+    let collapsed = '  data-collapsed="false"';
+    $.each(ba, function (index, b_item) {
+        if (b_item != '') {
+            let ba2 = b_item.split('</h4>');
+            ba2[0] = ba2[0].replace(/:/, '');
+            result += '<div class="ui-collapsible-transparent" data-role="collapsible" data-inset="false"' + collapsed + '><h4' + style + '>' + ba2[0] + '<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>' + ba2[1] + '</div>';
+            collapsed = '';
+        }
+    });
+
+    return result;
 }

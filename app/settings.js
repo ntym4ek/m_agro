@@ -3,10 +3,10 @@
  **************/
 
 // Uncomment to clear the app's local storage cache each time the app loads.
-// window.localStorage.clear();
+window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
-// Drupal.settings.debug = true;
+Drupal.settings.debug = true;
 
 /****************************************|
  * Drupal Settings (provided by jDrupal) |
@@ -95,7 +95,7 @@ drupalgap.settings.front = 'homepage';
 drupalgap.settings.theme = 'agro';
 
 // Logo
-drupalgap.settings.logo = '/app/themes/opie/images/logo.jpg';
+drupalgap.settings.logo = '/app/themes/agro/images/logo.png';
 
 // Offline Warning Message. Set to false to hide message.
 drupalgap.settings.offline_message = 'Нет подключения к интернету!';

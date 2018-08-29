@@ -8,6 +8,10 @@ function homepage_menu() {
             title: 'Стартовая',
             page_callback: 'homepage_page'
         };
+        items['catalog'] = {
+            title: 'Каталог',
+            page_callback: 'catalog_page'
+        };
 
         return items;
     }
@@ -16,8 +20,43 @@ function homepage_menu() {
     }
 }
 
-// стартовая страница
-function homepage_page() {
+
+/**
+ * ----------------------------------------------- Выбор каталога ------------------------------------------------------
+ */
+function catalog_page()
+{
+    try {
+        var html = '';
+
+        html += '<div class="router">';
+        html +=   '<div class="row">';
+        html +=     '<div class="col-xs-12">';
+        html +=       '<div class="route">';
+        html +=         l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/prot-cat.png"></div><div class="r-title">Средства защиты растений</div>', 'prot-cat');
+        html +=       '</div>';
+        html +=     '</div>';
+        html +=     '<div class="col-xs-12">';
+        html +=       '<div class="route">';
+        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/fert-cat.png"></div><div class="r-title">Минеральные удобрения</div>', 'fert-products');
+        html +=       '</div>';
+        html +=     '</div>';
+        html +=   '</div>';
+        html += '</div>';
+
+        return html;
+
+    }
+    catch (error) {
+        console.log('catalog_page - ' + error);
+    }
+}
+
+/**
+ * ----------------------------------------------- Cтартовая страница --------------------------------------------------
+ */
+function homepage_page()
+{
     try {
         var html = '';
 
