@@ -23,17 +23,6 @@ function atfield_menu() {
     }
 }
 
-/**
- * Implements hook_theme().
- * @return {Object}
- */
-function atfield_theme() {
-    return {
-        atfield_season_page: {
-            template: 'atfield-season-page'
-        }
-    };
-}
 
 /**
  * -------------------------------------- Список Препаратов в поле -----------------------------------------------------
