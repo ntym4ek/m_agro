@@ -247,6 +247,13 @@ div[id="fert_products"] {
         &.ui-icon-carat-r:after { display: none; }
     }
 }
+div[id="fert_products"] {
+    .p-title {
+        color: $brand-green;
+        span { color: #000; }
+    }
+}
+
 
 /* -------------------------------------------- Общее для нод ------------------------------------------------------- */
 .node-view {
@@ -278,44 +285,56 @@ div[id="fert_products"] {
             .row { margin-bottom: .8em; }
         }
     }
-    .nd2Tabs {
-        font-size: 1.4em; line-height: 1.8em;
-        margin: 1em 0 0; padding: 0 1em;
-        width: 100%; height: 1.8em;
-        li {
-            color: #000;font-size: inherit; font-weight: 700; line-height: inherit;
-            padding: 0;
-            &:not(:first-child) {
-                margin-left: 1em;
-            }
-            &.nd2Tabs-active {
-                color: inherit;
-                &:after { display: none; }
-            }
+    .tabs-wrapper {
+        padding-top: 2em;
+        position: relative;
+        &::after {
+            content: '';
+            display: block;
+            position: absolute; top: 2em; right: 0; z-index: 1;
+            width: 30px; height: 27px;
+            visibility: visible;
+            background-image: linear-gradient(-90deg, #fff, transparent);
         }
-    }
-    .tabs-content {
-        width: 100%;
-        .nd2tab { min-height: 150px; }
-        .file-card.card-media-right.card-media-small {
-            .card-title {
-                padding: 1em;
-                .card-primary-title {
-                    white-space: normal;
-                    margin-right: 50px;
+        .nd2Tabs {
+            font-size: 1.4em; line-height: 1.8em;
+            margin: 0; padding: 0 1em;
+            width: 100%; height: 1.8em;
+            li {
+                color: #000;font-size: inherit; font-weight: 700; line-height: inherit;
+                padding: 0;
+                &:not(:first-child) {
+                    margin-left: 1em;
                 }
-                .card-subtitle { font-size: 12px; }
+                &.nd2Tabs-active {
+                    color: inherit;
+                    &:after { display: none; }
+                }
             }
-            .card-media { width: 40px; height: 40px; }
-            .card-action { padding: 8px 1em 1em; }
         }
-        p {
-            text-align: justify;
-            &:last-child { margin-bottom: 0; }
-        }
+        .tabs-content {
+            width: 100%;
+            .nd2tab { min-height: 150px; }
+            .file-card.card-media-right.card-media-small {
+                .card-title {
+                    padding: 1em;
+                    .card-primary-title {
+                        white-space: normal;
+                        margin-right: 50px;
+                    }
+                    .card-subtitle { font-size: 12px; }
+                }
+                .card-media { width: 40px; height: 40px; }
+                .card-action { padding: 8px 1em 1em; }
+            }
+            p {
+                text-align: justify;
+                &:last-child { margin-bottom: 0; }
+            }
 
-        // у таблиц убрать выбор колонок
-        .ui-table-columntoggle-btn { display: none; }
+            // у таблиц убрать выбор колонок
+            .ui-table-columntoggle-btn { display: none; }
+        }
     }
 }
 
