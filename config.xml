@@ -102,7 +102,6 @@
 	<access origin="*" subdomains="true"  />
 	<access origin="kccc.ru" subdomains="true"  />
 	<allow-navigation href="*" />
-	<!--  -->
 
 	<icon src="resources/logo/72.png" />
 
