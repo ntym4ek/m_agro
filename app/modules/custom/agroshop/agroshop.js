@@ -398,8 +398,8 @@ function theme_product_display(pd) {
         }
 
         // цена
-        var price = 'Цена на рассмотрении';
-        if (pd.field_product_entities[pid].commerce_price['amount'] !== 0) {
+        var price = 'Цена не указана';
+        if (pd.field_product_entities[pid].commerce_price['amount'] !== '0') {
             price = pd.field_product_entities[pid].commerce_price_formatted;
         }
 

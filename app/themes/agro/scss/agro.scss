@@ -273,10 +273,11 @@ div[id="fert_products"] {
         font-size: 1.3em; font-weight: 700; text-align: center;
         margin: 0 8px 0 8px; padding: .2em .5em;
     }
+    .p-image { margin-top: 2em; }
     .p-brief {
         background-color: #eee;
         font-size: .8em;
-        padding: 1em; margin-top: 8%;
+        padding: 1em; margin-top: 2em;
         .row {
             margin-bottom: .5em;
             div:first-child:not(.p-price) { text-align: right; }
@@ -313,6 +314,7 @@ div[id="fert_products"] {
             }
         }
         .tabs-content {
+            padding-top: 0;
             width: 100%;
             .nd2tab { min-height: 150px; }
             .file-card.card-media-right.card-media-small {
