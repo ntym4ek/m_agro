@@ -168,6 +168,8 @@ function fert_products_page_row(view, row) {
         console.log('fert_products_page_row');
         var image = theme('image', { path: row.img.src });
         var icon = theme('image', { path: row.icon_img.src });
+        var title = row.title.split('|')[0];
+        var title_suffix = row.title.split('|')[1] !== undefined ? '<span>' + row.title.split('|')[1] + '</span>' : '';
 
         var content = '';
         content += '<div class="p-box">';
@@ -175,7 +177,7 @@ function fert_products_page_row(view, row) {
         content +=   '<p class="font-small">' + row.descr + '</p>';
         content +=   '<div class="p-icon">' + icon + '</div>';
         content += '</div>';
-        content += '<div class="p-title">' + row.title + '</div>';
+        content += '<div class="p-title">' + title + title_suffix + '</div>';
 
         return l(content, 'node/' + row.nid, {
                 attributes: {
@@ -488,7 +490,9 @@ function theme_product_display(pd) {
         // исследования (удобрения)
         var research = '';
         if (pd.field_pd_research !== undefined) {
+            // завернуть h4 разделы в коллапсы
             research = h4ToCollapse(pd.field_pd_research.safe_value, brand_style);
+            // добавить таблице мобильности
             research = research.replace(/<table/, '<table data-role="table" id="table-column-toggle" data-mode="columntoggle"');
             research = research.replace(/table table-bordered/, 'ui-responsive table-stroke');
         }
@@ -580,7 +584,7 @@ function theme_product_display(pd) {
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
-        html +=   '<div class="row">';
+        html +=   '<div class="row tabs-wrapper">';
         // закладки
         html +=     '<ul data-role="nd2extTabs" data-swipe="true" ' + brand_style + '>';
         html +=       '<li data-tab="description">Описание</li>';
