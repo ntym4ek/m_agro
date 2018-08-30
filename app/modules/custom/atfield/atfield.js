@@ -35,7 +35,7 @@ function atfield_menu() {
 function atfield_list_page()
 {
     try {
-        console.log('atfield_page - ');
+        //console.log('atfield_page - ');
 
         var content = {};
         content['list'] = {
@@ -202,7 +202,7 @@ function atfield_load(sid, options) {
 function theme_atfield_season_page(vars)
 {
     try {
-        console.log('theme_atfield_season_page - ');
+        //console.log('theme_atfield_season_page - ');
         var html = '';
 
         // об авторе

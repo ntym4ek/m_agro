@@ -387,7 +387,7 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
  */
 function theme_product_display(pd) {
     try {
-        console.log('theme_product_display');
+        //console.log('theme_product_display');
 
         var html = '';
         var pid = Object.keys(pd.field_product_entities)[0];
