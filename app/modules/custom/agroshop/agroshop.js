@@ -121,10 +121,13 @@ function prot_cat_page_row(view, row) {
         // вернуть html код строки любой категории, кроме "Все продукты"
         if (row.tid !== 50) {
             var content = '';
-            content += '<div class="c-bkg" style="background: url(' + row.img.src + ') 0 30% no-repeat; background-size: cover;">';
-            content +=   '<div class="c-icon"><img src="' + row.icon_img.src + '"></div>';
-            content += '</div>';
-            content += '<div class="c-title">' + row.name + '</div>';
+            let image = theme('image', { path: row.img.src });
+            // content += '<div class="c-bkg" style="background: url(' + row.img.src + ') 0 30% no-repeat; background-size: cover;">';
+            content +=  '<div class="c-bkg">';
+            content +=      image;
+            content +=      '<div class="c-icon"><img src="' + row.icon_img.src + '"></div>';
+            content +=  '</div>';
+            content +=  '<div class="c-title">' + row.name + '</div>';
             html = l(content, 'prot-products/' + row.tid, {
                 'attributes': {
                     'class': 'c-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',

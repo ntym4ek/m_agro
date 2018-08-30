@@ -81,13 +81,13 @@ small, .font-small {font-size: $font-size-small; }
     }
 }
 
-// image loader
+// обёртка для анимированой загрузки изображений
 .image-loader {
     background-color: #00000010;
     background-image: url(../images/loader2.gif);
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: 20%;
+    background-size: auto 30%;
     img {
         visibility: hidden;
         width: 100%;
@@ -213,7 +213,14 @@ small, .font-small {font-size: $font-size-small; }
         padding: 0 1em; margin-bottom: 1em;
         .c-bkg {
             position: relative;
-            min-height: 100px;
+            .image-loader {
+                display: flex; align-items: center; justify-content: center;
+                max-height: 100px;
+                overflow: hidden;
+                @media (min-width: $screen-md-min) {
+                    max-height: 150px;
+                }
+            }
         }
         .c-title {
             font-size: 1.2em;
