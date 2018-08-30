@@ -107,16 +107,18 @@ function representatives_get_card(delta, item)
     var phones = [];
     if (typeof item.phones !== 'undefined') {
         for(index in item.phones) {
-            var call = item.phones[index];
+            let call = item.phones[index];
             call = call.replace(/-/g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '');
-            phones.push('<a href="tel:' + call + '" class="ui-btn ui-mini ui-btn-raised waves-effect waves-button"><i class="zmdi zmdi-phone"></i> ' + item.phones[index] + '</a>');
+            let button_link = bl('<i class="zmdi zmdi-phone"></i>&nbsp;&nbsp;' + item.phones[index], 'tel:' + call, { InAppBrowser: true, attributes: { class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' }});
+            phones.push(button_link);
         }
     }
 
     var emails = [];
     if (typeof item.emails !== 'undefined') {
         for(index in item.emails) {
-            emails.push('<a href="mailto:' + item.emails[index] + '" class="ui-btn ui-mini ui-btn-raised waves-effect waves-button"><i class="zmdi zmdi-email"></i> ' + item.emails[index] + '</a>');
+            let button_link = bl('<i class="zmdi zmdi-email"></i>&nbsp;&nbsp;' + item.emails[index], 'mailto:' + item.emails[index], { InAppBrowser: true, attributes: { class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' }});
+            emails.push(button_link);
         }
     }
 
