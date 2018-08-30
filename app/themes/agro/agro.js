@@ -117,8 +117,8 @@ function agro_image(variables) {
     try {
 
         // Turn the path, alt and title into attributes if they are present.
-        // if (variables.path) { variables.attributes.src = variables.path; }
-        if (variables.path) { variables.attributes.src = 'https://storge.pic2.me/upload/652/5b85ae8b64d00.jpg'; }
+        if (variables.path) { variables.attributes.src = variables.path; }
+        // if (variables.path) { variables.attributes.src = 'https://storge.pic2.me/upload/652/5b85ae8b64d00.jpg'; }
         if (variables.alt) { variables.attributes.alt = variables.alt; }
         if (variables.title) { variables.attributes.title = variables.title; }
 
