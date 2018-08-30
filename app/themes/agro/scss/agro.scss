@@ -351,6 +351,40 @@ div[id="fert_products"] {
 }
 /* -------------------------------------------- Препараты в поле ---------------------------------------------------- */
 .atfield {
+    .atf-header {
+        margin-bottom: 1em;
+        h2 {
+            color: $brand-green; font-weight: 700;
+            margin: 0;
+        }
+        h4 {
+            margin: 0 0 .2em 0;
+            span { white-space: nowrap; }
+        }
+        h5 {
+            color: $text-muted; font-size: $font-size-text;
+            margin: 0;
+        }
+        .atf-author {
+            position: relative;
+            margin: 1em 0;
+            .atf-photo {
+                img { border-radius: 25px; }
+                position: absolute; left: 0; top: 0;
+                width: 50px; height: 50px;
+            }
+            .atf-text {
+                margin-left: 70px;
+                min-height: 55px;
+                h4 { margin: 0 0 .2em 0; }
+                h5 {
+                    color: $text-muted; font-size: $font-size-text;
+                    margin: 0;
+                }
+            }
+
+        }
+    }
     .ui-collapsible h4 a {
         text-transform: uppercase;
         &.ui-btn {
@@ -506,9 +540,12 @@ div[id="fert_products"] {
     margin: 0 auto;
     .card-title {
         h3.card-primary-title { font-size: $font-size-h3; line-height: 1.2; }
-        h4.card-primary-title { font-size: $font-size-h4; line-height: 1.2; }
+        h4.card-primary-title {
+            font-size: $font-size-h4; line-height: 1.2;
+            a { color: inherit; text-decoration: none; }
+        }
         h5.card-subtitle {
-            font-size: $font-size-text; line-height: 1.2; white-space: normal;
+            color: $text-muted; font-size: $font-size-text; line-height: 1.2; white-space: normal;
             margin-top: 5px;
         }
     }
