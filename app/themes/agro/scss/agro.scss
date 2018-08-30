@@ -461,6 +461,7 @@ div[id="fert_products"] {
         .atf-prep-images {
             display: flex;
             margin: 2em auto;
+            img { box-shadow: none; }
             .atf-prep { flex: 1 0 60%; }
             .atf-prep2 { flex: 1 0 40%; align-self: flex-end; }
         }
