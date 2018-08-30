@@ -113,7 +113,7 @@ function representatives_get_card(delta, item)
             let button_link = bl('<i class="zmdi zmdi-phone"></i>&nbsp;&nbsp;' + item.phones[index], null, {
                 attributes: {
                     class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' ,
-                    onclick: "window.open(" + "tel:" + call + ", '_system', 'location=yes')"
+                    onclick: "window.open('" + "tel:" + call + "', '_system', 'location=yes')"
                 }
             });
             phones.push(button_link);
@@ -127,7 +127,7 @@ function representatives_get_card(delta, item)
             let button_link = bl('<i class="zmdi zmdi-email"></i>&nbsp;&nbsp;' + item.emails[index], null, {
                 attributes: {
                     class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' ,
-                    onclick: "window.open('mailto:'" + item.emails[index] + ", '_system', 'location=yes')"
+                    onclick: "window.open('mailto:" + item.emails[index] + "', '_system', 'location=yes')"
                 }
             });
             emails.push(button_link);
