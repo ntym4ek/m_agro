@@ -118,8 +118,13 @@ function agro_image(variables) {
 
         // Turn the path, alt and title into attributes if they are present.
         if (variables.path) { variables.attributes.src = variables.path; }
+        // if (variables.path) { variables.attributes.src = 'https://storge.pic2.me/upload/652/5b85ae8b64d00.jpg'; }
         if (variables.alt) { variables.attributes.alt = variables.alt; }
         if (variables.title) { variables.attributes.title = variables.title; }
+
+        // показать изо только после загрузки
+        variables.attributes.onload = "$(this).css('visibility', 'visible'); $(this).parent().css('background', 'none');";
+
         // Render the image.
         var image = '<img ' + drupalgap_attributes(variables.attributes) + ' />';
 
@@ -127,6 +132,9 @@ function agro_image(variables) {
             let caption = variables.fancybox.title !== undefined ? variables.fancybox.title : '';
             image = '<a href="' + variables.fancybox.image + '" data-fancybox="gallery" data-caption="' + caption + '">' + image + '</a>';
         }
+
+        // обёртка для отображения процесса загрузки
+        image = '<div class="image-loader">' + image + '</div>';
 
         return image;
     }

@@ -81,6 +81,18 @@ small, .font-small {font-size: $font-size-small; }
     }
 }
 
+// image loader
+.image-loader {
+    background-color: #00000010;
+    background-image: url(../images/loader2.gif);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 20%;
+    img {
+        visibility: hidden;
+        width: 100%;
+    }
+}
 
 // nessesary for nonresizing tab content swiping
 [data-role=nd2extTabs-container] { position: relative; }
