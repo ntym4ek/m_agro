@@ -534,7 +534,7 @@ function theme_product_display(pd) {
             });
         }
 
-        html  = '<div class="product">';
+        html += '<div class="product">';
         html +=   '<div class="row">';
         html +=     '<div class="col-xs">';
         html +=         '<div class="p-title">';
