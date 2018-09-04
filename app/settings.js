@@ -128,13 +128,14 @@ Drupal.modules.contrib['entityreference'] = {};
 
 /** Custom Modules - www/app/modules/custom **/
 
+Drupal.modules.custom['agroshop'] = {};
 Drupal.modules.custom['homepage'] = {};
 Drupal.modules.custom['entityform'] = {};
 Drupal.modules.custom['agrohelp'] = {};
-Drupal.modules.custom['agroshop'] = {};
 Drupal.modules.custom['representatives'] = {};
 Drupal.modules.custom['agenda'] = {};
 Drupal.modules.custom['atfield'] = {};
+Drupal.modules.custom['protection'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |

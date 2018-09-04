@@ -69,11 +69,7 @@ function homepage_page()
         html +=     '</div>';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/protection.png"></div><div class="r-title">Система защиты</div>', 'protection', {
-                            attributes: {
-                                class: 'ui-disabled'
-                            }
-                        });
+        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/protection.png"></div><div class="r-title">Системы защиты</div>', 'protection');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
