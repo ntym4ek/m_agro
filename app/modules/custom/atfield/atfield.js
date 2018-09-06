@@ -1,26 +1,22 @@
 /**
  * Implements hook_menu().
  */
-function atfield_menu() {
-    try {
-        var items = {};
-        items['atfield'] = {
-            title: 'Препараты в поле',
-            page_callback: 'atfield_list_page',
-            pageshow: 'atfield_list_page_pageshow'
-        };
-        items['atfield/%'] = {
-            title: 'Препараты в поле',
-            page_callback: 'atfield_page',
-            page_arguments: [1],
-            pageshow: 'atfield_page_pageshow'
-        };
+function atfield_menu()
+{
+    var items = {};
+    items['atfield'] = {
+        title: 'Препараты в поле',
+        page_callback: 'atfield_list_page',
+        pageshow: 'atfield_list_page_pageshow'
+    };
+    items['atfield/%'] = {
+        title: 'Препараты в поле',
+        page_callback: 'atfield_page',
+        page_arguments: [1],
+        pageshow: 'atfield_page_pageshow'
+    };
 
-        return items;
-    }
-    catch (error) {
-        console.log('atfield_menu - ' + error);
-    }
+    return items;
 }
 
 
@@ -35,8 +31,6 @@ function atfield_menu() {
 function atfield_list_page()
 {
     try {
-        //console.log('atfield_page - ');
-
         var content = {};
         content['list'] = {
             theme: 'jqm_item_list',
@@ -50,9 +44,7 @@ function atfield_list_page()
         };
         return content;
     }
-    catch (error) {
-        console.log('atfield_page - ' + error);
-    }
+    catch (error) { console.log('atfield_list_page - ' + error); }
 }
 
 /**
@@ -65,7 +57,7 @@ function atfield_list_page_pageshow()
         views_datasource_get_view_result(
             'source/atfield.json', {
                 success: function(content) {
-                    // console.log('atfield_page_pageshow - ');
+                    // console.log('atfield_list_page_pageshow - ');
                     // преобразуем массив сезонов в массив выводимых карточек
                     var atfield_html = [];
                     for (var index in content.atfield) {
@@ -78,7 +70,7 @@ function atfield_list_page_pageshow()
             }
         );
     }
-    catch (error) { console.log('atfield_page_pageshow - ' + error); }
+    catch (error) { console.log('atfield_list_page_pageshow - ' + error); }
 }
 
 /**
@@ -140,11 +132,12 @@ function atfield_get_card(item)
 /**
  * The atfield page callback.
  */
-function atfield_page(sid) {
+function atfield_page(sid)
+{
     var content = {};
 
     var attributes = {
-        id: atfield_page_container_id(sid),
+        id: 'atfield-' + sid,
         class: 'atfield'
     };
     content['container'] = {
@@ -159,31 +152,22 @@ function atfield_page(sid) {
  */
 function atfield_page_pageshow(sid)
 {
-    atfield_load(sid, {
-        success: function(season) {
+    try {
+        atfield_load(sid, {
+            success: function (season) {
+                var season_html = theme('atfield_season_page', season);
+                $('#atfield-' + sid).html(season_html).trigger('create');
 
-            var season_html = theme('atfield_season_page', {
-                season: season
-            });
-
-            // Inject it into the container.
-            var container_id =  atfield_page_container_id(sid);
-            $('#' + container_id).html(season_html).trigger('create');
-
-            // запустить действия, привязанные к событию pagebeforeshow (закладки)
-            $(document).trigger("pagebeforeshow");
-        }
-    });
+                // запустить действия, привязанные к событию pagebeforeshow (закладки)
+                $(document).trigger("pagebeforeshow");
+            }
+        });
+    }
+    catch (error) { console.log('atfield_page_pageshow - ' + error); }
 }
 
-/**
- * Returns a unique html element id to use for an individual atfield div container.
- */
-function atfield_page_container_id(sid) {
-    return 'atfield-' + sid;
-}
-
-function atfield_load(sid, options) {
+function atfield_load(sid, options)
+{
     try {
         options.method = 'GET';
         options.path = 'atfield/' + sid + '.json';
@@ -199,31 +183,31 @@ function atfield_load(sid, options) {
 /**
  * -------------------------------------- Шаблоны ----------------------------------------------------------------------
  */
-function theme_atfield_season_page(vars)
+function theme_atfield_season_page(season)
 {
     try {
-        //console.log('theme_atfield_season_page - ');
+        // console.log('theme_atfield_season_page - ');
         var html = '';
 
         // об авторе
         html += '<div class="atf-header">';
-        html +=     '<h2>' + vars.season.culture + '</h2>';
-        html +=     '<h4>' + vars.season.region + '</h4>';
-        html +=     '<h5>' + vars.season.farm + '</h5>';
+        html +=     '<h2>' + season.culture + '</h2>';
+        html +=     '<h4>' + season.region + '</h4>';
+        html +=     '<h5>' + season.farm + '</h5>';
         html +=     '<div class="atf-author">';
         html +=         '<div class="atf-photo">';
-        html +=             theme('image', {path: vars.season.author.photo});
+        html +=             theme('image', {path: season.author.photo});
         html +=         '</div>';
         html +=         '<div class="atf-text">';
-        html +=             '<h4>' + vars.season.author.full_name + '</h4>';
-        html +=             '<h5>' + vars.season.author.post + '</h5>';
+        html +=             '<h4>' + season.author.full_name + '</h4>';
+        html +=             '<h5>' + season.author.post + '</h5>';
         html +=         '</div>';
         html +=     '</div>';
         html += '</div>';
 
 
         // ДО обработки
-        var before = vars.season.measurements.shift();
+        var before = season.measurements.shift();
         html += '<div data-role="collapsible" data-inset="false" data-collapsed="false" class="before">' +
                     '<h4>До обработки<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>';
         html +=     '<div class="atf-title">Поле ' + before.date + '</div>';
@@ -257,14 +241,14 @@ function theme_atfield_season_page(vars)
                     '<h4>После обработки<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>';
         // закладки
         html +=     '<ul id="before" data-role="nd2extTabs" data-swipe="true">';
-        $.each(vars.season.measurements, function(index, measurement) {
+        $.each(season.measurements, function(index, measurement) {
             html +=     '<li data-tab="tab-m-' + index + '">' + measurement.days_after + '</li>';
         });
         html +=     '</ul>';
 
-        if (vars.season.measurements.length > 0) {
+        if (season.measurements.length > 0) {
         html +=     '<div data-role="nd2extTabs-container">';
-            $.each(vars.season.measurements, function(index, measurement) {
+            $.each(season.measurements, function(index, measurement) {
                 html +=     '<div data-tab="tab-m-' + index + '">';
                 html +=         '<div class="atf-title">Поле ' + measurement.date + '</div>';
                 html +=         theme('image', {path: measurement.image_field_thumb, fancybox: {image: measurement.image_field_full, title: measurement.comment}});
@@ -305,9 +289,9 @@ function theme_atfield_season_page(vars)
         // ПРОВЕДЕННЫЕ обработки
         html += '<div data-role="collapsible" data-inset="false" data-collapsed="false" class="processings">' +
                     '<h4>Проведенные обработки<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>';
-        if (vars.season.processings.length > 0) {
+        if (season.processings.length > 0) {
             html +=     '<ul id="after" data-role="nd2extTabs" data-swipe="true">';
-            $.each(vars.season.processings, function(index, processing) {
+            $.each(season.processings, function(index, processing) {
                 let preparations = processing.preparation + (processing.preparation2 !== '' ? ' + ' + processing.preparation2 : '');
                 html +=     '<li data-tab="tab-p-' + index + '">';
                 html +=         '<div class="r1">' + processing.date + '</div><div class="r2">' + preparations + '</div>';
@@ -316,7 +300,7 @@ function theme_atfield_season_page(vars)
             html +=     '</ul>';
 
             html +=     '<div data-role="nd2extTabs-container">';
-            $.each(vars.season.processings, function(index, processing) {
+            $.each(season.processings, function(index, processing) {
                 let comment = 'Обработка ' + processing.date + ' в ' + processing.time;
                 html +=     '<div data-tab="tab-p-' + index + '">';
                 html +=         '<div class="atf-image-wr">';

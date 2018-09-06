@@ -10,10 +10,19 @@ $font-size-h2: 2.827em;
 $font-size-h3: 1.999em;
 $font-size-h4: 1.414em;
 $font-size-text: 1em;
-$font-size-small: 0.707em;
+$font-size-small: 0.8em;
 
 $brand-green: #0A6B36;
 $text-muted: #a3a3a3;
+
+$brand-herbicides:      #E31E25;
+$brand-insecticides:    #01A0E2;
+$brand-desiccants:      #F29313;
+$brand-fungicides:      #60497F;
+$brand-disinfectants:   #A32275;
+$brand-surfactants:     #9CC328;
+$brand-fertilizers:     #089244;
+$brand-mixes:           #334E91;
 
 /* -------------------------------------------- Общие настройки ----------------------------------------------------- */
 html {  }
@@ -44,7 +53,10 @@ h3 { font-size: $font-size-h3; }
 h4 { font-size: $font-size-h4; }
 
 
-small, .font-small {font-size: $font-size-small; }
+small, .font-small {
+    font-size: $font-size-small;
+    line-height: 1.4em;
+}
 
 .ui-mobile label {
     font-size: 14px;
@@ -80,6 +92,25 @@ small, .font-small {font-size: $font-size-small; }
         }
     }
 }
+// разворачиваемые списки
+.list-item.ui-collapsible {
+    background: none;
+    margin: 0;
+    h4 a {
+        font-weight: 400;
+        padding: 0;
+        &.ui-btn:active,
+        &.ui-btn:focus {
+            background: none;
+        }
+    }
+    .ui-collapsible-content {
+        padding: .5em 0 1.5em;
+        .product-item { padding: 0; }
+    }
+}
+
+
 
 // обёртка для анимированой загрузки изображений
 .image-loader {
@@ -207,97 +238,114 @@ small, .font-small {font-size: $font-size-small; }
 }
 
 /* -------------------------------------------- Категории ----------------------------------------------------------- */
-#protection,
-#prot_cat {
-    .c-item {
-        color: #000; font-size: .9em; text-decoration: none;
-        padding: 0 1em; margin-bottom: 1em;
-        .c-bkg {
-            position: relative;
-            .image-loader {
-                display: flex; align-items: center; justify-content: center;
-                max-height: 100px;
-                overflow: hidden;
-                @media (min-width: $screen-md-min) {
-                    max-height: 150px;
-                }
+.category-item {
+    color: #000; font-size: .9em; text-decoration: none;
+    margin-bottom: 1em;
+    .box {
+        position: relative;
+        .image-loader {
+            display: flex; align-items: center; justify-content: center;
+            max-height: 100px;
+            overflow: hidden;
+            @media (min-width: $screen-md-min) {
+                max-height: 150px;
             }
         }
-        .c-title {
-            font-size: 1.2em;
-            padding: .2em 0 .7em 0;
-        }
-        .c-icon {
-            width: 50px; height: 50px;
-            position: absolute; bottom: -25px; right: 30px;
-        }
-        &.ui-icon-carat-r:after { display: none; }
     }
+    .title {
+        font-size: 1.2em;
+        padding: .2em 0 .7em 0;
+    }
+    .icon {
+        width: 50px; height: 50px;
+        position: absolute; bottom: -25px; right: 30px;
+        -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;
+        .ui-collapsible-collapsed & {
+            -webkit-transform: rotate(-360deg); -ms-transform: rotate(-360deg); -o-transform: rotate(-360deg); transform: rotate(-360deg);
+        }
+    }
+    &.ui-icon-carat-r:after { display: none; }
+
 }
 
+.category-15    { .clr-category { color: $brand-herbicides; }}
+.category-17    { .clr-category { color: $brand-insecticides; }}
+.category-71534 { .clr-category { color: $brand-desiccants; }}
+.category-16    { .clr-category { color: $brand-fungicides; }}
+.category-71533 { .clr-category { color: $brand-disinfectants; }}
+.category-72763 { .clr-category { color: $brand-surfactants; }}
+.category-93    { .clr-category { color: $brand-fertilizers; }}
+.category-72343 { .clr-category { color: $brand-mixes; }}
+
+
 /* -------------------------------------------- Каталог ------------------------------------------------------------- */
-div[id^="prot_products_"],
-div[id="fert_products"] {
-    .p-item {
-        color: #000; text-decoration: none;
-        padding: 0 1em;
-        &.ui-btn { margin-bottom: .5em; }
-        .p-box {
-            border: 1px solid #ddd;
-            position: relative;
-            min-height: 60px;
-            margin-top: 30px;
-            .p-image {
-                position: absolute; top: -25px; left : 0;
-                width: 90px; height: 90px;
-            }
-            p {
-                color: #000; white-space: normal; text-align: justify;
-                padding: 0 70px 0 90px;
-            }
+.product-item {
+    color: #000; text-decoration: none;
+    padding: 0 1em;
+    &.ui-btn { margin-bottom: .5em; }
+    .box {
+        border: 1px solid #ddd;
+        position: relative;
+        min-height: 60px;
+        margin-top: 30px;
+        .image {
+            position: absolute; top: -25px; left : 0;
+            width: 90px; height: 90px;
         }
-        .p-title {
-            //font-size: 1.2em;
-            padding: .6em 0;
+        p {
+            color: #000; white-space: normal; text-align: justify;
+            padding: 0 70px 0 90px;
         }
-        .p-icon {
-            width: 50px; height: 50px;
-            position: absolute; bottom: -25px; right: 20px;
-        }
-        &.ui-icon-carat-r:after { display: none; }
     }
-}
-div[id="fert_products"] {
-    .p-title {
-        color: $brand-green;
-        span { color: #000; }
+    .title {
+        padding: .6em 0;
     }
+    .icon {
+        width: 50px; height: 50px;
+        position: absolute; bottom: -25px; right: 20px;
+    }
+    &.ui-icon-carat-r:after { display: none; }
 }
+.ui-page-theme-a a.product-item,
+.ui-page-theme-a a.category-item { color: #000; }
+
+//div[id="fert_products"] {
+//    .title {
+//        color: $brand-green;
+//        span { color: #000; }
+//    }
+//}
 
 
 /* -------------------------------------------- Общее для нод ------------------------------------------------------- */
-.node-view {
-    h2 {
+.node-view,
+.node-view .product .p-title,
+.protection-view {
+    & > h2 {
         font-weight: 700;
-        margin: 0 0 .5em 0;
+        margin: 0 0 0 0;
+    }
+    & > h3 { margin-top: 0; }
+    & > h4 {
+        color: $text-muted; font-size: 1.3em;
+        margin: .5em 0 1em;
     }
 }
 /* -------------------------------------------- Препарат ------------------------------------------------------------ */
 .product {
     .p-title {
-        h2, h3 { margin-bottom: 0; }
-        h3 { margin-top: 0; }
+        //h2, h3 { margin-bottom: 0; }
+        //h3 { margin-top: 0; }
     }
     .p-price {
         background: #fff; border-radius: 4px;
         font-size: 1.3em; font-weight: 700; text-align: center;
         margin: 0 8px 0 8px; padding: .2em .5em;
     }
-    .p-image { margin-top: 20px; }
     .p-brief {
         background-color: #eee;
         font-size: .8em;
-        padding: 1em; margin-top: 20px;
+        padding: 1em;
         .row {
             margin-bottom: .5em;
             div:first-child:not(.p-price) { text-align: right; }
@@ -505,6 +553,12 @@ div[id="fert_products"] {
     }
 }
 
+/* -------------------------------------------- Системы защиты ------------------------------------------------------ */
+.protection-view {
+    position: relative;
+    h2 { color: $brand-green; }
+    .btn-download { position: absolute; right: 0; top: 0; }
+}
 /* -------------------------------------------- Представители ------------------------------------------------------- */
 #representatives {
     ul {

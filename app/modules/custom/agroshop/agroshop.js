@@ -122,15 +122,14 @@ function prot_cat_page_row(view, row) {
         if (row.tid !== 50) {
             var content = '';
             let image = theme('image', { path: row.img.src });
-            // content += '<div class="c-bkg" style="background: url(' + row.img.src + ') 0 30% no-repeat; background-size: cover;">';
-            content +=  '<div class="c-bkg">';
+            content +=  '<div class="box">';
             content +=      image;
-            content +=      '<div class="c-icon"><img src="' + row.icon_img.src + '"></div>';
+            content +=      '<div class="icon"><img src="' + row.icon_img.src + '"></div>';
             content +=  '</div>';
-            content +=  '<div class="c-title">' + row.name + '</div>';
+            content +=  '<div class="title">' + row.name + '</div>';
             html = l(content, 'prot-products/' + row.tid, {
                 'attributes': {
-                    'class': 'c-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
+                    'class': 'category-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
                     'data-wow-delay': '0.2s'
                 }
             });
@@ -154,7 +153,7 @@ function fert_products_page() {
             theme: 'view',
             format_attributes: {
                 'data-inset': 'true',
-                'class': 'row'
+                'class': 'row category-93'
             },
             path: 'fert.json',
             row_callback: 'fert_products_page_row',
@@ -172,19 +171,19 @@ function fert_products_page_row(view, row) {
         var image = theme('image', { path: row.img.src });
         var icon = theme('image', { path: row.icon_img.src });
         var title = row.title.split('|')[0];
-        var title_suffix = row.title.split('|')[1] !== undefined ? '<span>' + row.title.split('|')[1] + '</span>' : '';
+        var title_suffix = row.title.split('|')[1] !== undefined ? row.title.split('|')[1] : '';
 
         var content = '';
-        content += '<div class="p-box">';
-        content +=   '<div class="p-image">' + image + '</div>';
+        content += '<div class="box">';
+        content +=   '<div class="image">' + image + '</div>';
         content +=   '<p class="font-small">' + row.descr + '</p>';
-        content +=   '<div class="p-icon">' + icon + '</div>';
+        content +=   '<div class="icon">' + icon + '</div>';
         content += '</div>';
-        content += '<div class="p-title">' + title + title_suffix + '</div>';
+        content += '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
 
         return l(content, 'node/' + row.nid, {
                 attributes: {
-                    class: 'p-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
+                    class: 'product-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
                     'data-wow-delay': '0.2s'
                 },
             }
@@ -232,7 +231,7 @@ function prot_products_page() {
             theme: 'view',
             format_attributes: {
                 'data-inset': 'true',
-                'class': 'row'
+                'class': 'row category-' + category_tid
             },
             path: 'prot.json/' + category_tid,
             row_callback: 'prot_products_page_row',
@@ -251,16 +250,16 @@ function prot_products_page_row(view, row) {
         var icon = theme('image', { path: row.icon_img.src });
 
         var content = '';
-        content += '<div class="p-box">';
-        content +=   '<div class="p-image">' + image + '</div>';
+        content += '<div class="box">';
+        content +=   '<div class="image">' + image + '</div>';
         content +=   '<p class="font-small">' + row.descr + '</p>';
-        content +=   '<div class="p-icon">' + icon + '</div>';
+        content +=   '<div class="icon">' + icon + '</div>';
         content += '</div>';
-        content += '<div class="p-title">' + row.title + '</div>';
+        content += '<div class="title"><span class="clr-category">' + row.title + '</span>' + '</div>';
 
         return l(content, 'node/' + row.nid + '?cid=' + row.category_id + '&cname=' + row.category_name, {
                 attributes: {
-                    class: 'p-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
+                    class: 'product-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
                     'data-wow-delay': '0.2s'
                 },
             }
@@ -394,11 +393,14 @@ function theme_product_display(pd) {
 
         // заголовок
         var title = pd.title;
-        var subtitle = '';
+        var title_suffix = '';
         if (pd.type === 'product_fert') {
             title = pd.title.split('|')[0];
-            subtitle = pd.title.split('|')[1];
+            title_suffix = pd.title.split('|')[1];
         }
+
+        // краткое описание (strip_tags и trim)
+        let subtitle = pd.body.summary.replace(/<\/?[^>]+>/gi, '').replace(/(^\s*)|(\s*)$/g, '');
 
         // цена
         var price = 'Цена не указана';
@@ -539,8 +541,8 @@ function theme_product_display(pd) {
         html +=     '<div class="col-xs">';
         html +=         '<div class="p-title">';
         html +=             '<h2' + brand_style + '>' + title + '</h2>';
-        if (subtitle)
-            html +=         '<h3>' + subtitle + '</h3>';
+        html +=             '<h3>' + title_suffix + '</h3>';
+        html +=             '<h4>' + subtitle + '</h4>';
         html +=         '</div>';
         html +=     '</div>';
         html +=   '</div>';
