@@ -11,7 +11,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
  
 +      // учесть заданные атрибуты
 +      $.each(variables.attributes, function(index_a, attr) {
-+          if (item !== 'id') {
++          if (index_a !== 'id') {
 +              widget.attributes[index_a] = attr;
 +          }
 +      });
