@@ -77,7 +77,7 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
 
             delete form.elements.field_f_s_m_phase_mc.title;
             form.elements.field_f_s_m_phase_mc[lang][0]['placeholder'] = 'Фаза культуры';
-            form.elements.field_f_s_m_phase_mc[lang][0].options.attributes['data-native-menu'] = false;
+            //form.elements.field_f_s_m_phase_mc[lang][0].options.attributes['data-native-menu'] = false;
 
             form.elements.field_ho_type.prefix = '<h3>Не могу определить</h3>';
             form.elements.field_ho_type.title = form.elements.field_ho_type.title + (form.elements.field_ho_type.required?' *':'');
@@ -168,9 +168,9 @@ function agrohelp_field_widget_form(form, form_state, field, instance, langcode,
                     type: widget_type,
                     attributes: {
                         id: widget_id,
-                        onchange: "_theme_entityreference_onchange(this, '" +
-                            items[delta].id +
-                            "');"
+                        // onchange: "_theme_entityreference_onchange(this, '" +
+                        //     items[delta].id +
+                        //     "');"
                     },
                     options: { '': text }
                 });
