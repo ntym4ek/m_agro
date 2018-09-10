@@ -16,7 +16,8 @@ function entityform_menu() {
             title_arguments: [2],
             page_callback: 'entityform_add_page_by_type',
             page_arguments: [2],
-            options: { reloadPage: true }
+            options: { reloadPage: true },
+            pagecreate: 'select_inject'
         };
 
         return items;
@@ -188,19 +189,19 @@ function entityform_get_core_fields(entity_type, bundle)
             case 'entityform':
                 fields.entityform_id = {
                     'type': 'hidden',
-                    'required': false,
                     'default_value': ''
                 };
                 fields.type = {
                     'type': 'hidden',
-                    'required': true,
                     'default_value': ''
                 };
                 fields.language = {
                     'type': 'hidden',
-                    'required': true,
                     'default_value': 'und'
                 };
+                fields.uid = { type : 'hidden', default_value : 0 };
+                fields.created = { type : 'hidden', default_value : new Date().getTime() / 1000 };
+                fields.changed = { type : 'hidden', default_value : new Date().getTime() / 1000 };
 
                 break;
 

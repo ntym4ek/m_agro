@@ -23,6 +23,47 @@ function agrohelp_services_preprocess(options)
 }
 
 
+function select_inject()
+{
+    let select = theme('select', {
+        options: {
+            '': 'Регион *',
+            1: 'Yes',
+            2: 'Maybe So',
+            3: 'No',
+            4: 'Yes',
+            5: 'Maybe So',
+            6: 'No',
+            7: 'Yes',
+            8: 'Maybe So',
+            9: 'No',
+            10: 'Yes',
+            11: 'Maybe So',
+            12: 'No',
+            13: 'Yes',
+            14: 'Maybe So',
+            15: 'No',
+            16: 'Yes',
+            17: 'Maybe So',
+            18: 'No',
+            19: 'Yes',
+            20: 'Maybe So',
+            21: 'No',
+            22: 'Yes',
+            23: 'Maybe So',
+            24: 'No',
+            25: 'Yes',
+            26: 'Maybe So',
+            attributes: {
+                'data-native-menu': 'false',
+            }
+        },
+        value: ''
+    });
+    $('.select-inject').html(select);
+
+}
+
 /**
  * ------------------------------------------------ Изменение формы ----------------------------------------------------
  *
@@ -45,53 +86,12 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
                 + '<p>Профессиональный агроном проверит полученные данные и ответит по одному из оставленных контактов.</p>';
             form.prefix = instruction;
 
-            // стандартные поля Entityform
-            form.elements.created = { type : 'hidden', default_value : new Date().getTime() / 1000 };
-            form.elements.changed = { type : 'hidden', default_value : new Date().getTime() / 1000 };
-            form.elements.uid = { type : 'hidden', default_value : 0 };
-
-            form.elements['my_select_list'] = {
-                title: 'My Vote',
-                type: 'select',
-                options: {
-                    0: 'No',
-                    1: 'Yes',
-                    2: 'Maybe So',
-                    3: 'No',
-                    4: 'Yes',
-                    5: 'Maybe So',
-                    6: 'No',
-                    7: 'Yes',
-                    8: 'Maybe So',
-                    9: 'No',
-                    10: 'Yes',
-                    11: 'Maybe So',
-                    12: 'No',
-                    13: 'Yes',
-                    14: 'Maybe So',
-                    15: 'No',
-                    16: 'Yes',
-                    17: 'Maybe So',
-                    18: 'No',
-                    19: 'Yes',
-                    20: 'Maybe So',
-                    21: 'No',
-                    22: 'Yes',
-                    23: 'Maybe So',
-                    24: 'No',
-                    25: 'Yes',
-                    26: 'Maybe So',
-                    attributes: {
-                        'data-native-menu': 'false',
-                    }
-                },
-                default_value: 1
-            };
-
-            form.elements.field_f_region.prefix = '<h3>О себе</h3>';
-            delete form.elements.field_f_region.title;
-            form.elements.field_f_region[lang][0]['placeholder'] = 'Регион *';
-            form.elements.field_f_region[lang][0].options.attributes['data-native-menu'] = false;
+            form.elements.field_f_region.type = 'hidden';
+            form.elements.field_f_region.suffix = '<div class="select-inject"></div>';
+            //form.elements.field_f_region.prefix = '<h3>О себе</h3>';
+            //delete form.elements.field_f_region.title;
+            //form.elements.field_f_region[lang][0]['placeholder'] = 'Регион *';
+            //form.elements.field_f_region[lang][0].options.attributes['data-native-menu'] = false;
 
             form.elements.field_company.title = form.elements.field_company.title + (form.elements.field_company.required?' *':'');
             form.elements.field_company.title_placeholder = true;
@@ -115,7 +115,7 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
 
             delete form.elements.field_f_s_m_phase_mc.title;
             form.elements.field_f_s_m_phase_mc[lang][0]['placeholder'] = 'Фаза культуры';
-            //form.elements.field_f_s_m_phase_mc[lang][0].options.attributes['data-native-menu'] = false;
+            form.elements.field_f_s_m_phase_mc[lang][0].options.attributes['data-native-menu'] = false;
 
             form.elements.field_ho_type.prefix = '<h3>Не могу определить</h3>';
             form.elements.field_ho_type.title = form.elements.field_ho_type.title + (form.elements.field_ho_type.required?' *':'');
@@ -206,9 +206,9 @@ function agrohelp_field_widget_form(form, form_state, field, instance, langcode,
                     type: widget_type,
                     attributes: {
                         id: widget_id,
-                        // onchange: "_theme_entityreference_onchange(this, '" +
-                        //     items[delta].id +
-                        //     "');"
+                        onchange: "_theme_entityreference_onchange(this, '" +
+                            items[delta].id +
+                            "');"
                     },
                     options: { '': text }
                 });
