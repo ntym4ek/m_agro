@@ -10130,8 +10130,14 @@ function options_field_widget_form(form, form_state, field, instance, langcode, 
           // it as the default.  If it is optional, place a "none" option
           // for the user to choose from.
           var text = '- ' + t('None') + ' -';
-          if (items[delta].required) {
-            text = '- ' + t('Select a value') + ' -';
+          // возможность задать placeholder
+          if (items[delta].placeholder) {
+              text = items[delta].placeholder;
+          }
+          else {
+              if (items[delta].required) {
+                  text = '- ' + t('Select a value') + ' -';
+              }
           }
           items[delta].children.push({
               type: widget_type,
@@ -10143,6 +10149,13 @@ function options_field_widget_form(form, form_state, field, instance, langcode, 
               },
               options: { '': text }
           });
+          // передать заданные атрибуты селекту
+          for(key in items[delta].options.attributes) {
+              if (key !== 'id' && key !== 'onchange') {
+                  items[delta].children[0].attributes[key] = items[delta].options.attributes[key];
+                  delete items[delta].options.attributes[key];
+              }
+          }
           // Attach a pageshow handler to the current page that will load the
           // terms into the widget.
           var options = {
@@ -13651,20 +13664,20 @@ function _theme_taxonomy_term_reference_load_items(options) {
 
           // If it's not required, place an empty option on the widget and set
           // it aside.
-          if (!options.required) {
-            var option = null;
-            if (options.exposed) {
-              option = '<option value="All">- ' + t('Any') + ' -</option>';
-              _taxonomy_term_reference_terms[options.element_id]['All'] =
-                '- Any -';
-            }
-            else {
-              option = '<option value="">- ' + t('None') + ' -</option>';
-              _taxonomy_term_reference_terms[options.element_id][''] =
-                '- None -';
-            }
-            $(widget).append(option);
-          }
+          // if (!options.required) {
+          //   var option = null;
+          //   if (options.exposed) {
+          //     option = '<option value="All">- ' + t('Any') + ' -</option>';
+          //     _taxonomy_term_reference_terms[options.element_id]['All'] =
+          //       '- Any -';
+          //   }
+          //   else {
+          //     option = '<option value="">- ' + t('None') + ' -</option>';
+          //     _taxonomy_term_reference_terms[options.element_id][''] =
+          //       '- None -';
+          //   }
+          //   $(widget).append(option);
+          // }
 
           // Place each term in the widget as an option, and set the option
           // aside.
