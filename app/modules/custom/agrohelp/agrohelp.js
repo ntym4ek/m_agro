@@ -1,26 +1,26 @@
+
 /**
- * Implements hook_menu().
+ * hook_services_preprocess
  */
-function agrohelp_menu() {
+function agrohelp_services_preprocess(options)
+{
     try {
-        var items = {};
-        items['agrohelp'] = {
-            title: 'Агропомощь',
-            page_callback: 'drupalgap_get_form',
-            page_arguments: ['agrohelp_form']
-        };
-        items['autocomplete_region'] = {
-            title: 'Autocomplete',
-            page_callback: 'autocomplete_region'
-        };
+        // Увеличить количество возвращаемых терминов (по умолчанию всего 20)
+        // к запросам таксономии добавить параметр pagesize
+        // разрешить анонимам Perform unlimited index queries (иначе даже с параметром вернет всего 20)
+        if (options.service === 'taxonomy_term' && options.resource === 'index') {
+            options.path += '&pagesize=500';
+        }
 
-        return items;
+        // Для Регионов запросить только верхний уровень
+        // дополнительное условие parent=0
+        if (options.query !== undefined && options.query.parameters.vid !== undefined && options.query.parameters.vid === '29') {
+            options.path += '&parameters[parent]=0';
+        }
+
     }
-    catch (error) {
-        console.log('agrohelp_menu - ' + error);
-    }
+    catch (error) { console.log('agrohelp_services_preprocess - ' + error); }
 }
-
 
 
 /**
@@ -35,7 +35,7 @@ function agrohelp_menu() {
 function agrohelp_form_alter(form, form_state, form_id, aux)
 {
     try {
-         console.log('agrohelp_form_alter - ');
+         // console.log('agrohelp_form_alter - ');
         if (form_id === 'entityform_edit' && form.bundle === 'agrohelp') {
             var lang = language_default();
             // изменить вывод формы запроса Агропомощи
@@ -45,9 +45,15 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
                 + '<p>Профессиональный агроном проверит полученные данные и ответит по одному из оставленных контактов.</p>';
             form.prefix = instruction;
 
-            form.elements.field_region_er.prefix = '<h3>О себе</h3>';
-            delete form.elements.field_region_er.title;
-            form.elements.field_region_er[lang][0]['options']['attributes']['data-filter-placeholder'] = 'Регион *';
+            // стандартные поля Entityform
+            form.elements.created = { type : 'hidden', default_value : new Date().getTime() / 1000 };
+            form.elements.changed = { type : 'hidden', default_value : new Date().getTime() / 1000 };
+            form.elements.uid = { type : 'hidden', default_value : 0 };
+
+            form.elements.field_f_region.prefix = '<h3>О себе</h3>';
+            delete form.elements.field_f_region.title;
+            form.elements.field_f_region[lang][0]['placeholder'] = 'Регион *';
+            form.elements.field_f_region[lang][0].options.attributes['data-native-menu'] = false;
 
             form.elements.field_company.title = form.elements.field_company.title + (form.elements.field_company.required?' *':'');
             form.elements.field_company.title_placeholder = true;
@@ -63,10 +69,15 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
 
             form.elements.field_f_s_culture.prefix = '<h3>Нужна помощь!</h3>';
             delete form.elements.field_f_s_culture.title;
-            form.elements.field_f_s_culture[lang][0]['options']['attributes']['data-filter-placeholder'] = 'Культура *';
+            form.elements.field_f_s_culture[lang][0]['placeholder'] = 'Культура *';
+            form.elements.field_f_s_culture[lang][0].options.attributes['data-native-menu'] = false;
+            // рендер виджета переключаем на наш модуль
+            // так как стандартной поддежки селекта для поля entityreference нет
+            form.elements.field_f_s_culture.field_info_instance.widget.module = 'agrohelp';
 
-            delete form.elements.field_plant_processing_stage_er.title;
-            form.elements.field_plant_processing_stage_er[lang][0]['options']['attributes']['data-filter-placeholder'] = 'Фаза культуры *';
+            delete form.elements.field_f_s_m_phase_mc.title;
+            form.elements.field_f_s_m_phase_mc[lang][0]['placeholder'] = 'Фаза культуры';
+            form.elements.field_f_s_m_phase_mc[lang][0].options.attributes['data-native-menu'] = false;
 
             form.elements.field_ho_type.prefix = '<h3>Не могу определить</h3>';
             form.elements.field_ho_type.title = form.elements.field_ho_type.title + (form.elements.field_ho_type.required?' *':'');
@@ -83,9 +94,7 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
             form.validate.push('agrohelp_form_validate');
         }
     }
-    catch (error) {
-        console.log('agrohelp_form_alter - ' + error);
-    }
+    catch (error) { console.log('agrohelp_form_alter - ' + error); }
 }
 
 /**
@@ -95,8 +104,8 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
  */
 function agrohelp_form_validate(form, form_state) {
     // Prevent the joker from logging in.
-    if (form_state.values.field_region_er['ru'][0] == '') {
-        drupalgap_form_set_error('field_region_er', 'Некорректное поле Регион. Начните набирать название и выберите из списка.');
+    if (form_state.values.field_f_region['ru'][0] == '') {
+        drupalgap_form_set_error('field_f_region', 'Укажите Ваш регион.');
         return;
     }
     if (form_state.values.field_email['ru'][0] == '') {
@@ -104,11 +113,11 @@ function agrohelp_form_validate(form, form_state) {
         return;
     }
     if (form_state.values.field_f_s_culture['ru'][0] == '') {
-        drupalgap_form_set_error('field_f_s_culture', 'Некорректное поле Культура. Начните набирать название и выберите из списка.');
+        drupalgap_form_set_error('field_f_s_culture', 'Выберите культуру.');
         return;
     }
-    if (form_state.values.field_plant_processing_stage_er['ru'][0] == '') {
-        drupalgap_form_set_error('field_plant_processing_stage_er', 'Некорректное поле Фаза культуры. Начните набирать название и выберите из списка.');
+    if (form_state.values.field_f_s_m_phase_mc['ru'][0] == '') {
+        drupalgap_form_set_error('field_f_s_m_phase_mc', 'Выберите фазу развития культуры.');
         return;
     }
     if (form_state.values.field_image['ru'][0] == '') {
@@ -117,6 +126,11 @@ function agrohelp_form_validate(form, form_state) {
     }
 }
 
+/**
+ * свой обработчик виджетов с поддержкой виджета Селект для полей типа entityreference
+ * Для включения поддержки полем нужно изменить модуль, обрабатывающий виджет
+ * Пример:  form.elements.field_f_s_culture.field_info_instance.widget.module = 'agrohelp';
+ */
 function agrohelp_field_widget_form(form, form_state, field, instance, langcode, items, delta, element) {
     try {
         // console.log('agrohelp_field_widget_form - ');
@@ -205,7 +219,7 @@ var _entityreference_items = {};
 
 function _theme_entityreference_load_items(options) {
     try {
-        console.log('_theme_entityreference_load_items - ');
+        // console.log('_theme_entityreference_load_items - ');
 
         // todo при текущих требованиях к полю можно воспользоваться entity_index
         views_datasource_get_view_result(options.path, {
@@ -248,7 +262,5 @@ function _theme_entityreference_onchange(input, id) {
     try {
         $('#' + id).val($(input).val());
     }
-    catch (error) {
-        console.log('_theme_entityreference_onchange - ' + error);
-    }
+    catch (error) { console.log('_theme_entityreference_onchange - ' + error); }
 }
