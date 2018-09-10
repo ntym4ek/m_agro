@@ -1,0 +1,59 @@
+Index: bin/drupalgap.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- bin/drupalgap.js	(date 1536328344148)
++++ bin/drupalgap.js	(date 1536328344148)
+@@ -10130,8 +10130,14 @@
+           // it as the default.  If it is optional, place a "none" option
+           // for the user to choose from.
+           var text = '- ' + t('None') + ' -';
+-          if (items[delta].required) {
+-            text = '- ' + t('Select a value') + ' -';
++          // возможность задать placeholder
++          if (items[delta].placeholder) {
++              text = items[delta].placeholder;
++          }
++          else {
++              if (items[delta].required) {
++                  text = '- ' + t('Select a value') + ' -';
++              }
+           }
+           items[delta].children.push({
+               type: widget_type,
+@@ -13651,20 +13657,20 @@
+ 
+           // If it's not required, place an empty option on the widget and set
+           // it aside.
+-          if (!options.required) {
+-            var option = null;
+-            if (options.exposed) {
+-              option = '<option value="All">- ' + t('Any') + ' -</option>';
+-              _taxonomy_term_reference_terms[options.element_id]['All'] =
+-                '- Any -';
+-            }
+-            else {
+-              option = '<option value="">- ' + t('None') + ' -</option>';
+-              _taxonomy_term_reference_terms[options.element_id][''] =
+-                '- None -';
+-            }
+-            $(widget).append(option);
+-          }
++          // if (!options.required) {
++          //   var option = null;
++          //   if (options.exposed) {
++          //     option = '<option value="All">- ' + t('Any') + ' -</option>';
++          //     _taxonomy_term_reference_terms[options.element_id]['All'] =
++          //       '- Any -';
++          //   }
++          //   else {
++          //     option = '<option value="">- ' + t('None') + ' -</option>';
++          //     _taxonomy_term_reference_terms[options.element_id][''] =
++          //       '- None -';
++          //   }
++          //   $(widget).append(option);
++          // }
+ 
+           // Place each term in the widget as an option, and set the option
+           // aside.
