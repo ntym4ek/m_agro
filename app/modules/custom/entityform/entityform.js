@@ -296,13 +296,17 @@ function taxonomy_assemble_form_state_into_field(entity_type, bundle,
  * ..."field_f_s_culture":{"und":[{"target_id":"336"}]},...
  *
  * todo выяснить, как привести структуру для Entityform к стандартному виду
+ *
+ * + добавлена обработка виджета options_select
  */
 function entityreference_assemble_form_state_into_field(entity_type, bundle,
                                                         form_state_value, field, instance, langcode, delta, field_key) {
     try {
+        console.log('entityreference_assemble_form_state_into_field - ' );
         if (typeof form_state_value === 'undefined') { return null; }
         var result = null;
         switch (instance.widget.type) {
+            case 'options_select':
             case 'entityreference_autocomplete':
             case 'og_complex': // Adds support for the Organic Groups module.
                 field_key.value = 'target_id';

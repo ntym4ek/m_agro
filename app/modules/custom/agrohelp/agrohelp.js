@@ -116,3 +116,139 @@ function agrohelp_form_validate(form, form_state) {
         return;
     }
 }
+
+function agrohelp_field_widget_form(form, form_state, field, instance, langcode, items, delta, element) {
+    try {
+        // console.log('agrohelp_field_widget_form - ');
+        switch (element.type) {
+            case 'entityreference':
+                // Change the item type to a hidden input.
+                items[delta].type = 'hidden';
+
+                var widget_type = false;
+                if (instance.widget.type == 'options_select') {
+                    widget_type = 'select';
+                }
+                else {
+                    console.log(
+                        'WARNING: agrohelp_field_widget_form() - ' + instance.widget.type +
+                        ' not yet supported for ' + element.type + ' form elements!'
+                    );
+                    return false;
+                }
+                var widget_id = items[delta].id + '-' + widget_type;
+                // If the select list is required, add a 'Select' option and set
+                // it as the default.  If it is optional, place a "none" option
+                // for the user to choose from.
+                var text = '- ' + t('None') + ' -';
+                // возможность задать placeholder
+                if (items[delta].placeholder) {
+                    text = items[delta].placeholder;
+                }
+                else {
+                    if (items[delta].required) {
+                        text = '- ' + t('Select a value') + ' -';
+                    }
+                }
+                items[delta].children.push({
+                    type: widget_type,
+                    attributes: {
+                        id: widget_id,
+                        onchange: "_theme_entityreference_onchange(this, '" +
+                            items[delta].id +
+                            "');"
+                    },
+                    options: { '': text }
+                });
+                // передать заданные атрибуты селекту
+                for(key in items[delta].options.attributes) {
+                    if (key !== 'id' && key !== 'onchange') {
+                        items[delta].children[0].attributes[key] = items[delta].options.attributes[key];
+                        delete items[delta].options.attributes[key];
+                    }
+                }
+                // Attach a pageshow handler to the current page that will load the
+                // terms into the widget.
+                var path = entityreference_autocomplete_path(element.field_info_field);
+
+                var options = {
+                    'page_id': drupalgap_get_page_id(drupalgap_path_get()),
+                    'jqm_page_event': 'pageshow',
+                    'jqm_page_event_callback': '_theme_entityreference_load_items',
+                    'jqm_page_event_args': JSON.stringify({
+                        'path': path,
+                        'widget_id': widget_id
+                    })
+                };
+                // Pass the field name so the page event handler can be called for
+                // each item.
+                items[delta].children.push({
+                    markup: drupalgap_jqm_page_event_script_code(
+                        options,
+                        field.field_name
+                    )
+                });
+                break;
+            default:
+                var msg = 'agrohelp_field_widget_form - unknown widget type: ' + element.type;
+                console.log(msg);
+                break;
+        }
+    }
+    catch (error) { console.log('agrohelp_field_widget_form - ' + error); }
+}
+
+// Used to hold onto the entityreference items once they've been loaded into a widget, keyed by
+// the form element's id, this allows (views exposed filters particularly) forms
+// to easily retrieve the items after they've been fetch from the server.
+var _entityreference_items = {};
+
+function _theme_entityreference_load_items(options) {
+    try {
+        console.log('_theme_entityreference_load_items - ');
+
+        // todo при текущих требованиях к полю можно воспользоваться entity_index
+        views_datasource_get_view_result(options.path, {
+            success: function (items) {
+                if (items.length == 0) { return; }
+
+                // As we iterate over the terms, we'll set them aside in a JSON
+                // object so they can be used later.
+                _entityreference_items[options.element_id] = { };
+
+                // Grab the widget.
+                var widget = $('#' + options.widget_id);
+
+                // Place each term in the widget as an option, and set the option
+                // aside.
+                for (var index in items['nodes']) {
+                    if (!items['nodes'].hasOwnProperty(index)) { continue; }
+                    var item = items['nodes'][index]['node'];
+                    var option = '<option value="' + item.nid + '">' + item.title + '</option>';
+                    $(widget).append(option);
+                    _entityreference_items[options.element_id][item.nid] = item.title;
+                }
+
+                // Refresh the select list.
+                $(widget).selectmenu('refresh', true);
+            }
+        });
+    }
+    catch (error) { console.log('_theme_entityreference_load_items - ' + error); }
+}
+
+/**
+ * An internal function used by a taxonomy term reference field widget to
+ * detect changes on it and populate the hidden field that holds the tid in the
+ * form.
+ * @param {Object} input
+ * @param {String} id
+ */
+function _theme_entityreference_onchange(input, id) {
+    try {
+        $('#' + id).val($(input).val());
+    }
+    catch (error) {
+        console.log('_theme_entityreference_onchange - ' + error);
+    }
+}
