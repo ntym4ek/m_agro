@@ -50,6 +50,44 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
             form.elements.changed = { type : 'hidden', default_value : new Date().getTime() / 1000 };
             form.elements.uid = { type : 'hidden', default_value : 0 };
 
+            form.elements['my_select_list'] = {
+                title: 'My Vote',
+                type: 'select',
+                options: {
+                    0: 'No',
+                    1: 'Yes',
+                    2: 'Maybe So',
+                    3: 'No',
+                    4: 'Yes',
+                    5: 'Maybe So',
+                    6: 'No',
+                    7: 'Yes',
+                    8: 'Maybe So',
+                    9: 'No',
+                    10: 'Yes',
+                    11: 'Maybe So',
+                    12: 'No',
+                    13: 'Yes',
+                    14: 'Maybe So',
+                    15: 'No',
+                    16: 'Yes',
+                    17: 'Maybe So',
+                    18: 'No',
+                    19: 'Yes',
+                    20: 'Maybe So',
+                    21: 'No',
+                    22: 'Yes',
+                    23: 'Maybe So',
+                    24: 'No',
+                    25: 'Yes',
+                    26: 'Maybe So',
+                    attributes: {
+                        'data-native-menu': 'false',
+                    }
+                },
+                default_value: 1
+            };
+
             form.elements.field_f_region.prefix = '<h3>О себе</h3>';
             delete form.elements.field_f_region.title;
             form.elements.field_f_region[lang][0]['placeholder'] = 'Регион *';
