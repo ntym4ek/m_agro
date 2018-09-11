@@ -81,7 +81,6 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
             form.elements.field_pd_r_hobjects_comment.title_placeholder = true;
 
             form.elements.submit.value = 'Отправить';
-            form.elements.submit.onclick = 'drupalgap_loading_message_show();';
 
             // свой валидатор
             // todo проверка полей с вменяемыми сообщениями при ошибке
@@ -240,6 +239,10 @@ function _theme_entityreference_load_items(options) {
 
                 // Refresh the select list.
                 $(widget).selectmenu('refresh', true);
+
+                $('#edit-entityform-edit-submit').on('click', function(){
+                    drupalgap_loading_message_show();
+                });
             }
         });
     }
