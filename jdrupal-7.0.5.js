@@ -1498,6 +1498,11 @@ Drupal.services.call = function(options) {
     var method = options.method.toUpperCase();
     if (Drupal.settings.debug) { console.log(method + ': ' + url); }
 
+      // обработчик для закачки
+      request.upload.onprogress = function(event) {
+          console.log('progress: ' + event.loaded + ' / ' + event.total);
+      };
+
     // Request Success Handler
     request.onload = function(e) {
       try {
