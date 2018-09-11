@@ -106,13 +106,13 @@ drupalgap.settings.exit_message = 'Закрыть приложение?';
 // Loader Animations - http://demos.jquerymobile.com/1.4.0/loader/
 drupalgap.settings.loader = {
     loading: {
-        textVisible: false
+        textVisible: true
     },
     saving: {
-        textVisible: false
+        textVisible: true
     },
     deleting: {
-        textVisible: false
+        textVisible: true
     }
 };
 

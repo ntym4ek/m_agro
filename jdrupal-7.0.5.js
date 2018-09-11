@@ -1485,13 +1485,6 @@ Drupal.services.call = function(options) {
 
     // Build the Request, URL and extract the HTTP method.
     var request = new XMLHttpRequest();
-
-      // индикатор процесса загрузки на сервер
-      request.upload.loadstart = function(event) {
-          drupalgap_loader_enable(true);
-          console.log('loader enabled');
-      };
-
     var url = Drupal.settings.site_path +
               Drupal.settings.base_path + '?q=';
     // Use an endpoint, unless someone passed in an empty string.

@@ -1296,6 +1296,7 @@ function drupalgap_loader_enable(enable) {
  * @param {Object} options
  */
 function drupalgap_services_preprocess(options) {
+    console.log('drupalgap_services_preprocess');
   if (drupalgap_loader_enabled()) { drupalgap_loading_message_show(); }
 }
 
@@ -1305,6 +1306,7 @@ function drupalgap_services_preprocess(options) {
  * @param {Object} result
  */
 function drupalgap_services_postprocess(options, result) {
+    console.log('drupalgap_services_postprocess');
   if (drupalgap_loader_enabled()) { drupalgap_loading_message_hide(); }
 }
 
