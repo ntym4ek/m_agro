@@ -34,7 +34,7 @@ function agrohelp_services_preprocess(options)
 function agrohelp_form_alter(form, form_state, form_id, aux)
 {
     try {
-         // console.log('agrohelp_form_alter - ');
+          console.log('agrohelp_form_alter - ');
         if (form_id === 'entityform_edit' && form.bundle === 'agrohelp') {
             var lang = language_default();
             // изменить вывод формы запроса Агропомощи
@@ -239,10 +239,6 @@ function _theme_entityreference_load_items(options) {
 
                 // Refresh the select list.
                 $(widget).selectmenu('refresh', true);
-
-                $('#edit-entityform-edit-submit').on('click', function(){
-                    drupalgap_loading_message_show();
-                });
             }
         });
     }

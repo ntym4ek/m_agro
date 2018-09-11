@@ -1296,7 +1296,6 @@ function drupalgap_loader_enable(enable) {
  * @param {Object} options
  */
 function drupalgap_services_preprocess(options) {
-    console.log('drupalgap_services_preprocess');
   if (drupalgap_loader_enabled()) { drupalgap_loading_message_show(); }
 }
 
@@ -1306,7 +1305,6 @@ function drupalgap_services_preprocess(options) {
  * @param {Object} result
  */
 function drupalgap_services_postprocess(options, result) {
-    console.log('drupalgap_services_postprocess');
   if (drupalgap_loader_enabled()) { drupalgap_loading_message_hide(); }
 }
 
@@ -6434,7 +6432,7 @@ function _drupalgap_form_submit(form_id) {
       drupalgap_alert(msg);
       return false;
     }
-
+    $('.ui-loader').css('display', 'block');
     // Assemble the form state values.
     var form_state = drupalgap_form_state_values_assemble(form);
 
@@ -10766,7 +10764,7 @@ function _image_field_form_process(form, form_state, options) {
       drupalgap.loader = 'saving';
       processed_an_image = true;
       file_save(file, {
-          async: false,
+          // async: true,
           success: function(result) {
             try {
               // Set the hidden input and form state values with the file id.
