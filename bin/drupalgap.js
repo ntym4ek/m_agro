@@ -3584,8 +3584,8 @@ function drupalgap_loading_message_show() {
     if (arguments[0]) { options = arguments[0]; }
     dpm(options);
     // Show the loading message.
-    //$.mobile.loading('show', options);
-    //drupalgap.loading = true;
+    $.mobile.loading('show', options);
+    drupalgap.loading = true;
     setTimeout(function() {
       $.mobile.loading('show', options);
       drupalgap.loading = true;
