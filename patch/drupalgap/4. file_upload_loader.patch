@@ -1,0 +1,16 @@
+Index: bin/drupalgap.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- bin/drupalgap.js	(date 1536668600649)
++++ bin/drupalgap.js	(date 1536668600649)
+@@ -10764,7 +10763,7 @@
+       drupalgap.loader = 'saving';
+       processed_an_image = true;
+       file_save(file, {
+-          async: false,
++          // async: false,
+           success: function(result) {
+             try {
+               // Set the hidden input and form state values with the file id.

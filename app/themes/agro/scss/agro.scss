@@ -212,15 +212,15 @@ small, .font-small {
         border-radius: 3em;
         width: 6em; height: 6em;
     }
-    .ui-icon-saving {
-        background: url(../images/loader.gif); background-size: cover; background-position: center;
-        border-radius: 3em;
-        width: 6em; height: 6em;
-    }
-    .ui-icon-deleting {
-        background: url(../images/loader.gif); background-size: cover; background-position: center;
-        border-radius: 3em;
-        width: 6em; height: 6em;
+    &.ui-loader-verbose {
+        background-color: #00000090;
+        border-radius: 10px;
+        opacity: 1;
+        .ui-icon-loading { opacity: 1; }
+        h1 {
+            color: #fff;
+            text-shadow: none;
+        }
     }
 }
 

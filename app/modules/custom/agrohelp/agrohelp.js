@@ -25,16 +25,18 @@ function agrohelp_services_preprocess(options)
 /**
  * ------------------------------------------------ Изменение формы ----------------------------------------------------
  *
- * todo заменить автокомплит на селект с фильтром
- * для этого можно заменить element.field_info_instance.widget.module на agro
- * и сформировать виджет через agro_field_widget_form
- * пока обойдёмся собственным валидатором с поясняющими сообщениями
+ * data-native-menu: false подключает кастомный селект во всплывающем окне от JQM
+ * (form.elements.field_f_region[lang][0].options.attributes['data-native-menu'] = false;)
+ * Это работает в браузере и не работает в приложении.
+ * Если опций в селекте больше чем на один экран, попап открывается как отдельная страница
+ * и после выбора опции или закрытия окна из DOM исчезает вся форма.
+ * https://github.com/signalpoint/DrupalGap/issues/941
  */
 
 function agrohelp_form_alter(form, form_state, form_id, aux)
 {
     try {
-          console.log('agrohelp_form_alter - ');
+          // console.log('agrohelp_form_alter - ');
         if (form_id === 'entityform_edit' && form.bundle === 'agrohelp') {
             var lang = language_default();
             // изменить вывод формы запроса Агропомощи
@@ -47,7 +49,8 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
             form.elements.field_f_region.prefix = '<h3>О себе</h3>';
             delete form.elements.field_f_region.title;
             form.elements.field_f_region[lang][0]['placeholder'] = 'Регион *';
-            // form.elements.field_f_region[lang][0].options.attributes['data-native-menu'] = false;
+            //
+            //
 
             form.elements.field_company.title = form.elements.field_company.title + (form.elements.field_company.required?' *':'');
             form.elements.field_company.title_placeholder = true;
@@ -64,14 +67,12 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
             form.elements.field_f_s_culture.prefix = '<h3>Нужна помощь!</h3>';
             delete form.elements.field_f_s_culture.title;
             form.elements.field_f_s_culture[lang][0]['placeholder'] = 'Культура *';
-            // form.elements.field_f_s_culture[lang][0].options.attributes['data-native-menu'] = false;
-            // рендер виджета переключаем на наш модуль
+            // формирование рендер массива виджета переключаем на наш модуль
             // так как стандартной поддежки селекта для поля entityreference нет
             form.elements.field_f_s_culture.field_info_instance.widget.module = 'agrohelp';
 
             delete form.elements.field_f_s_m_phase_mc.title;
             form.elements.field_f_s_m_phase_mc[lang][0]['placeholder'] = 'Фаза культуры';
-            // form.elements.field_f_s_m_phase_mc[lang][0].options.attributes['data-native-menu'] = false;
 
             form.elements.field_ho_type.prefix = '<h3>Не могу определить</h3>';
             form.elements.field_ho_type.title = form.elements.field_ho_type.title + (form.elements.field_ho_type.required?' *':'');
@@ -82,9 +83,7 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
 
             form.elements.submit.value = 'Отправить';
 
-            // свой валидатор
-            // todo проверка полей с вменяемыми сообщениями при ошибке
-            // заменить стандартный валидатор или убрать required и проверять самостоятельно
+            // заменить стандартный валидатор и проверять самостоятельно
             form.validate.push('agrohelp_form_validate');
         }
     }
@@ -97,7 +96,6 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
  * в сообщении обошибку выводится имя поля
  */
 function agrohelp_form_validate(form, form_state) {
-    // Prevent the joker from logging in.
     if (form_state.values.field_f_region['ru'][0] == '') {
         drupalgap_form_set_error('field_f_region', 'Укажите Ваш регион.');
         return;
@@ -121,7 +119,7 @@ function agrohelp_form_validate(form, form_state) {
 }
 
 /**
- * свой обработчик виджетов с поддержкой виджета Селект для полей типа entityreference
+ * Добавляем поддержку Селекта для полей типа entityreference
  * Для включения поддержки полем нужно изменить модуль, обрабатывающий виджет
  * Пример:  form.elements.field_f_s_culture.field_info_instance.widget.module = 'agrohelp';
  */
@@ -175,8 +173,7 @@ function agrohelp_field_widget_form(form, form_state, field, instance, langcode,
                         delete items[delta].options.attributes[key];
                     }
                 }
-                // Attach a pageshow handler to the current page that will load the
-                // terms into the widget.
+                // Attach a pageshow handler to the current page that will load the entities into the widget.
                 var path = entityreference_autocomplete_path(element.field_info_field);
 
                 var options = {
@@ -188,8 +185,7 @@ function agrohelp_field_widget_form(form, form_state, field, instance, langcode,
                         'widget_id': widget_id
                     })
                 };
-                // Pass the field name so the page event handler can be called for
-                // each item.
+                // Pass the field name so the page event handler can be called for each item.
                 items[delta].children.push({
                     markup: drupalgap_jqm_page_event_script_code(
                         options,
@@ -246,8 +242,8 @@ function _theme_entityreference_load_items(options) {
 }
 
 /**
- * An internal function used by a taxonomy term reference field widget to
- * detect changes on it and populate the hidden field that holds the tid in the
+ * An internal function used by a entityreference field widget to
+ * detect changes on it and populate the hidden field that holds the id in the
  * form.
  * @param {Object} input
  * @param {String} id
