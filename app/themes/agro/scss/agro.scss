@@ -213,7 +213,7 @@ small, .font-small {
         width: 6em; height: 6em;
     }
     &.ui-loader-verbose {
-        background-color: #00000090;
+        background-color: rgba(0,0,0,0.6);
         border-radius: 10px;
         opacity: 1;
         .ui-icon-loading { opacity: 1; }
