@@ -40,10 +40,11 @@
   "Vocabularies": "Словари",
   "Wrong username or password": "Неправильный e-mail или пароль",
   "Shopping cart": "Список препаратов",
-    "Main": "Главная",
+  "Main": "Главная",
   "Update cart": "Обновить",
   "About us": "О компании",
-    "Your shopping cart is empty." : "Вы не добавили ни одного препарата.",
-    "Take Photo" : "Камера",
-    "Alert" : "Внимание"
+  "Your shopping cart is empty." : "Вы не добавили ни одного препарата.",
+  "Take Photo" : "Камера",
+  "Alert" : "Внимание",
+  "Saving" : "Подождите, идёт сохранение."
 }
