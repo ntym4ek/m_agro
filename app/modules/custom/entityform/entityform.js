@@ -16,8 +16,7 @@ function entityform_menu() {
             title_arguments: [2],
             page_callback: 'entityform_add_page_by_type',
             page_arguments: [2],
-            options: { reloadPage: true },
-            pagecreate: 'select_inject'
+            options: { reloadPage: true }
         };
 
         return items;
