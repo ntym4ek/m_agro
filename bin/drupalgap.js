@@ -1297,6 +1297,7 @@ function drupalgap_loader_enable(enable) {
  */
 function drupalgap_services_preprocess(options) {
     console.log('drupalgap_services_preprocess');
+    console.log(drupalgap_loader_enabled());
   if (drupalgap_loader_enabled()) { drupalgap_loading_message_show(); }
 }
 
@@ -3574,12 +3575,14 @@ function drupalgap_menu_router_build_menu_item_relationships(path, menu_item) {
  */
 function drupalgap_loading_message_show() {
   try {
+      console.log('drupalgap.loading - ' + drupalgap.loading);
     // Backwards compatibility for versions prior to 7.x-1.6-alpha
-    if (drupalgap.loading === 'undefined') { drupalgap.loading = false; }
+      if (drupalgap.loading === 'undefined') { drupalgap.loading = false; }
     // Return if the loading message is already shown.
     if (drupalgap.loading || drupalgap_toast_is_shown()) { return; }
     var options = drupalgap_loader_options();
     if (arguments[0]) { options = arguments[0]; }
+    dpm(options);
     // Show the loading message.
     //$.mobile.loading('show', options);
     //drupalgap.loading = true;
