@@ -1499,6 +1499,7 @@ Drupal.services.call = function(options) {
     if (Drupal.settings.debug) { console.log(method + ': ' + url); }
 
       // обработчик для закачки
+      console.log('start');
       request.upload.onprogress = function(event) {
           console.log('progress: ' + event.loaded + ' / ' + event.total);
       };
