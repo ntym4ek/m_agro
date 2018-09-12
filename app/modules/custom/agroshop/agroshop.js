@@ -526,7 +526,7 @@ function theme_product_display(pd) {
                 files +=        '<div class="row between-xs">';
                 files +=             '<div class="col-xs-12">';
                 files +=                '<div class="box">';
-                files +=                    '<a href="' + file_url + '" download data-ajax="false" class="ui-btn ui-mini ui-btn-inline ui-btn-raised clr-primary waves-effect waves-button">Скачать</a>';
+                files +=                    '<a href="' + file_url + '" download onclick="window.open(\'' + program.header.pdf + '\', \'_system\', \'location=yes\')" class="ui-btn ui-mini ui-btn-inline ui-btn-raised clr-primary waves-effect waves-button">Скачать</a>';
                 // files +=                    '  ' + '<a href="#" class="ui-btn ui-mini ui-btn-inline ui-btn-raised clr-primary waves-effect waves-button">Открыть</a>';
                 files +=                 '</div>';
                 files +=             '</div>';
