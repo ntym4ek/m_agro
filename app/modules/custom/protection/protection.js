@@ -120,7 +120,7 @@ function theme_program_cat_page(program)
 
         html += '<h2>' + program.header.title + '</h2>';
         html += '<h4>' + program.header.description + '</h4>';
-        html += '<a href="' + program.header.pdf + '" download class="btn-download ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-primary waves-effect waves-button"><i class="zmdi zmdi-download zmd-2x"></i></a>';
+        html += '<a href="' + program.header.pdf + '" download data-ajax="false" class="btn-download ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-primary waves-effect waves-button"><i class="zmdi zmdi-download zmd-2x"></i></a>';
 
         html += '<div class="row">';
         $.each(program.categories, function(index, category) {
