@@ -122,9 +122,9 @@ function theme_program_cat_page(program)
         html += '<h4>' + program.header.description + '</h4>';
         html += '<a href="' + program.header.pdf + '" download class="btn-download ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-primary waves-effect waves-button"><i class="zmdi zmdi-download zmd-2x"></i></a>';
 
-
         html += '<div class="row">';
-        $.each(program.categories, function(tid, category) {
+        $.each(program.categories, function(index, category) {
+            let tid = category.tid;
             let image = theme('image', { path: category.bkg });
             let icon = theme('image', { path: category.icon });
 
@@ -148,15 +148,14 @@ function theme_program_cat_page(program)
                 let title_suffix = reglament.preparation.title.split('|')[1] !== undefined ? reglament.preparation.title.split('|')[1] : '';
 
                 let text = '';
-                text += reglament.preparation.ingredients ? '<span class="clr-category">ДВ:</span> ' + reglament.preparation.ingredients + '<br />' : '';
-                text += '<span class="clr-category">Норма расхода:</span> ' + (reglament.preparation.rate.from == reglament.preparation.rate.to ? reglament.preparation.rate.from : reglament.preparation.rate.from + '-' + reglament.preparation.rate.to) + ' ' + reglament.preparation.rate.unit + '<br />';
-                text += '<span class="clr-category">Период применения:</span> ' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - ' + reglament.period.end.name) + '<br />';
-                text += '<span class="clr-category">Применение:</span><br />' + reglament.description;
+                text += reglament.preparation.ingredients ? reglament.preparation.ingredients + '<br />' : '';
+                text += '<span class="period clr-category">Фаза культуры</span><br />' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - <span>' + reglament.period.end.name) + '</span><br />';
+                text += '<span class="rate clr-category">Норма расхода</span><br />' + (reglament.preparation.rate.from == reglament.preparation.rate.to ? reglament.preparation.rate.from : reglament.preparation.rate.from + ' - ' + reglament.preparation.rate.to) + ' ' + reglament.preparation.rate.unit + '<br />';
 
                 let product = '';
                 product +=     '<div class="box">';
                 product +=         '<div class="image">' + photo + '</div>';
-                product +=         '<p class="font-small">' + text + '</p>';
+                product +=         '<p class="description font-small">' + text + '</p>';
                 product +=         '<div class="icon">' + icon + '</div>';
                 product +=     '</div>';
                 product +=     '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';

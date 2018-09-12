@@ -603,6 +603,30 @@ small, .font-small {
     position: relative;
     h2 { color: $brand-green; }
     .btn-download { position: absolute; right: 0; top: 0; }
+    .product-item {
+        p.description {
+            text-align: left;
+            padding: 0 10px 0 95px;
+            span {
+                white-space: nowrap;
+            }
+            .period,
+            .rate {
+                text-shadow: none;
+                display: inline-block;
+                margin: 5px 0 4px;
+                padding: 2px 5px;
+            }
+            .period {
+                color: $brand-fertilizers;
+                border: 1px solid $brand-fertilizers;
+            }
+            .rate {
+                color: $brand-insecticides;
+                border: 1px solid $brand-insecticides;
+            }
+        }
+    }
 }
 /* -------------------------------------------- Представители ------------------------------------------------------- */
 #representatives {
