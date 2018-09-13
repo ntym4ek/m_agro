@@ -375,6 +375,13 @@ small, .font-small {
         color: $text-muted; font-size: 1.3em;
         margin: .5em 0 1em;
     }
+
+    img { display: block; }
+    .image-info {
+        background: #f0f0f0;
+        padding: .7em;
+        .period { text-align: right; }
+    }
 }
 /* -------------------------------------------- Препарат ------------------------------------------------------------ */
 .product {
@@ -588,15 +595,6 @@ small, .font-small {
     }
 }
 
-/* -------------------------------------------- Афиша --------------------------------------------------------------- */
-.agenda {
-    img { display: block; }
-    .info {
-        background: #f0f0f0;
-        padding: .7em;
-        .period { text-align: right; }
-    }
-}
 
 /* -------------------------------------------- Системы защиты ------------------------------------------------------ */
 .protection-view {

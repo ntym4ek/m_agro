@@ -96,11 +96,11 @@ function agenda_node_page_view_alter_agenda(node, options)
     //console.log('agenda_node_page_view_alter_agenda - ');
     try {
         var content = {};
-        content['prefix'] = {
-            markup: '<div class="agenda">'
-        };
         content['title'] = {
             markup: '<h2>' + node.title + '</h2>'
+        };
+        content['subtitle'] = {
+            markup: '<h4>' + node.body['ru'][0]['summary'] + '</h4>'
         };
         content['image'] = {
             theme: 'image',
@@ -108,8 +108,8 @@ function agenda_node_page_view_alter_agenda(node, options)
         };
 
         var dates = unixToDate(node.field_period['und'][0]['value']) + ' - ' + unixToDate(node.field_period['und'][0]['value2']);
-        content['info'] = {
-            markup: '<div class="info">' +
+        content['image-info'] = {
+            markup: '<div class="image-info">' +
                         '<div class="row">' +
                             '<div class="col-xs"><div class="box location">' + node.field_location['und'][0]['value'] + '</div></div>' +
                             '<div class="col-xs"><div class="box period">' + dates + '</div></div>' +
@@ -120,9 +120,6 @@ function agenda_node_page_view_alter_agenda(node, options)
             markup: '<div class="description">' +
                         node.body['ru'][0]['safe_value'] +
                     '</div>'
-        };
-        content['suffix'] = {
-            markup: '</div>'
         };
 
         options.success(content);
