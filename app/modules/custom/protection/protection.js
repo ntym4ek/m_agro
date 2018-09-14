@@ -142,25 +142,40 @@ function theme_program_cat_page(program)
             $.each(category.stages, function(num, stage) {
             $.each(stage, function(duration, set) {
             $.each(set, function(key, reglament) {
-                let photo = theme('image', { path: reglament.preparation.photo });
+                let photo0 = theme('image', { path: reglament.preparation.photo[0] });
+                let photo1 = theme('image', { path: reglament.preparation.photo[1] });
                 let icon = theme('image', { path: reglament.preparation.icon });
                 let title = reglament.preparation.title.split('|')[0];
                 let title_suffix = reglament.preparation.title.split('|')[1] !== undefined ? reglament.preparation.title.split('|')[1] : '';
 
+                // норма расхода
+                let from = reglament.preparation.rates[0].from;
+                let to   = reglament.preparation.rates[0].to;
+                let unit = reglament.preparation.rates[0].unit;
+                let rate = from + (from == to ? '' : ' - ' + to) + ' ' + unit;
+                if (reglament.preparation.rates[1] !== undefined) {
+                    let from1 = reglament.preparation.rates[1].from;
+                    let to1   = reglament.preparation.rates[1].to;
+                    let unit1 = reglament.preparation.rates[1].unit;
+                    rate += ' + ' + from1 + (from1 === to1 ? '' : ' - ' + to1) + ' ' + unit1;
+                }
+
                 let text = '';
                 text += reglament.preparation.ingredients ? reglament.preparation.ingredients + '<br />' : '';
                 text += '<span class="period clr-category">Фаза культуры</span><br />' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - <span>' + reglament.period.end.name) + '</span><br />';
-                text += '<span class="rate clr-category">Норма расхода</span><br />' + (reglament.preparation.rate.from == reglament.preparation.rate.to ? reglament.preparation.rate.from : reglament.preparation.rate.from + ' - ' + reglament.preparation.rate.to) + ' ' + reglament.preparation.rate.unit + '<br />';
+                text += '<span class="rate clr-category">Норма расхода</span><br />' + rate + '<br />';
 
                 let product = '';
                 product +=     '<div class="box">';
-                product +=         '<div class="image">' + photo + '</div>';
+                product +=         '<div class="image">' + photo0 + '</div>';
+                product +=         '<div class="image1">' + photo1 + '</div>';
                 product +=         '<p class="description font-small">' + text + '</p>';
                 product +=         '<div class="icon">' + icon + '</div>';
                 product +=     '</div>';
                 product +=     '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
 
-                html += l(product, 'node/' + reglament.preparation.id, {
+                let url = reglament.preparation.type == 'product_mix' ? null : 'node/' + reglament.preparation.id;
+                html += l(product, url, {
                         attributes: {
                             class: 'product-item wow fadeIn waves-effect waves-button',
                             'data-wow-delay': '0.2s'

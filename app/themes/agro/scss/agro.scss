@@ -602,6 +602,10 @@ small, .font-small {
     h2 { color: $brand-green; }
     .btn-download { position: absolute; right: 0; top: 0; }
     .product-item {
+        .box .image1 {
+            position: absolute; bottom: 0; left: 25px;
+            width: 45px;
+        }
         p.description {
             text-align: left;
             padding: 0 10px 0 95px;
