@@ -216,7 +216,7 @@ function theme_atfield_season_page(season)
         // ВО
         html +=     '<div class="atf-hobjects row">';
         $.each(before.hobjects, function(index, hobject) {
-            let hobject_photo = drupalgap_image_path('public://default_images/noimage.png');
+            var hobject_photo = drupalgap_image_path('public://default_images/noimage.png');
             if (hobject.photo !== '') hobject_photo = hobject.photo;
             let icon = ' zmdi-local-florist';
             if (hobject.type === 'pest') icon = ' zmdi-bug';
