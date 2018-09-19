@@ -137,6 +137,7 @@ Drupal.modules.custom['representatives'] = {};
 Drupal.modules.custom['agenda'] = {};
 Drupal.modules.custom['atfield'] = {};
 Drupal.modules.custom['protection'] = {};
+Drupal.modules.custom['solution'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |

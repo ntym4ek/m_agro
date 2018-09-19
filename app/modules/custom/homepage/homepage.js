@@ -1,23 +1,19 @@
 /**
  * Implements hook_menu().
  */
-function homepage_menu() {
-    try {
-        var items = {};
-        items['homepage'] = {
-            title: 'Стартовая',
-            page_callback: 'homepage_page'
-        };
-        items['catalog'] = {
-            title: 'Каталог',
-            page_callback: 'catalog_page'
-        };
+function homepage_menu() 
+{
+    var items = {};
+    items['homepage'] = {
+        title: 'Стартовая',
+        page_callback: 'homepage_page'
+    };
+    items['catalog'] = {
+        title: 'Каталог',
+        page_callback: 'catalog_page'
+    };
 
-        return items;
-    }
-    catch (error) {
-        console.log('homepage_menu - ' + error);
-    }
+    return items;
 }
 
 
@@ -81,11 +77,7 @@ function homepage_page()
         html +=     '</div>';
         html +=     '<div class="col-xs">';
         html +=       '<div class="route">';
-        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/solution.png"></div><div class="r-title">Найти решение</div>', 'solution', {
-                            attributes: {
-                                class: 'ui-disabled'
-                            }
-                        });
+        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/solution.png"></div><div class="r-title">Найти решение</div>', 'solution');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
