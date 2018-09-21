@@ -613,13 +613,15 @@ small, .font-small {
                 white-space: nowrap;
             }
             .period,
+            .hobjects,
             .rate {
                 text-shadow: none;
                 display: inline-block;
                 margin: 5px 0 4px;
                 padding: 2px 5px;
             }
-            .period {
+            .period,
+            .hobjects {
                 color: $brand-fertilizers;
                 border: 1px solid $brand-fertilizers;
             }
@@ -630,6 +632,16 @@ small, .font-small {
         }
     }
 }
+/* -------------------------------------------- Найти решение ------------------------------------------------------- */
+#solution_form_page {
+    .field-name-phase,
+    h3.hobjects,
+    .field-name-weeds,
+    .field-name-pests,
+    .field-name-diseases,
+    #form-submit { display: none; }
+}
+
 /* -------------------------------------------- Представители ------------------------------------------------------- */
 #representatives {
     ul {

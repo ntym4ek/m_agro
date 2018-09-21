@@ -10,7 +10,7 @@ function protection_menu()
         page_callback: 'protection_list_page'
     };
     items['protection-system/%'] = {
-        title: 'Категории системы',
+        title: 'Программа защиты',
         page_callback: 'protection_page',
         page_arguments: [1],
         pageshow: 'protection_page_pageshow'
@@ -90,7 +90,13 @@ function protection_page(pid)
 function protection_page_pageshow(pid)
 {
     try {
-        program_load(pid, {
+        console.log('protection_page_pageshow - ');
+        var parameters = {
+            'program_id' : pid
+        };
+
+        program_load({
+            data: JSON.stringify({ 'parameters' : parameters }),
             success: function (program) {
                 var html = theme('program_cat_page', program);
                 $('#protection-' + pid).html(html).trigger('create');
@@ -100,13 +106,13 @@ function protection_page_pageshow(pid)
     catch (error) { console.log('protection_page_pageshow - ' + error); }
 }
 
-function program_load(pid, options)
+function program_load(options)
 {
     try {
-        options.method = 'GET';
-        options.path = 'protection-program/' + pid + '.json';
-        options.service = 'protection-program';
-        options.resource = 'retrieve';
+        options.method = 'POST';
+        options.path = 'reglaments/get_protection_system.json';
+        options.service = 'reglaments';
+        options.resource = 'get_protection_system';
         Drupal.services.call(options);
     }
     catch (error) { console.log('program_load - ' + error); }
@@ -115,12 +121,14 @@ function program_load(pid, options)
 function theme_program_cat_page(program)
 {
     try {
-        //console.log('theme_program_cat_page - ');
+        console.log('theme_program_cat_page - ');
         let html = '';
 
         html += '<h2>' + program.header.title + '</h2>';
+        if (program.header.phase) html += '<h3>' + program.header.phase + '</h3>';
         html += '<h4>' + program.header.description + '</h4>';
-        html += '<a onclick="window.open(\'' + program.header.pdf + '\', \'_system\', \'location=yes\')" class="btn-download ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-primary waves-effect waves-button"><i class="zmdi zmdi-download zmd-2x"></i></a>';
+        if (program.header.pdf)
+            html += '<a onclick="window.open(\'' + program.header.pdf + '\', \'_system\', \'location=yes\')" class="btn-download ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-primary waves-effect waves-button"><i class="zmdi zmdi-download zmd-2x"></i></a>';
 
         html += '<div class="row">';
         $.each(program.categories, function(index, category) {
@@ -162,7 +170,8 @@ function theme_program_cat_page(program)
 
                 let text = '';
                 text += reglament.preparation.ingredients ? reglament.preparation.ingredients + '<br />' : '';
-                text += '<span class="period clr-category">Фаза культуры</span><br />' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - <span>' + reglament.period.end.name) + '</span><br />';
+                if (!program.header.phase) text += '<span class="period clr-category">Фаза культуры</span><br />' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - <span>' + reglament.period.end.name) + '</span><br />';
+                if (reglament.hobjects) text += '<span class="hobjects clr-category">Вредные объекты</span><br />' + reglament.hobjects + '<br />';
                 text += '<span class="rate clr-category">Норма расхода</span><br />' + rate + '<br />';
 
                 let product = '';

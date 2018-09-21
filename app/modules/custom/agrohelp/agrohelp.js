@@ -125,7 +125,7 @@ function agrohelp_form_validate(form, form_state) {
  */
 function agrohelp_field_widget_form(form, form_state, field, instance, langcode, items, delta, element) {
     try {
-        // console.log('agrohelp_field_widget_form - ');
+         console.log('agrohelp_field_widget_form - ');
         switch (element.type) {
             case 'entityreference':
                 // Change the item type to a hidden input.
@@ -202,11 +202,6 @@ function agrohelp_field_widget_form(form, form_state, field, instance, langcode,
     catch (error) { console.log('agrohelp_field_widget_form - ' + error); }
 }
 
-// Used to hold onto the entityreference items once they've been loaded into a widget, keyed by
-// the form element's id, this allows (views exposed filters particularly) forms
-// to easily retrieve the items after they've been fetch from the server.
-var _entityreference_items = {};
-
 function _theme_entityreference_load_items(options) {
     try {
         // console.log('_theme_entityreference_load_items - ');
@@ -215,10 +210,6 @@ function _theme_entityreference_load_items(options) {
         views_datasource_get_view_result(options.path, {
             success: function (items) {
                 if (items.length == 0) { return; }
-
-                // As we iterate over the terms, we'll set them aside in a JSON
-                // object so they can be used later.
-                _entityreference_items[options.element_id] = { };
 
                 // Grab the widget.
                 var widget = $('#' + options.widget_id);
@@ -230,7 +221,6 @@ function _theme_entityreference_load_items(options) {
                     var item = items['nodes'][index]['node'];
                     var option = '<option value="' + item.nid + '">' + item.title + '</option>';
                     $(widget).append(option);
-                    _entityreference_items[options.element_id][item.nid] = item.title;
                 }
 
                 // Refresh the select list.
