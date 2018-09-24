@@ -81,7 +81,7 @@ function solution_load(options)
 function solution_form_page(form, form_state)
 {
     try {
-        form.prefix = '<p>Заполните форму ниже и мы поможем подобрать решение для защиты Вашего поля и увеличения урожайности культуры.</p>';
+        form.prefix = '<h5>Заполните форму ниже и мы поможем подобрать решение для защиты Вашего поля и увеличения урожайности культуры.</h5>';
 
         /* ----------------------------------- Культура --------------------------------------------------------------*/
         form.elements['culture'] = {
@@ -117,9 +117,30 @@ function solution_form_page(form, form_state)
             type: 'select',
         };
 
+
+        form.elements['desiccants'] = {
+            title: 'добавить десиканты',
+            type: 'checkbox',
+            attributes: {
+                checked: 'checked'
+            },
+            prefix: '<h3 class="hobjects">Дополнительно</h3>',
+        };
+        form.elements['fertilizers'] = {
+            title: 'добавить удобрения',
+            type: 'checkbox',
+            attributes: {
+                checked: 'checked'
+            }
+        };
+
+
         form.elements['submit'] = {
             type: 'submit',
             value: 'Найти решение',
+            attributes: {
+                class: "ui-btn ui-btn-raised ui-mini clr-warning"
+            },
         };
 
         return form;
@@ -144,6 +165,8 @@ function solution_form_page_submit(form, form_state)
     if (form_state.values['pests']) solution_data_array['pests_arr'].push(form_state.values['pests']);
     solution_data_array['diseases_arr'] = [];
     if (form_state.values['diseases']) solution_data_array['diseases_arr'].push(form_state.values['diseases']);
+    solution_data_array['desiccants']   = form_state.values['desiccants'] ? form_state.values['desiccants'] : 0;
+    solution_data_array['fertilizers']  = form_state.values['fertilizers'] ? form_state.values['fertilizers'] : 0;
 
     drupalgap_goto('solution-page');
 }
@@ -161,7 +184,7 @@ function _solution_form_get_culture_options()
                     var widget = $('#edit-solution-form-page-culture');
 
                     for (var index in data.items) {
-                        var option = '<option value="' + index + '">' + data.items[index] + '</option>';
+                        var option = '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
                         $(widget).append(option);
                     }
 
@@ -192,7 +215,7 @@ function _solution_form_culture_onchange(culture_id_tag)
                     $(widget).append('<option value="">Фаза культуры</option>');
 
                     for (var index in data.items) {
-                        var option = '<option value="' + index + '">' + data.items[index] + '</option>';
+                        var option = '<option value="' + data.items[index].tid + '">' + data.items[index].name + '</option>';
                         $(widget).append(option);
                     }
 
@@ -213,7 +236,7 @@ function _solution_form_culture_onchange(culture_id_tag)
                     $(widget).append('<option value="">Сорное растение</option>');
 
                     for (var index in data.items) {
-                        var option = '<option value="' + index + '">' + data.items[index] + '</option>';
+                        var option = '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
                         $(widget).append(option);
                     }
 
@@ -233,7 +256,7 @@ function _solution_form_culture_onchange(culture_id_tag)
                     $(widget).append('<option value="">Вредитель</option>');
 
                     for (var index in data.items) {
-                        var option = '<option value="' + index + '">' + data.items[index] + '</option>';
+                        var option = '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
                         $(widget).append(option);
                     }
 
@@ -252,13 +275,15 @@ function _solution_form_culture_onchange(culture_id_tag)
                     $(widget).append('<option value="">Болезнь</option>');
 
                     for (var index in data.items) {
-                        var option = '<option value="' + index + '">' + data.items[index] + '</option>';
+                        var option = '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
                         $(widget).append(option);
                     }
 
                     $(widget).selectmenu('refresh', true);
                     $(widget).closest('.form-item').css('display', 'block');
-                    $('#form-submit').css('display', 'block')
+                    $('.field-name-desiccants').css('display', 'block');
+                    $('.field-name-fertilizers').css('display', 'block');
+                    $('.field-name-submit').css('display', 'block');
                 }
             }
         );

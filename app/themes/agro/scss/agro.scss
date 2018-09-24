@@ -634,12 +634,22 @@ small, .font-small {
 }
 /* -------------------------------------------- Найти решение ------------------------------------------------------- */
 #solution_form_page {
-    .field-name-phase,
+    h5 { margin: 1em 0; }
     h3.hobjects,
+    .field-name-phase,
     .field-name-weeds,
     .field-name-pests,
     .field-name-diseases,
-    #form-submit { display: none; }
+    .field-name-desiccants,
+    .field-name-fertilizers,
+    .field-name-submit { display: none; }
+    .field-name-desiccants,
+    .field-name-fertilizers {
+        margin-bottom: 0;
+        .ui-checkbox { margin: 0; }
+    }
+    .field-name-submit { margin-top: 1em; }
+
 }
 
 /* -------------------------------------------- Представители ------------------------------------------------------- */

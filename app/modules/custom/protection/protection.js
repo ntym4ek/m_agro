@@ -147,53 +147,61 @@ function theme_program_cat_page(program)
             html +=     '</h4>';
 
             html +=     '<div>';
-            $.each(category.stages, function(num, stage) {
-            $.each(stage, function(duration, set) {
-            $.each(set, function(key, reglament) {
-                let photo0 = theme('image', { path: reglament.preparation.photo[0] });
-                let photo1 = theme('image', { path: reglament.preparation.photo[1] });
-                let icon = theme('image', { path: reglament.preparation.icon });
-                let title = reglament.preparation.title.split('|')[0];
-                let title_suffix = reglament.preparation.title.split('|')[1] !== undefined ? reglament.preparation.title.split('|')[1] : '';
 
-                // норма расхода
-                let from = reglament.preparation.rates[0].from;
-                let to   = reglament.preparation.rates[0].to;
-                let unit = reglament.preparation.rates[0].unit;
-                let rate = from + (from == to ? '' : ' - ' + to) + ' ' + unit;
-                if (reglament.preparation.rates[1] !== undefined) {
-                    let from1 = reglament.preparation.rates[1].from;
-                    let to1   = reglament.preparation.rates[1].to;
-                    let unit1 = reglament.preparation.rates[1].unit;
-                    rate += ' + ' + from1 + (from1 === to1 ? '' : ' - ' + to1) + ' ' + unit1;
+            if (category.stages) {
+                $.each(category.stages, function (num, stage) {
+                    $.each(stage, function (duration, set) {
+                        $.each(set, function (key, reglament) {
+                            let photo0 = theme('image', {path: reglament.preparation.photo[0]});
+                            let photo1 = theme('image', {path: reglament.preparation.photo[1]});
+                            let icon = theme('image', {path: reglament.preparation.icon});
+                            let title = reglament.preparation.title.split('|')[0];
+                            let title_suffix = reglament.preparation.title.split('|')[1] !== undefined ? reglament.preparation.title.split('|')[1] : '';
+
+                            // норма расхода
+                            let from = reglament.preparation.rates[0].from;
+                            let to = reglament.preparation.rates[0].to;
+                            let unit = reglament.preparation.rates[0].unit;
+                            let rate = from + (from == to ? '' : ' - ' + to) + ' ' + unit;
+                            if (reglament.preparation.rates[1] !== undefined) {
+                                let from1 = reglament.preparation.rates[1].from;
+                                let to1 = reglament.preparation.rates[1].to;
+                                let unit1 = reglament.preparation.rates[1].unit;
+                                rate += ' + ' + from1 + (from1 === to1 ? '' : ' - ' + to1) + ' ' + unit1;
+                            }
+
+                            let text = '';
+                            text += reglament.preparation.ingredients ? reglament.preparation.ingredients + '<br />' : '';
+                            if (!program.header.phase) text += '<span class="period clr-category">Фаза культуры</span><br />' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - <span>' + reglament.period.end.name) + '</span><br />';
+                            if (reglament.hobjects) text += '<span class="hobjects clr-category">Вредные объекты</span><br />' + reglament.hobjects + '<br />';
+                            text += '<span class="rate clr-category">Норма расхода</span><br />' + rate + '<br />';
+
+                            let product = '';
+                            product += '<div class="box">';
+                            product += '<div class="image">' + photo0 + '</div>';
+                            product += '<div class="image1">' + photo1 + '</div>';
+                            product += '<p class="description font-small">' + text + '</p>';
+                            product += '<div class="icon">' + icon + '</div>';
+                            product += '</div>';
+                            product += '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
+
+                            let url = reglament.preparation.type == 'product_mix' ? null : 'node/' + reglament.preparation.id;
+                            html += l(product, url, {
+                                    attributes: {
+                                        class: 'product-item wow fadeIn waves-effect waves-button',
+                                        'data-wow-delay': '0.2s'
+                                    },
+                                }
+                            );
+                        });
+                    });
+                });
+            } else {
+                if (category.hobjects) {
+                    let phase = ' на этапе "' + (program.header.phase ? program.header.phase + '" ' : '');
+                    html += 'К сожалению, против вредного объекта "' + category.hobjects + '"' + phase + ' у нас пока нет препаратов.';
                 }
-
-                let text = '';
-                text += reglament.preparation.ingredients ? reglament.preparation.ingredients + '<br />' : '';
-                if (!program.header.phase) text += '<span class="period clr-category">Фаза культуры</span><br />' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - <span>' + reglament.period.end.name) + '</span><br />';
-                if (reglament.hobjects) text += '<span class="hobjects clr-category">Вредные объекты</span><br />' + reglament.hobjects + '<br />';
-                text += '<span class="rate clr-category">Норма расхода</span><br />' + rate + '<br />';
-
-                let product = '';
-                product +=     '<div class="box">';
-                product +=         '<div class="image">' + photo0 + '</div>';
-                product +=         '<div class="image1">' + photo1 + '</div>';
-                product +=         '<p class="description font-small">' + text + '</p>';
-                product +=         '<div class="icon">' + icon + '</div>';
-                product +=     '</div>';
-                product +=     '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
-
-                let url = reglament.preparation.type == 'product_mix' ? null : 'node/' + reglament.preparation.id;
-                html += l(product, url, {
-                        attributes: {
-                            class: 'product-item wow fadeIn waves-effect waves-button',
-                            'data-wow-delay': '0.2s'
-                        },
-                    }
-                );
-            });
-            });
-            });
+            }
             html +=     '</div>';
             html +=  '</div>';
         });
