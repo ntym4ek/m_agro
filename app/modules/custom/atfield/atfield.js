@@ -218,7 +218,7 @@ function theme_atfield_season_page(season)
         $.each(before.hobjects, function(index, hobject) {
             var hobject_photo = drupalgap_image_path('public://default_images/noimage.png');
             if (hobject.photo !== '') hobject_photo = hobject.photo;
-            let icon = ' zmdi-local-florist';
+            var icon = ' zmdi-local-florist';
             if (hobject.type === 'pest') icon = ' zmdi-bug';
             if (hobject.type === 'disease') icon = ' zmdi-gesture';
             html +=     '<div class="col-xs-4">';
@@ -256,12 +256,12 @@ function theme_atfield_season_page(season)
                 // ВО
                 html +=         '<div class="atf-hobjects row">';
                 $.each(measurement.hobjects, function(index, hobject) {
-                    let hobject_photo = drupalgap_image_path('public://default_images/noimage.png');
+                    var hobject_photo = drupalgap_image_path('public://default_images/noimage.png');
                     if (hobject.photo !== '') hobject_photo = hobject.photo;
-                    let icon = ' zmdi-local-florist';
+                    var icon = ' zmdi-local-florist';
                     if (hobject.type === 'pest') icon = ' zmdi-bug';
                     if (hobject.type === 'disease') icon = ' zmdi-gesture';
-                    let ho_title = hobject.name;
+                    var ho_title = hobject.name;
                     ho_title += hobject.percent !== '' ? ' <span>( -' + hobject.percent + ' %)</span>' : '';
                     html +=         '<div class="col-xs-4">';
                     html +=             theme('image', {path: hobject_photo, fancybox: {image: hobject_photo, title: ho_title}});
@@ -292,7 +292,7 @@ function theme_atfield_season_page(season)
         if (season.processings.length > 0) {
             html +=     '<ul id="after" data-role="nd2extTabs" data-swipe="true">';
             $.each(season.processings, function(index, processing) {
-                let preparations = processing.preparation + (processing.preparation2 !== '' ? ' + ' + processing.preparation2 : '');
+                var preparations = processing.preparation + (processing.preparation2 !== '' ? ' + ' + processing.preparation2 : '');
                 html +=     '<li data-tab="tab-p-' + index + '">';
                 html +=         '<div class="r1">' + processing.date + '</div><div class="r2">' + preparations + '</div>';
                 html +=     '</li>';
@@ -301,7 +301,7 @@ function theme_atfield_season_page(season)
 
             html +=     '<div data-role="nd2extTabs-container">';
             $.each(season.processings, function(index, processing) {
-                let comment = 'Обработка ' + processing.date + ' в ' + processing.time;
+                var comment = 'Обработка ' + processing.date + ' в ' + processing.time;
                 html +=     '<div data-tab="tab-p-' + index + '">';
                 html +=         '<div class="atf-image-wr">';
                 html +=             theme('image', {path: processing.image_thumb, fancybox: {image: processing.image_full, title: comment}});

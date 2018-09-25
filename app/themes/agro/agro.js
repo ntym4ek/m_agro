@@ -129,7 +129,7 @@ function agro_image(variables) {
         var image = '<img ' + drupalgap_attributes(variables.attributes) + ' />';
 
         if (variables.fancybox !== undefined && variables.fancybox.image !== undefined) {
-            let caption = variables.fancybox.title !== undefined ? variables.fancybox.title : '';
+            var caption = variables.fancybox.title !== undefined ? variables.fancybox.title : '';
             image = '<a href="' + variables.fancybox.image + '" data-fancybox="gallery" data-caption="' + caption + '">' + image + '</a>';
         }
 

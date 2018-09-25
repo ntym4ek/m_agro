@@ -43,8 +43,8 @@ function protection_list_page()
 function protection_list_page_row(view, row)
 {
     try {
-        let content = '';
-        let image = theme('image', { path: row.bkg.src });
+        var content = '';
+        var image = theme('image', { path: row.bkg.src });
 
         content +=  '<div class="box">';
         content +=      image;
@@ -122,7 +122,7 @@ function theme_program_cat_page(program)
 {
     try {
         console.log('theme_program_cat_page - ');
-        let html = '';
+        var html = '';
 
         html += '<h2>' + program.header.title + '</h2>';
         if (program.header.phase) html += '<h3>' + program.header.phase + '</h3>';
@@ -132,9 +132,9 @@ function theme_program_cat_page(program)
 
         html += '<div class="row">';
         $.each(program.categories, function(index, category) {
-            let tid = category.tid;
-            let image = theme('image', { path: category.bkg });
-            let icon = theme('image', { path: category.icon });
+            var tid = category.tid;
+            var image = theme('image', { path: category.bkg });
+            var icon = theme('image', { path: category.icon });
 
             html += '<div class="list-item col-xs-12 col-sm-6 category-' + tid + '" data-role="collapsible" data-inset="false">';
 
@@ -152,31 +152,31 @@ function theme_program_cat_page(program)
                 $.each(category.stages, function (num, stage) {
                     $.each(stage, function (duration, set) {
                         $.each(set, function (key, reglament) {
-                            let photo0 = theme('image', {path: reglament.preparation.photo[0]});
-                            let photo1 = theme('image', {path: reglament.preparation.photo[1]});
-                            let icon = theme('image', {path: reglament.preparation.icon});
-                            let title = reglament.preparation.title.split('|')[0];
-                            let title_suffix = reglament.preparation.title.split('|')[1] !== undefined ? reglament.preparation.title.split('|')[1] : '';
+                            var photo0 = theme('image', {path: reglament.preparation.photo[0]});
+                            var photo1 = theme('image', {path: reglament.preparation.photo[1]});
+                            var icon = theme('image', {path: reglament.preparation.icon});
+                            var title = reglament.preparation.title.split('|')[0];
+                            var title_suffix = reglament.preparation.title.split('|')[1] !== undefined ? reglament.preparation.title.split('|')[1] : '';
 
                             // норма расхода
-                            let from = reglament.preparation.rates[0].from;
-                            let to = reglament.preparation.rates[0].to;
-                            let unit = reglament.preparation.rates[0].unit;
-                            let rate = from + (from == to ? '' : ' - ' + to) + ' ' + unit;
+                            var from = reglament.preparation.rates[0].from;
+                            var to = reglament.preparation.rates[0].to;
+                            var unit = reglament.preparation.rates[0].unit;
+                            var rate = from + (from == to ? '' : ' - ' + to) + ' ' + unit;
                             if (reglament.preparation.rates[1] !== undefined) {
-                                let from1 = reglament.preparation.rates[1].from;
-                                let to1 = reglament.preparation.rates[1].to;
-                                let unit1 = reglament.preparation.rates[1].unit;
+                                var from1 = reglament.preparation.rates[1].from;
+                                var to1 = reglament.preparation.rates[1].to;
+                                var unit1 = reglament.preparation.rates[1].unit;
                                 rate += ' + ' + from1 + (from1 === to1 ? '' : ' - ' + to1) + ' ' + unit1;
                             }
 
-                            let text = '';
+                            var text = '';
                             text += reglament.preparation.ingredients ? reglament.preparation.ingredients + '<br />' : '';
                             if (!program.header.phase) text += '<span class="period clr-category">Фаза культуры</span><br />' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - <span>' + reglament.period.end.name) + '</span><br />';
                             if (reglament.hobjects) text += '<span class="hobjects clr-category">Вредные объекты</span><br />' + reglament.hobjects + '<br />';
                             text += '<span class="rate clr-category">Норма расхода</span><br />' + rate + '<br />';
 
-                            let product = '';
+                            var product = '';
                             product += '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
                             product += '<div class="box">';
                             product +=     '<div class="image">' + photo0 + '</div>';
@@ -185,7 +185,7 @@ function theme_program_cat_page(program)
                             product +=     '<div class="icon">' + icon + '</div>';
                             product += '</div>';
 
-                            let url = reglament.preparation.type == 'product_mix' ? null : 'node/' + reglament.preparation.id;
+                            var url = reglament.preparation.type == 'product_mix' ? null : 'node/' + reglament.preparation.id;
                             html += l(product, url, {
                                     attributes: {
                                         class: 'product-item wow fadeIn waves-effect waves-button',
@@ -198,7 +198,7 @@ function theme_program_cat_page(program)
                 });
             } else {
                 if (category.hobjects) {
-                    let phase = program.header.phase ? ' на этапе "' + program.header.phase + '"' : '';
+                    var phase = program.header.phase ? ' на этапе "' + program.header.phase + '"' : '';
                     html += 'К сожалению, против вредного объекта "' + category.hobjects + '"' + phase + ' у нас пока нет препаратов.';
                 }
             }

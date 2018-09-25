@@ -107,10 +107,10 @@ function representatives_get_card(delta, item)
     var phones = [];
     if (typeof item.phones !== 'undefined') {
         for(index in item.phones) {
-            let call = item.phones[index];
+            var call = item.phones[index];
             call = call.replace(/-/g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '');
-            // let button_link = bl(', , { InAppBrowser: true, });
-            let button_link = bl('<i class="zmdi zmdi-phone"></i>&nbsp;&nbsp;' + item.phones[index], null, {
+            // var button_link = bl(', , { InAppBrowser: true, });
+            var button_link = bl('<i class="zmdi zmdi-phone"></i>&nbsp;&nbsp;' + item.phones[index], null, {
                 attributes: {
                     class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' ,
                     onclick: "window.open('" + "tel:" + call + "', '_system', 'location=yes')"
@@ -123,8 +123,8 @@ function representatives_get_card(delta, item)
     var emails = [];
     if (typeof item.emails !== 'undefined') {
         for(index in item.emails) {
-            // let button_link = bl('<i class="zmdi zmdi-email"></i>&nbsp;&nbsp;' + item.emails[index], 'mailto:' + item.emails[index], { InAppBrowser: true, attributes: { class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' }});
-            let button_link = bl('<i class="zmdi zmdi-email"></i>&nbsp;&nbsp;' + item.emails[index], null, {
+            // var button_link = bl('<i class="zmdi zmdi-email"></i>&nbsp;&nbsp;' + item.emails[index], 'mailto:' + item.emails[index], { InAppBrowser: true, attributes: { class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' }});
+            var button_link = bl('<i class="zmdi zmdi-email"></i>&nbsp;&nbsp;' + item.emails[index], null, {
                 attributes: {
                     class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' ,
                     onclick: "window.open('mailto:" + item.emails[index] + "', '_system', 'location=yes')"

@@ -121,7 +121,7 @@ function prot_cat_page_row(view, row) {
         // вернуть html код строки любой категории, кроме "Все продукты"
         if (row.tid !== 50) {
             var content = '';
-            let image = theme('image', { path: row.img.src });
+            var image = theme('image', { path: row.img.src });
             content +=  '<div class="box">';
             content +=      image;
             content +=      '<div class="icon"><img src="' + row.icon_img.src + '"></div>';
@@ -364,7 +364,7 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
         // Load the product display.
         commerce_product_display_load(entity_id, {
             success: function(pd) {
-                let html = theme('product_display', pd);
+                var html = theme('product_display', pd);
 
                 $('#' + commerce_cart_container_id(entity_type, entity_id)).html(html).trigger('create');
 
@@ -400,7 +400,7 @@ function theme_product_display(pd) {
         }
 
         // краткое описание (strip_tags и trim)
-        let subtitle = pd.body.summary.replace(/<\/?[^>]+>/gi, '').replace(/(^\s*)|(\s*)$/g, '');
+        var subtitle = pd.body.summary.replace(/<\/?[^>]+>/gi, '').replace(/(^\s*)|(\s*)$/g, '');
 
         // цена
         var price = 'Цена не указана';
@@ -426,8 +426,8 @@ function theme_product_display(pd) {
         var consumption = '', cons_from = 99999, cons_to = 0;
         if (pd.field_pd_reglaments_entities !== undefined) {
             $.each(pd.field_pd_reglaments_entities, function (index, reglament) {
-                let f = parseFloat(reglament.field_pd_r_prep_rate[0].from);
-                let t = parseFloat(reglament.field_pd_r_prep_rate[0].to);
+                var f = parseFloat(reglament.field_pd_r_prep_rate[0].from);
+                var t = parseFloat(reglament.field_pd_r_prep_rate[0].to);
                 cons_from = cons_from > f ? f : cons_from;
                 cons_to   = cons_to   < t ? t : cons_to;
             });
@@ -481,7 +481,7 @@ function theme_product_display(pd) {
                 '<tbody>';
 
             $.each(pd.field_pd_micronutrients_entities, function (index, micron) {
-                let element = micron.field_pd_mn_element_entities[micron.field_pd_mn_element];
+                var element = micron.field_pd_mn_element_entities[micron.field_pd_mn_element];
                 composition +=  '<tr>';
                 composition +=      '<td>' + element.name + '</td>';
                 composition +=      '<td>' + element.field_mn_html + '</td>';
@@ -1206,12 +1206,12 @@ function about_us_page() {
 }
 
 function h4ToCollapse(text, style = '') {
-    let ba = text.split('<h4>');
-    let result = ba.shift();
-    let collapsed = '  data-collapsed="false"';
+    var ba = text.split('<h4>');
+    var result = ba.shift();
+    var collapsed = '  data-collapsed="false"';
     $.each(ba, function (index, b_item) {
         if (b_item != '') {
-            let ba2 = b_item.split('</h4>');
+            var ba2 = b_item.split('</h4>');
             ba2[0] = ba2[0].replace(/:/, '');
             result += '<div class="ui-collapsible-transparent" data-role="collapsible" data-inset="false"' + collapsed + '><h4' + style + '>' + ba2[0] + '<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>' + ba2[1] + '</div>';
             collapsed = '';
