@@ -174,12 +174,12 @@ function fert_products_page_row(view, row) {
         var title_suffix = row.title.split('|')[1] !== undefined ? row.title.split('|')[1] : '';
 
         var content = '';
+        content += '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
         content += '<div class="box">';
         content +=   '<div class="image">' + image + '</div>';
         content +=   '<p class="font-small">' + row.descr + '</p>';
         content +=   '<div class="icon">' + icon + '</div>';
         content += '</div>';
-        content += '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
 
         return l(content, 'node/' + row.nid, {
                 attributes: {
@@ -250,12 +250,12 @@ function prot_products_page_row(view, row) {
         var icon = theme('image', { path: row.icon_img.src });
 
         var content = '';
+        content += '<div class="title"><span class="clr-category">' + row.title + '</span>' + '</div>';
         content += '<div class="box">';
         content +=   '<div class="image">' + image + '</div>';
         content +=   '<p class="font-small">' + row.descr + '</p>';
         content +=   '<div class="icon">' + icon + '</div>';
         content += '</div>';
-        content += '<div class="title"><span class="clr-category">' + row.title + '</span>' + '</div>';
 
         return l(content, 'node/' + row.nid + '?cid=' + row.category_id + '&cname=' + row.category_name, {
                 attributes: {
