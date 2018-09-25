@@ -177,13 +177,13 @@ function theme_program_cat_page(program)
                             text += '<span class="rate clr-category">Норма расхода</span><br />' + rate + '<br />';
 
                             let product = '';
-                            product += '<div class="box">';
-                            product += '<div class="image">' + photo0 + '</div>';
-                            product += '<div class="image1">' + photo1 + '</div>';
-                            product += '<p class="description font-small">' + text + '</p>';
-                            product += '<div class="icon">' + icon + '</div>';
-                            product += '</div>';
                             product += '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
+                            product += '<div class="box">';
+                            product +=     '<div class="image">' + photo0 + '</div>';
+                            product +=     '<div class="image1">' + photo1 + '</div>';
+                            product +=     '<p class="description font-small">' + text + '</p>';
+                            product +=     '<div class="icon">' + icon + '</div>';
+                            product += '</div>';
 
                             let url = reglament.preparation.type == 'product_mix' ? null : 'node/' + reglament.preparation.id;
                             html += l(product, url, {
@@ -198,7 +198,7 @@ function theme_program_cat_page(program)
                 });
             } else {
                 if (category.hobjects) {
-                    let phase = ' на этапе "' + (program.header.phase ? program.header.phase + '" ' : '');
+                    let phase = program.header.phase ? ' на этапе "' + program.header.phase + '"' : '';
                     html += 'К сожалению, против вредного объекта "' + category.hobjects + '"' + phase + ' у нас пока нет препаратов.';
                 }
             }

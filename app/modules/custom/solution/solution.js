@@ -86,7 +86,7 @@ function solution_form_page(form, form_state)
         /* ----------------------------------- Культура --------------------------------------------------------------*/
         form.elements['culture'] = {
             type: 'select',
-            prefix: '<h3>Что лечим?</h3>',
+            prefix: '<h3>Моя культура</h3>',
             attributes: {
                 onchange: "_solution_form_culture_onchange('#edit-solution-form-page-culture');"
             },
@@ -108,7 +108,7 @@ function solution_form_page(form, form_state)
         /* ----------------------------------- Вредители -------------------------------------------------------------*/
         form.elements['weeds'] = {
             type: 'select',
-            prefix: '<h3 class="hobjects">От чего лечим?</h3>',
+            prefix: '<h3 class="hobjects">Моя проблема</h3>',
         };
         form.elements['pests'] = {
             type: 'select',
