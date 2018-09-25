@@ -445,7 +445,7 @@ function theme_product_display(pd) {
         var price_per_unit = '';
         if (pd.field_pd_reglaments_entities !== undefined && pd.field_pd_price_per_unit !== undefined) {
             price_per_unit = pd.field_pd_price_per_unit['amount'] / 100;
-            cost = accounting.formatNumber(cons_from * price_per_unit, 0, " ") + '-' + accounting.formatNumber(cons_to * price_per_unit, 0, " ") + ' руб./га';
+            if (price_per_unit) cost = accounting.formatNumber(cons_from * price_per_unit, 0, " ") + '-' + accounting.formatNumber(cons_to * price_per_unit, 0, " ") + ' руб./га';
         }
 
         // препаративная форма
