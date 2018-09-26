@@ -73,7 +73,7 @@ function agroshop_node_page_title(callback, nid) {
                 if (node) {
                     if (node.title) { title = node.title; }
                     if (node.type === 'product_agro') {
-                        if (_GET('cname')) { title = _GET('cname') };
+                        if (_GET('cname')) { title = _GET('cname'); }
                         if (_GET('cid')) {
                             title = l(title, 'prot-products/' + _GET('cid'));
                         }
@@ -192,7 +192,7 @@ function fert_products_page_row(view, row) {
     catch (error) { console.log('fert_products_page_row - ' + error); }
 }
 
-function fert_products_page_empty(view) {
+function fert_products_page_empty() {
     try {
         return "Препаратов не найдено";
     }
@@ -268,7 +268,7 @@ function prot_products_page_row(view, row) {
     catch (error) { console.log('prot_products_page_row - ' + error); }
 }
 
-function prot_products_page_empty(view) {
+function prot_products_page_empty() {
     try {
         return "Препаратов не найдено";
     }
@@ -320,7 +320,7 @@ function agroshop_node_page_view_alter_product_fert(node, options)
  * (по аналогии с форматом Форма добавления в корзину из commerce.js - commerce_cart_field_formatter_view)
  */
 function commerce_product_reference_field_formatter_view(entity_type, entity, field,
-                                            instance, langcode, items, display)
+                                                         instance, langcode, items, display)
 {
     try {
         var element = {};
@@ -450,7 +450,7 @@ function theme_product_display(pd) {
 
         // препаративная форма
         var prep_form = '';
-        if (pd.field_pd_formulation_entities != undefined) {
+        if (pd.field_pd_formulation_entities !== undefined) {
             prep_form = pd.field_pd_formulation_entities[pd.field_pd_formulation].name;
         }
 
@@ -474,9 +474,9 @@ function theme_product_display(pd) {
         if (pd.field_pd_micronutrients_entities !== undefined) {
             composition = '<table data-role="table" id="table-column-toggle" data-mode="columntoggle" class="ui-responsive table-stroke">' +
                 '<thead><tr>' +
-                    '<th>Микроэлемент</th>' +
-                    '<th>Символ</th>' +
-                    '<th>Кол-во, %</th>' +
+                '<th>Микроэлемент</th>' +
+                '<th>Символ</th>' +
+                '<th>Кол-во, %</th>' +
                 '</tr></thead>' +
                 '<tbody>';
 
@@ -505,12 +505,12 @@ function theme_product_display(pd) {
         // сертификат
         var sertificates = '';
         $.each(pd.field_pd_certificate_url, function(index, sert_src) {
-            sertificates += theme('image', {path: sert_src})
+            sertificates += theme('image', {path: sert_src});
         });
 
         // файлы
         var files = '';
-        if (pd.field_file_attachments != undefined) {
+        if (pd.field_file_attachments !== undefined) {
             $.each(pd.field_file_attachments, function(index, file) {
                 var file_info = file.filename + ', ' + accounting.formatNumber(file.filesize/1024, 2, " ") + 'KB';
                 var file_url = pd.field_file_attachments_url[index];
@@ -647,12 +647,12 @@ function agroshop_form_alter(form, form_state) {
             case 'commerce_cart_add_to_cart_form':
                 console.log('agroshop_form_commerce_cart_add_to_cart_form_alter - ');
 
-                var arguments = form["arguments"];
+                var args = form["arguments"];
                 var pid = _commerce_product_display_product_id;
-                var src = arguments[0].field_product_entities[pid].field_p_images_url[0];
-                var price = arguments[0].field_product_entities[pid].commerce_price_formatted;
+                var src = args[0].field_product_entities[pid].field_p_images_url[0];
+                var price = args[0].field_product_entities[pid].commerce_price_formatted;
                 var fprice = parseFloat(price);
-                var descr = arguments[0].body.safe_value;
+                var descr = args[0].body.safe_value;
 
                 // добавляем поля из product variants
                 // чтобы поля выводились на странице в нужном порядке, переберем массив
@@ -684,8 +684,8 @@ function agroshop_form_alter(form, form_state) {
                 form.elements = elements;
 
                 // зададим значение по умолчанию
-                for (var key in form.elements['field_p_tare']['ru'][0].options) break;
-                form.elements['field_p_tare']['ru'][0]['value'] = key;
+                for (var key in form.elements.field_p_tare['ru'][0].options) break;
+                form.elements.field_p_tare['ru'][0]['value'] = key;
 
                 break;
             case 'user_login_form':
@@ -1098,7 +1098,7 @@ function agroshop_block_view(delta, region) {
                 }
                 break;
 
-                // правая кнопка в Header
+            // правая кнопка в Header
             case 'menu_block_button_right':
                 // настройки на Homepage
                 if (drupalgap_path_get() == drupalgap.settings.front) {
@@ -1109,7 +1109,7 @@ function agroshop_block_view(delta, region) {
                             onclick: "javascript:drupalgap_goto('settings');"
                         }
                     });
-                // назад на остальных
+                    // назад на остальных
                 } else {
                     content += bl('', '#', {
                         attributes: {
@@ -1121,7 +1121,7 @@ function agroshop_block_view(delta, region) {
                 }
                 break;
 
-                // формируем свой заголовок в Header в зависимости от страницы
+            // формируем свой заголовок в Header в зависимости от страницы
             case 'agro_title':
                 if (drupalgap_path_get() == drupalgap.settings.front) {
                     content = '<h1 class="page-title page-title-image">' + theme('image', { path: 'app/themes/agro/images/homepage/logo-g.png' }) + '</h1>';
@@ -1188,13 +1188,13 @@ function unixToDate(timestamp)
  */
 function about_us_page() {
     try {
-        var html = '<p>Мы являемся российским производителем эффективных химических средств защиты растений и жидких минеральных удобрений для всего цикла сельскохозяйственного производства с момента обработки семян и до сбора урожая.</p>'
-            + '<p>Компания успешно работает на российском рынке средств защиты растений уже более 15 лет и имеет торговую сеть более чем в 50 регионах страны.</p>'
-            + '<p>Движущая сила компании - внедрение новых технологий и постоянное совершенствование системы контроля и качества продукции, которая одобрена зарубежными партнерами.</p>';
+        var html = '<p>Мы являемся российским производителем эффективных химических средств защиты растений и жидких минеральных удобрений для всего цикла сельскохозяйственного производства с момента обработки семян и до сбора урожая.</p>' +
+            '<p>Компания успешно работает на российском рынке средств защиты растений уже более 15 лет и имеет торговую сеть более чем в 50 регионах страны.</p>' +
+            '<p>Движущая сила компании - внедрение новых технологий и постоянное совершенствование системы контроля и качества продукции, которая одобрена зарубежными партнерами.</p>';
 
         html += '<p>Производство расположено в городе Кирово-Чепецк Кировская области</p>';
-        html += '<p>Подробную информацию о компании, представителях и продукции можно найти на нашем сайте</p>'
-            + bl('https://kccc.ru', null, {
+        html += '<p>Подробную информацию о компании, представителях и продукции можно найти на нашем сайте</p>' +
+            bl('https://kccc.ru', null, {
                 attributes: {
                     onclick: "window.open('https://kccc.ru', '_system', 'location=yes')"
                 }
@@ -1205,7 +1205,7 @@ function about_us_page() {
     catch (error) { console.log('about_us_page - ' + error); }
 }
 
-function h4ToCollapse(text, style = '') {
+function h4ToCollapse(text, style) {
     var ba = text.split('<h4>');
     var result = ba.shift();
     var collapsed = '  data-collapsed="false"';
