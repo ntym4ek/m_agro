@@ -604,7 +604,7 @@ small, .font-small {
     .btn-download { position: absolute; right: 0; top: 0; }
     .product-item {
         .box .image1 {
-            position: absolute; bottom: 0; left: 25px;
+            position: absolute; top: 35px; left: 30px;
             width: 45px;
         }
         p.description {
@@ -621,10 +621,13 @@ small, .font-small {
                 margin: 5px 0 4px;
                 padding: 2px 5px;
             }
-            .period,
-            .hobjects {
+            .period {
                 color: $brand-fertilizers;
                 border: 1px solid $brand-fertilizers;
+            }
+            .hobjects {
+                color: $brand-desiccants;
+                border: 1px solid $brand-desiccants
             }
             .rate {
                 color: $brand-insecticides;

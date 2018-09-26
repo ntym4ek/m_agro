@@ -174,7 +174,7 @@ function solution_form_page_submit(form, form_state)
 function _solution_form_get_culture_options()
 {
     try {
-        console.log('_solution_form_get_culture_options - ');
+        //console.log('_solution_form_get_culture_options - ');
 
         views_datasource_get_view_result(
             'source/reglaments/cultures',
