@@ -183,11 +183,11 @@ function _solution_form_get_culture_options()
 
                     var widget = $('#edit-solution-form-page-culture');
 
+                    var options = '';
                     for (var index in data.items) {
-                        var option = '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
-                        $(widget).append(option);
+                        options += '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
                     }
-
+                    $(widget).append(options);
                     $(widget).selectmenu('refresh', true);
                 }
             }
@@ -210,14 +210,12 @@ function _solution_form_culture_onchange(culture_id_tag)
                     if (data.items.length == 0) { return; }
 
                     var widget = $('#edit-solution-form-page-phase');
-                    // var widget = $('#phase-select');
-                    $(widget).html('');
-                    $(widget).append('<option value="">Фаза культуры</option>');
 
+                    var options = '<option value="">Фаза культуры</option>';
                     for (var index in data.items) {
-                        var option = '<option value="' + data.items[index].tid + '">' + data.items[index].name + '</option>';
-                        $(widget).append(option);
+                        options += '<option value="' + data.items[index].tid + '">' + data.items[index].name + '</option>';
                     }
+                    $(widget).html(options);
 
                     $(widget).selectmenu('refresh', true);
                     $(widget).closest('.form-item').css('display', 'block');
@@ -232,13 +230,12 @@ function _solution_form_culture_onchange(culture_id_tag)
                     if (data.items.length == 0) { return; }
 
                     var widget = $('#edit-solution-form-page-weeds');
-                    $(widget).html('');
-                    $(widget).append('<option value="">Сорное растение</option>');
 
+                    var options = '<option value="">Сорное растение</option>';
                     for (var index in data.items) {
-                        var option = '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
-                        $(widget).append(option);
+                        options += '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
                     }
+                    $(widget).html(options);
 
                     $(widget).selectmenu('refresh', true);
                     $('h3.hobjects').css('display', 'block');
@@ -252,13 +249,12 @@ function _solution_form_culture_onchange(culture_id_tag)
                     if (data.items.length == 0) { return; }
 
                     var widget = $('#edit-solution-form-page-pests');
-                    $(widget).html('');
-                    $(widget).append('<option value="">Вредитель</option>');
 
+                    var options = '<option value="">Вредитель</option>';
                     for (var index in data.items) {
-                        var option = '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
-                        $(widget).append(option);
+                        options += '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
                     }
+                    $(widget).html(options);
 
                     $(widget).selectmenu('refresh', true);
                     $(widget).closest('.form-item').css('display', 'block');
@@ -271,14 +267,12 @@ function _solution_form_culture_onchange(culture_id_tag)
                     if (data.items.length == 0) { return; }
 
                     var widget = $('#edit-solution-form-page-diseases');
-                    $(widget).html('');
-                    $(widget).append('<option value="">Болезнь</option>');
 
+                    var options = '<option value="">Болезнь</option>';
                     for (var index in data.items) {
-                        var option = '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
-                        $(widget).append(option);
+                        options += '<option value="' + data.items[index].nid + '">' + data.items[index].title + '</option>';
                     }
-
+                    $(widget).html(options);
                     $(widget).selectmenu('refresh', true);
                     $(widget).closest('.form-item').css('display', 'block');
                     $('.field-name-desiccants').css('display', 'block');
