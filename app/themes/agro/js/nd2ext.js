@@ -180,6 +180,8 @@
         }
     });
 
+    $.mobile.phonegapNavigationEnabled = true;
+
     // $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
     //     _decideFormat: function() {
     //         console.log('!!!!!!!!!!!!!!!!!!');
