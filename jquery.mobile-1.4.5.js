@@ -11584,7 +11584,7 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 
 		if ( self.menuType === "page" ) {
 			self.menuPage.dialog( "close" );
-			//self.list.appendTo( self.listbox );
+			self.list.appendTo( self.listbox );
 		} else {
 			self.listbox.popup( "close" );
 		}
@@ -11805,7 +11805,7 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 		}
 
 		// Chain up
-		this._super();
+		//this._super();
 	}
 });
 
