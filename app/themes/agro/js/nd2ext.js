@@ -180,6 +180,22 @@
         }
     });
 
+    // $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
+    //     _decideFormat: function() {
+    //         console.log('!!!!!!!!!!!!!!!!!!');
+    //         var self = this,
+    //             $window = this.window,
+    //             selfListParent = self.list.parent(),
+    //             menuHeight = selfListParent.outerHeight(),
+    //             scrollTop = $window.scrollTop(),
+    //             btnOffset = self.button.offset().top,
+    //             screenHeight = $window.height();
+    //
+    //             self.menuType = "overlay";
+    //             self.listbox.one( { popupafteropen: $.proxy( this, "_focusMenuItem" ) } );
+    //     }
+    // });
+
     $(document).bind("pagebeforeshow", function(e) {
         $(document).trigger("includebeforecreate");
         return $("[data-role='nd2extTabs']", e.target).extTabs();

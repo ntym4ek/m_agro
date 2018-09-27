@@ -11582,8 +11582,8 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 
 		var self = this;
 
-		if ( self.menuType === "page" ) {
-			self.menuPage.dialog( "close" );
+		if ( self.menuType === "page" ) { alert('self.menuPage.dialog( "close" )');
+			self.menuPage.dialog( "close" ); alert('self.list.appendTo( self.listbox );');
 			self.list.appendTo( self.listbox );
 		} else {
 			self.listbox.popup( "close" );
