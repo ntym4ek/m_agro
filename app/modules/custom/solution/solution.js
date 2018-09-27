@@ -8,8 +8,10 @@ function solution_menu()
     return {
         solution : {
             title: 'Найти решение',
-            page_callback: 'drupalgap_get_form',
-            page_arguments: ['solution_form_page']
+            // page_callback: 'drupalgap_get_form',
+            // page_arguments: ['solution_form_page']
+            page_callback: 'solution_page_test'
+
         },
         'solution-page': {
             title: 'Программа защиты',
@@ -25,6 +27,45 @@ function solution_menu()
 /**
  * -------------------------------------- Страница Решения -------------------------------------------------------------
  */
+
+/**
+ * The callback страницы Найти решение.
+ */
+function solution_page_test()
+{
+    var content = {};
+    content['my_text_field'] = {
+        theme: 'textfield',
+        attributes: {
+            value: 'Hello'
+        }
+    };
+
+    content['my_select_list'] = {
+        theme: 'select',
+        options: {
+            0: 'No',
+            1: 'Yes',
+            2: 'Maybe So',
+            3: 'No',
+            4: 'Yes',
+            5: 'Maybe So',
+            6: 'No',
+            7: 'Yes',
+            8: 'Maybe So',
+            9: 'No',
+            10: 'Yes',
+            11: 'Maybe So',
+            attributes: {
+                'data-native-menu': 'false',
+                'multiple': 'multiple'
+            }
+        },
+        value: 2
+    };
+
+    return content;
+}
 
 /**
  * The callback страницы Найти решение.

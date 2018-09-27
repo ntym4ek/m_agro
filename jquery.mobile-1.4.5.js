@@ -11805,7 +11805,7 @@ $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
 		}
 
 		// Chain up
-		//this._super();
+		this._super();
 	}
 });
 
