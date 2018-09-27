@@ -88,7 +88,9 @@ function solution_form_page(form, form_state)
             type: 'select',
             prefix: '<h3>Моя культура</h3>',
             attributes: {
-                onchange: "_solution_form_culture_onchange('#edit-solution-form-page-culture');"
+                onchange: "_solution_form_culture_onchange('#edit-solution-form-page-culture');",
+                'data-native-menu': 'false',
+                'multiple': 'multiple'
             },
             options: { '': 'Культура' },
             children: []
@@ -96,13 +98,13 @@ function solution_form_page(form, form_state)
         var options = {
             'page_id': drupalgap_get_page_id(drupalgap_path_get()),
             'jqm_page_event': 'pageshow',
-            'jqm_page_event_callback': '_solution_form_get_culture_options',
+            'jqm_page_event_callback': '_solution_form_get_culture_options'
         };
         form.elements['culture'].children.push({ markup: drupalgap_jqm_page_event_script_code(options) });
 
         /* ----------------------------------- Фаза ------------------------------------------------------------------*/
         form.elements['phase'] = {
-            type: 'select',
+            type: 'select'
         };
 
         /* ----------------------------------- Вредители -------------------------------------------------------------*/
