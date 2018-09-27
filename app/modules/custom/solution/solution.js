@@ -8,9 +8,8 @@ function solution_menu()
     return {
         solution : {
             title: 'Найти решение',
-            // page_callback: 'drupalgap_get_form',
-            // page_arguments: ['solution_form_page']
-            page_callback: 'solution_page_test'
+            page_callback: 'drupalgap_get_form',
+            page_arguments: ['solution_form_page1']
 
         },
         'solution-page': {
@@ -31,18 +30,11 @@ function solution_menu()
 /**
  * The callback страницы Найти решение.
  */
-function solution_page_test()
+function solution_form_page1(form, form_state)
 {
-    var content = {};
-    content['my_text_field'] = {
-        theme: 'textfield',
-        attributes: {
-            value: 'Hello'
-        }
-    };
-
-    content['my_select_list'] = {
-        theme: 'select',
+    form.elements['culture'] = {
+        type: 'select',
+        prefix: '<h3>Моя культура</h3>',
         options: {
             0: 'No',
             1: 'Yes',
@@ -60,11 +52,23 @@ function solution_page_test()
                 'data-native-menu': 'false',
                 'multiple': 'multiple'
             }
-        },
-        value: 2
+        }
+    };
+    form.elements['culture1'] = {
+        type: 'select',
+        prefix: '<h3>Моя культура</h3>',
+        options: {
+            9: 'No',
+            10: 'Yes',
+            11: 'Maybe So',
+            attributes: {
+                'data-native-menu': 'false',
+                'multiple': 'multiple'
+            }
+        }
     };
 
-    return content;
+    return form;
 }
 
 /**
@@ -154,10 +158,10 @@ function solution_form_page(form, form_state)
             prefix: '<h3 class="hobjects">Моя проблема</h3>',
         };
         form.elements['pests'] = {
-            type: 'select',
+            type: 'select'
         };
         form.elements['diseases'] = {
-            type: 'select',
+            type: 'select'
         };
 
 
