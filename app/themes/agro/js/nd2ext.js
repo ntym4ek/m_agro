@@ -180,23 +180,52 @@
         }
     });
 
-    $.mobile.phonegapNavigationEnabled = true;
+    // меняем поведение селекта jquery.mobile.1.4.5
+    $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
+        _decideFormat: function() {
+            // убираем dialog, оставляем только попап
+            var self = this;
 
-    // $.widget( "mobile.selectmenu", $.mobile.selectmenu, {
-    //     _decideFormat: function() {
-    //         console.log('!!!!!!!!!!!!!!!!!!');
-    //         var self = this,
-    //             $window = this.window,
-    //             selfListParent = self.list.parent(),
-    //             menuHeight = selfListParent.outerHeight(),
-    //             scrollTop = $window.scrollTop(),
-    //             btnOffset = self.button.offset().top,
-    //             screenHeight = $window.height();
-    //
-    //             self.menuType = "overlay";
-    //             self.listbox.one( { popupafteropen: $.proxy( this, "_focusMenuItem" ) } );
-    //     }
-    // });
+            self.menuType = "overlay";
+            self.listbox.one( {
+                popupafteropen: $.proxy( this, "_focusMenuItem" )
+            } );
+        }
+    });
+
+    // меняем поведение попапа jquery.mobile.1.4.5
+    $.widget( "mobile.popup", $.mobile.popup, {
+        _clampPopupWidth: function( infoOnly ) {
+            var menuSize,
+                windowCoordinates = {
+                    x: this.window.scrollLeft(),
+                    y: this.window.scrollTop(),
+                    cx: ( this.window[ 0 ].innerWidth || this.window.width() ),
+                    cy: ( this.window[ 0 ].innerHeight || this.window.height() )
+                },
+                // rectangle within which the popup must fit
+                rectangle = {
+                    x: this._tolerance.l,
+                    y: windowCoordinates.y + this._tolerance.t,
+                    cx: windowCoordinates.cx - this._tolerance.l - this._tolerance.r,
+                    cy: windowCoordinates.cy - this._tolerance.t - this._tolerance.b
+                };
+
+            if ( !infoOnly ) {
+                // Clamp the width of the menu before grabbing its size
+                this._ui.container.css( "max-width", rectangle.cx );
+                // добавить ограничение по высоте, в пределах текущего экрана
+                this._ui.container.css( "max-height", rectangle.cy );
+            }
+
+            menuSize = {
+                cx: this._ui.container.outerWidth( true ),
+                cy: this._ui.container.outerHeight( true )
+            };
+
+            return { rc: rectangle, menuSize: menuSize };
+        }
+    });
 
     $(document).bind("pagebeforeshow", function(e) {
         $(document).trigger("includebeforecreate");
