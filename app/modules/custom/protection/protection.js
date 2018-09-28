@@ -191,18 +191,19 @@ function theme_program_cat_page(program)
                                         attributes: {
                                             class: 'product-item wow fadeIn waves-effect waves-button',
                                             'data-wow-delay': '0.2s'
-                                        },
+                                        }
                                     }
                                 );
                             });
                         });
                     });
-                } else {
-                    if (category.hobjects) {
-                        var phase = program.header.phase ? ' на этапе "' + program.header.phase + '"' : '';
-                        html += 'По препаратам против вредного объекта "' + category.hobjects + '"' + phase;
-                        html += ' свяжитесь с нашими специалистами на странице ' + l('Представителей', 'representatives');
-                    }
+                }
+
+                // вывести неизлечимые ВО
+                if (category.hobjects) {
+                    var phase = program.header.phase ? ' на этапе "' + program.header.phase + '"' : '';
+                    html += 'По препаратам против вредных объектов ' + category.hobjects + '' + phase;
+                    html += ' свяжитесь с нашими специалистами на странице ' + l('Представителей', 'representatives');
                 }
                 html += '</div>';
                 html += '</div>';
