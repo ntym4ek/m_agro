@@ -9,7 +9,7 @@ function solution_menu()
         solution : {
             title: 'Найти решение',
             page_callback: 'drupalgap_get_form',
-            page_arguments: ['solution_form_page1']
+            page_arguments: ['solution_form_page']
 
         },
         'solution-page': {
@@ -26,50 +26,6 @@ function solution_menu()
 /**
  * -------------------------------------- Страница Решения -------------------------------------------------------------
  */
-
-/**
- * The callback страницы Найти решение.
- */
-function solution_form_page1(form, form_state)
-{
-    form.elements['culture'] = {
-        type: 'select',
-        prefix: '<h3>Моя культура</h3>',
-        options: {
-            0: 'No',
-            1: 'Yes',
-            2: 'Maybe So',
-            3: 'No',
-            4: 'Yes',
-            5: 'Maybe So',
-            6: 'No',
-            7: 'Yes',
-            8: 'Maybe So',
-            9: 'No',
-            10: 'Yes',
-            11: 'Maybe So',
-            attributes: {
-                'data-native-menu': 'false',
-                'multiple': 'multiple'
-            }
-        }
-    };
-    form.elements['culture1'] = {
-        type: 'select',
-        prefix: '<h3>Моя культура</h3>',
-        options: {
-            9: 'No',
-            10: 'Yes',
-            11: 'Maybe So',
-            attributes: {
-                'data-native-menu': 'false',
-                'multiple': 'multiple'
-            }
-        }
-    };
-
-    return form;
-}
 
 /**
  * The callback страницы Найти решение.
@@ -134,8 +90,7 @@ function solution_form_page(form, form_state)
             prefix: '<h3>Моя культура</h3>',
             attributes: {
                 onchange: "_solution_form_culture_onchange('#edit-solution-form-page-culture');",
-                'data-native-menu': 'false',
-                'multiple': 'multiple'
+                'data-native-menu': 'false'
             },
             options: { '': 'Культура' },
             children: []
@@ -156,12 +111,24 @@ function solution_form_page(form, form_state)
         form.elements['weeds'] = {
             type: 'select',
             prefix: '<h3 class="hobjects">Моя проблема</h3>',
+            attributes: {
+                'data-native-menu': 'false',
+                'multiple': 'multiple'
+            }
         };
         form.elements['pests'] = {
-            type: 'select'
+            type: 'select',
+            attributes: {
+                'data-native-menu': 'false',
+                'multiple': 'multiple'
+            }
         };
         form.elements['diseases'] = {
-            type: 'select'
+            type: 'select',
+            attributes: {
+                'data-native-menu': 'false',
+                'multiple': 'multiple'
+            }
         };
 
 
@@ -206,12 +173,9 @@ function solution_form_page_submit(form, form_state)
 {
     solution_data_array['culture_id']   = form_state.values['culture'];
     solution_data_array['phase_id']     = form_state.values['phase'] ? form_state.values['phase'] : 0;
-    solution_data_array['weeds_arr']    = [];
-    if (form_state.values['weeds']) solution_data_array['weeds_arr'].push(form_state.values['weeds']);
-    solution_data_array['pests_arr']    = [];
-    if (form_state.values['pests']) solution_data_array['pests_arr'].push(form_state.values['pests']);
-    solution_data_array['diseases_arr'] = [];
-    if (form_state.values['diseases']) solution_data_array['diseases_arr'].push(form_state.values['diseases']);
+    if (form_state.values['weeds'])     solution_data_array['weeds_arr'] = form_state.values['weeds'];
+    if (form_state.values['pests'])     solution_data_array['pests_arr'] = form_state.values['pests'];
+    if (form_state.values['diseases'])  solution_data_array['diseases_arr'] = form_state.values['diseases'];
     solution_data_array['desiccants']   = form_state.values['desiccants'] ? form_state.values['desiccants'] : 0;
     solution_data_array['fertilizers']  = form_state.values['fertilizers'] ? form_state.values['fertilizers'] : 0;
 
