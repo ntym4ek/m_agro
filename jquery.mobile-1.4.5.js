@@ -5809,11 +5809,9 @@ $.widget( "mobile.page", {
 		if ( this.phonegapNavigationEnabled &&
 			nav &&
 			nav.app &&
-			nav.app.backHistory ) { alert(this.phonegapNavigationEnabled); alert(1);
+			nav.app.backHistory ) {
 			nav.app.backHistory();
-
 		} else {
-		    alert(2);
 			$.mobile.pageContainer.pagecontainer( "back" );
 		}
 	};
