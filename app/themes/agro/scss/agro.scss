@@ -111,11 +111,31 @@ small, .font-small {
     }
 }
 
+// вместе с изменением поведения попапа при расчёты высоты
+// вмещаем его в текущий экран
+.ui-popup-container {
+    overflow-y: scroll;
+}
 
+.ui-listview {
+    .ui-btn {
+        font-weight: 400;
+        &:focus {
+            background-color: #e8e8e8;
+        }
+    }
+}
+
+// исправить форматирование чекбоксов
+.ui-btn.ui-checkbox-off,
+.ui-btn.ui-checkbox-on {
+    padding: .6em 1em .7em 2.5em;
+    &:after { margin: -10px 13px; }
+}
 
 // обёртка для анимированой загрузки изображений
 .image-loader {
-    background-color: #00000010;
+    background-color: rgba(0, 0, 0, 0.1);
     background-image: url(../images/loader2.gif);
     background-position: center center;
     background-repeat: no-repeat;
