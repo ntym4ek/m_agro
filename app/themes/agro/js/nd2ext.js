@@ -200,22 +200,32 @@
                 windowCoordinates = {
                     x: this.window.scrollLeft(),
                     y: this.window.scrollTop(),
-                    cx: ( this.window[ 0 ].innerWidth || this.window.width() ),
-                    cy: ( this.window[ 0 ].innerHeight || this.window.height() )
+                    cx: ( this.window[0].innerWidth || this.window.width() ),
+                    cy: ( this.window[0].innerHeight || this.window.height() )
                 },
                 // rectangle within which the popup must fit
                 rectangle = {
-                    x: this._tolerance.l,
+                    x: this._tolerance.l*3,
                     y: windowCoordinates.y + this._tolerance.t,
-                    cx: windowCoordinates.cx - this._tolerance.l - this._tolerance.r,
-                    cy: windowCoordinates.cy - this._tolerance.t - this._tolerance.b
+                    cx: windowCoordinates.cx - this._tolerance.l*3 - this._tolerance.r*3,
+                    cy: windowCoordinates.cy - this._tolerance.t - this._tolerance.b,
+                    mx: windowCoordinates.cx/2
                 };
 
             if ( !infoOnly ) {
+                var content_width = this._ui.container.find('.ui-selectmenu').width();
+                var content_height = this._ui.container.find('.ui-selectmenu').height();
+                console.log('wh: ' + content_width + 'x' + content_height);
+
                 // Clamp the width of the menu before grabbing its size
                 this._ui.container.css( "max-width", rectangle.cx );
+                this._ui.container.css( "min-width", rectangle.mx );
                 // добавить ограничение по высоте, в пределах текущего экрана
                 this._ui.container.css( "max-height", rectangle.cy );
+
+                if (content_height > rectangle.cy ) this._ui.container.css("height", rectangle.cy);
+                else this._ui.container.css("height", content_height);
+
             }
 
             menuSize = {

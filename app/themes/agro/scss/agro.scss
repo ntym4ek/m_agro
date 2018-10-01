@@ -114,7 +114,23 @@ small, .font-small {
 // вместе с изменением поведения попапа при расчёты высоты
 // вмещаем его в текущий экран
 .ui-popup-container {
-    overflow-y: scroll;
+    border-radius: 5px;
+    overflow: hidden;
+    &::after {
+        content: '';
+        display: block;
+        position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
+        height: 20px;
+        visibility: visible;
+        background-image: linear-gradient(0deg, #fff, transparent);
+    }
+    .ui-selectmenu {
+        height: 100%;
+        .ui-selectmenu-list {
+            height: 100%;
+            overflow-y: scroll;
+        }
+    }
 }
 
 .ui-listview {
@@ -135,7 +151,7 @@ small, .font-small {
 
 // обёртка для анимированой загрузки изображений
 .image-loader {
-    //background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.01);
     background-image: url(../images/loader2.gif);
     background-position: center center;
     background-repeat: no-repeat;
