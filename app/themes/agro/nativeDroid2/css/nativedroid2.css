@@ -8,7 +8,7 @@
 /*@import url("nativedroid2.color.indigo.css");*/
 /*@import url("nativedroid2.color.light-blue.css");*/
 /*@import url("nativedroid2.color.cyan.css");*/
-@import url("nativedroid2.color.teal.css");
+/*@import url("nativedroid2.color.teal.css");*/
 /*@import url("nativedroid2.color.green.css");*/
 /*@import url("nativedroid2.color.light-green.css");*/
 /*@import url("nativedroid2.color.lime.css");*/
@@ -566,7 +566,9 @@ code {
 }
 
 .ui-page-theme-a .ui-btn, html .ui-bar-a .ui-btn, html .ui-body-a .ui-btn, html body .ui-group-theme-a .ui-btn, html head+body .ui-btn.ui-btn-a, .ui-page-theme-a .ui-btn:visited, html .ui-bar-a .ui-btn:visited, html .ui-body-a .ui-btn:visited, html body .ui-group-theme-a .ui-btn:visited, html head+body .ui-btn.ui-btn-a:visited,
-.ui-page-theme-a .ui-btn.ui-btn-active, html .ui-bar-a .ui-btn.ui-btn-active, html .ui-body-a .ui-btn.ui-btn-active, html body .ui-group-theme-a .ui-btn.ui-btn-active, html head+body .ui-btn.ui-btn-a.ui-btn-active, .ui-page-theme-a .ui-checkbox-on:after, html .ui-bar-a .ui-checkbox-on:after, html .ui-body-a .ui-checkbox-on:after, html body .ui-group-theme-a .ui-checkbox-on:after, .ui-btn.ui-checkbox-on.ui-btn-a:after, .ui-page-theme-a .ui-flipswitch-active, html .ui-bar-a .ui-flipswitch-active, html .ui-body-a .ui-flipswitch-active, html body .ui-group-theme-a .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active, .ui-page-theme-a .ui-slider-track .ui-btn-active, html .ui-bar-a .ui-slider-track .ui-btn-active, html .ui-body-a .ui-slider-track .ui-btn-active, html body .ui-group-theme-a .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-a .ui-btn-active {
+.ui-page-theme-a .ui-btn.ui-btn-active, html .ui-bar-a .ui-btn.ui-btn-active, html .ui-body-a .ui-btn.ui-btn-active, html body .ui-group-theme-a .ui-btn.ui-btn-active, html head+body .ui-btn.ui-btn-a.ui-btn-active, .ui-page-theme-a .ui-checkbox-on:after, html .ui-bar-a .ui-checkbox-on:after, html .ui-body-a .ui-checkbox-on:after, html body .ui-group-theme-a .ui-checkbox-on:after, .ui-btn.ui-checkbox-on.ui-btn-a:after, .ui-page-theme-a .ui-flipswitch-active, html .ui-bar-a .ui-flipswitch-active, html .ui-body-a .ui-flipswitch-active, html body .ui-group-theme-a .ui-flipswitch-active, html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active
+/*, html body .ui-group-theme-a .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-a .ui-btn-active */
+{
 	background-color: transparent;
 	color: inherit;
 	border: 0px;
@@ -992,7 +994,7 @@ textarea.ui-input-text.ui-textinput-autogrow {
 
 .ui-page-theme-a .ui-slider-track .ui-btn-active, html .ui-bar-a .ui-slider-track .ui-btn-active, html .ui-body-a .ui-slider-track .ui-btn-active, html body .ui-group-theme-a .ui-slider-track .ui-btn-active, html body div.ui-slider-track.ui-body-a .ui-btn-active {
 	height: 2px;
-	border-radius: 0px;
+	/*border-radius: 0px;*/
 }
 
 .ui-slider-track {
@@ -1006,13 +1008,13 @@ html >body .ui-rangeslider .ui-rangeslider-sliders .ui-slider-track:first-child 
 	border: 0px solid #ffffff;
 }
 
-.ui-slider-track .ui-btn.ui-slider-handle {
+.ui-slider-track:not(.ui-slider-switch) .ui-btn.ui-slider-handle {
 	width: 20px;
 	height: 20px;
-	border-radius: 50%;
+	/*border-radius: 50%;*/
 	margin-top: -10px;
 	margin-left: -10px;
-	box-shadow: none;
+	/*box-shadow: none;*/
 }
 
 

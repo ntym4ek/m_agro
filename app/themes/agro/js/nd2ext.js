@@ -215,7 +215,6 @@
             if ( !infoOnly ) {
                 var content_width = this._ui.container.find('.ui-selectmenu').width();
                 var content_height = this._ui.container.find('.ui-selectmenu').height();
-                console.log('wh: ' + content_width + 'x' + content_height);
 
                 // Clamp the width of the menu before grabbing its size
                 this._ui.container.css( "max-width", rectangle.cx );

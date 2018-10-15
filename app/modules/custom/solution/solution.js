@@ -9,7 +9,13 @@ function solution_menu()
         solution : {
             title: 'Найти решение',
             page_callback: 'drupalgap_get_form',
-            page_arguments: ['solution_form_page']
+            page_arguments: ['solution_form_page', false]
+
+        },
+        calc : {
+            title: 'Калькулятор',
+            page_callback: 'drupalgap_get_form',
+            page_arguments: ['solution_form_page', true]
 
         },
         'solution-page': {
@@ -76,13 +82,21 @@ function solution_load(options)
 
 /**
  * ----------------------------------------------- Форма с фильтрами ---------------------------------------------------
- * todo опции десикации и удобрений
- * todo множественный выбор ВО
  */
-function solution_form_page(form, form_state)
+function solution_form_page(form, form_state, calculator)
 {
     try {
-        form.prefix = '<h5>Заполните форму ниже и мы поможем подобрать решение для защиты Вашего поля и увеличения урожайности культуры.</h5>';
+        form.prefix = '<h5>Заполните форму ниже и мы поможем подобрать решение для защиты Вашего поля и увеличения урожайности культуры';
+        if (calculator) {
+            form.prefix += ' и расчитать его стоимость';
+        }
+
+        form.prefix += '.</h5>';
+
+        form.elements['calculator'] = {
+            type: 'hidden',
+            value: calculator
+        };
 
         /* ----------------------------------- Культура --------------------------------------------------------------*/
         form.elements['culture'] = {
@@ -106,6 +120,15 @@ function solution_form_page(form, form_state)
         form.elements['phase'] = {
             type: 'select'
         };
+
+        /* ----------------------------------- Площадь ---------------------------------------------------------------*/
+        if (calculator) {
+            form.elements['area'] = {
+                title: 'Площадь посева, га',
+                title_placeholder: true,
+                type: 'textfield'
+            };
+        }
 
         /* ----------------------------------- Вредители -------------------------------------------------------------*/
         form.elements['weeds'] = {
@@ -154,7 +177,7 @@ function solution_form_page(form, form_state)
             value: 'Найти решение',
             attributes: {
                 class: "ui-btn ui-btn-raised ui-mini clr-warning"
-            },
+            }
         };
 
         return form;
@@ -164,6 +187,10 @@ function solution_form_page(form, form_state)
 
 function solution_form_page_validate(form, form_state)
 {
+    if (form_state.values['calculator'] && !form_state.values['area']) {
+        drupalgap_form_set_error('area', 'Для расчёта стоимости необходимо задать площадь посева.');
+        return false;
+    }
     if (form_state.values['phase'] == null && form_state.values['weeds'] == null && form_state.values['pests'] == null && form_state.values['diseases'] == null) {
         drupalgap_form_set_error('phase', 'Задайте Фазу культуры и/или Вредный объекты.');
     }
@@ -173,9 +200,10 @@ function solution_form_page_submit(form, form_state)
 {
     solution_data_array['culture_id']   = form_state.values['culture'];
     solution_data_array['phase_id']     = form_state.values['phase'] ? form_state.values['phase'] : 0;
-    if (form_state.values['weeds'])     solution_data_array['weeds_arr'] = form_state.values['weeds'];
-    if (form_state.values['pests'])     solution_data_array['pests_arr'] = form_state.values['pests'];
-    if (form_state.values['diseases'])  solution_data_array['diseases_arr'] = form_state.values['diseases'];
+    if (form_state.values['calculator'])  solution_data_array['area'] = form_state.values['area'];
+    if (form_state.values['weeds'])       solution_data_array['weeds_arr'] = form_state.values['weeds'];
+    if (form_state.values['pests'])       solution_data_array['pests_arr'] = form_state.values['pests'];
+    if (form_state.values['diseases'])    solution_data_array['diseases_arr'] = form_state.values['diseases'];
     solution_data_array['desiccants']   = form_state.values['desiccants'] ? form_state.values['desiccants'] : 0;
     solution_data_array['fertilizers']  = form_state.values['fertilizers'] ? form_state.values['fertilizers'] : 0;
 
@@ -230,6 +258,7 @@ function _solution_form_culture_onchange(culture_id_tag)
 
                     $(widget).selectmenu('refresh', true);
                     $(widget).closest('.form-item').css('display', 'block');
+                    $('.field-name-area').css('display', 'block');
                 }
             }
         );

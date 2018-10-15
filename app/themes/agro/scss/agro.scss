@@ -205,6 +205,21 @@ small, .font-small {
     }
 }
 
+.ui-slider {
+    touch-action: none;
+    height: 20px;
+    .ui-slider-handle.ui-btn {
+        background-color: #ededed;
+        border: 1px solid #ddd;
+    }
+    .ui-slider-input {
+        font-size: inherit; font-weight: 400;
+        padding: 0;
+    }
+    .ui-slider-track {
+        margin-top: 2px; margin-left: 45px;
+    }
+}
 
 /* -------------------------------------------- Header -------------------------------------------------------------- */
 .ui-header {
@@ -323,14 +338,35 @@ small, .font-small {
     color: #000; font-size: .9em; text-decoration: none;
     margin-bottom: 1em;
     .box {
+        background: #eee;
         position: relative;
-        .image-loader {
+        height: 100px;
+        & > .image-loader {
             display: flex; align-items: center; justify-content: center;
+            position: relative; z-index: 1;
             max-height: 100px;
             overflow: hidden;
+            transition: all 300ms ease-in-out;
             @media (min-width: $screen-md-min) {
                 max-height: 150px;
             }
+            &.is-active { max-height: 30px; }
+        }
+        .amountByCat {
+            font-size: 12px;
+            display: flex;
+            position: absolute; bottom: 0; left: 0; right: 0; z-index: 0;
+            padding: 8px 5px;
+            div {
+                flex: 1 1 50%;
+                padding: 5px;
+                &:first-child { flex: 1 1 35%; }
+            }
+            h5 {
+                font-size: 1.2em;
+                margin-bottom: 5px;
+            }
+            p { margin: 5px 0; }
         }
     }
     .title {
@@ -339,14 +375,37 @@ small, .font-small {
     }
     .icon {
         width: 50px; height: 50px;
-        position: absolute; bottom: -25px; right: 30px;
+        position: absolute; bottom: -25px; right: 30px; z-index: 1;
         -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;
         .ui-collapsible-collapsed & {
             -webkit-transform: rotate(-360deg); -ms-transform: rotate(-360deg); -o-transform: rotate(-360deg); transform: rotate(-360deg);
         }
     }
     &.ui-icon-carat-r:after { display: none; }
+}
+.category-calculation {
+    h4 {
+        background-color: $brand-insecticides;
+        color: #fff;
+        margin: 0; padding: 5px;
+    }
+    .amountByProgram {
+        background: #eee;
+        display: flex;
+        font-size: 12px;
+        padding: 8px 5px;
+        div {
+            flex: 1 1 50%;
+            padding: 5px;
+            &:first-child { flex: 1 1 35%; }
+        }
+        h5 {
+            color: $brand-insecticides; font-size: 1.2em;
+            margin: 0 0 5px 0;
+        }
+        p { margin: 5px 0; }
 
+    }
 }
 
 .category-15    { .clr-category { color: $brand-herbicides; }}
@@ -381,12 +440,14 @@ small, .font-small {
     .title {
         padding: .6em 0 .3em 0;
         margin-left: 95px;
+        a { color: inherit; text-decoration: none; }
     }
     .icon {
         width: 50px; height: 50px;
         position: absolute; bottom: -25px; right: 20px;
     }
     &.ui-icon-carat-r:after { display: none; }
+
 }
 .ui-page-theme-a a.product-item,
 .ui-page-theme-a a.category-item { color: #000; }
@@ -636,7 +697,12 @@ small, .font-small {
 /* -------------------------------------------- Системы защиты ------------------------------------------------------ */
 .protection-view {
     position: relative;
-    h2 { color: $brand-green; }
+    h2 {
+        color: $brand-green;
+        span {
+            font-weight: 100; letter-spacing: -2px;
+        }
+    }
     .btn-download { position: absolute; right: 0; top: 0; }
     .product-item {
         .box .image1 {
@@ -670,6 +736,22 @@ small, .font-small {
                 border: 1px solid $brand-insecticides;
             }
         }
+        .calculation {
+            display: flex; justify-content: space-between;
+            margin-top: -2em; margin-bottom: 1em;
+            .calc-wrapper {
+                flex: 1 1 50%;
+                position: relative;
+                height: 42px;
+                overflow: hidden;
+                .amountByItem {
+                    position: absolute; top: -10em; left: 5px;
+                    transition: top 300ms ease-in-out;
+                    &.is-active { top: 10px; }
+                }
+            }
+
+        }
     }
 }
 /* -------------------------------------------- Найти решение ------------------------------------------------------- */
@@ -677,6 +759,7 @@ small, .font-small {
     h5 { margin: 1em 0; }
     h3.hobjects,
     .field-name-phase,
+    .field-name-area,
     .field-name-weeds,
     .field-name-pests,
     .field-name-diseases,
@@ -694,9 +777,7 @@ small, .font-small {
 
 /* -------------------------------------------- Представители ------------------------------------------------------- */
 #representatives {
-    ul {
-        li:first-child { margin-top: 1em; }
-    }
+    ul li:first-child { margin-top: 1em; }
     .nd2-card {
       &.card-media-right .card-title .card-primary-title,
       &.card-media-right .card-title .card-subtitle {

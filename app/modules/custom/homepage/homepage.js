@@ -93,7 +93,7 @@ function homepage_page()
         html +=       '<div class="col-xs-3">';
         html +=         l('<img src="app/themes/agro/images/homepage/calc.png">', 'calc', {
                             attributes: {
-                                class: 'ui-btn ui-btn-fab waves-effect waves-button ui-disabled'
+                                class: 'ui-btn ui-btn-fab waves-effect waves-button'
                             }
                         });
         html +=       '</div>';

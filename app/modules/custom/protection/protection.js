@@ -1,3 +1,5 @@
+// переменная для расчёта стоимости препаратов
+var area = 1;
 
 /**
  * Implements hook_menu().
@@ -121,10 +123,11 @@ function program_load(options)
 function theme_program_cat_page(program)
 {
     try {
-        // console.log('theme_program_cat_page - ');
+         //console.log('theme_program_cat_page - ');
         var html = '';
+        area = program.header.area;
 
-        html += '<h2>' + program.header.title + '</h2>';
+        html += '<h2>' + program.header.title + (program.header.area ? '<span>, ' + program.header.area + ' га</span>': '') + '</h2>';
         if (program.header.phase) html += '<h3>' + program.header.phase + '</h3>';
         html += '<h4>' + program.header.description + '</h4>';
         if (program.header.pdf)
@@ -139,9 +142,13 @@ function theme_program_cat_page(program)
 
                 html += '<div class="list-item col-xs-12 col-sm-6 category-' + tid + '" data-role="collapsible" data-inset="false">';
 
-                html += '<h4 class="category-item wow fadeIn waves-effect waves-button" data-wow-delay="0.2s">';
+                html += '<h4 class="category-item wow fadeIn waves-effect waves-button" data-wow-delay="0.2s" id="cat-' + tid + '" data-cnt="0">';
                 html += '<div class="box">';
                 html += image;
+                if (area) html += '<div class="amountByCat">' +
+                    '<div><h5 class="clr-category">НА ГЕКТАР</h5><p class="amount"></p></div>' +
+                    '<div><h5 class="clr-category">ВСЕГО</h5><p class="total"></p></div>' +
+                    '</div>';
                 html += '<div class="icon">' + icon + '</div>';
                 html += '</div>';
                 html += '<div class="title">' + category.name + '</div>';
@@ -153,51 +160,86 @@ function theme_program_cat_page(program)
                     $.each(category.stages, function (num, stage) {
                         $.each(stage, function (duration, set) {
                             $.each(set, function (key, reglament) {
-                                var photo0 = theme('image', {path: reglament.preparation.photo[0]});
-                                var photo1 = theme('image', {path: reglament.preparation.photo[1]});
-                                var icon = theme('image', {path: reglament.preparation.icon});
-                                var title = reglament.preparation.title.split('|')[0];
-                                var title_suffix = reglament.preparation.title.split('|')[1] !== undefined ? reglament.preparation.title.split('|')[1] : '';
 
-                                // норма расхода
-                                var from = reglament.preparation.rates[0].from;
-                                var to = reglament.preparation.rates[0].to;
-                                var unit = reglament.preparation.rates[0].unit;
-                                var rate = from + (from == to ? '' : ' - ' + to) + ' ' + unit;
-                                if (reglament.preparation.rates[1] !== undefined) {
-                                    var from1 = reglament.preparation.rates[1].from;
-                                    var to1 = reglament.preparation.rates[1].to;
-                                    var unit1 = reglament.preparation.rates[1].unit;
-                                    rate += ' + ' + from1 + (from1 === to1 ? '' : ' - ' + to1) + ' ' + unit1;
-                                }
+                                var icon = theme('image', {path: reglament.preparations.icon});
+                                var title = reglament.preparations.title.split('|')[0];
+                                var title_suffix = reglament.preparations.title.split('|')[1] !== undefined ? reglament.preparations.title.split('|')[1] : '';
 
+                                // содержимое бокса
                                 var text = '';
-                                text += reglament.preparation.ingredients ? reglament.preparation.ingredients + '<br />' : '';
+                                text += reglament.preparations.ingredients ? reglament.preparations.ingredients + '<br />' : '';
                                 if (!program.header.phase) text += '<span class="period clr-category">Фаза культуры</span><br />' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - <span>' + reglament.period.end.name) + '</span><br />';
                                 if (reglament.hobjects && reglament.hobjects.length) text += '<span class="hobjects clr-category">Вредные объекты</span><br />' + reglament.hobjects + '<br />';
-                                text += '<span class="rate clr-category">Норма расхода</span><br />' + rate + '<br />';
 
-                                var product = '';
-                                product += '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
+                                var photos = [], prices = [], rates = [], rates_title_arr = [], rates_content_arr = [];
+                                $.each(reglament.preparations['items'], function (key_p, preparation) {
+                                    photos.push(theme('image', {path: preparation.photo}));
+                                    prices.push(preparation.price);
+                                    // rates.push(preparation.rate);
+
+                                    var rate = '';
+                                    if (program.header.area) {
+                                        // определить шаг, по кол-ву знаков после запятой
+                                        var step = 1;
+                                        var count = 0;
+                                        if (String(preparation.rate.from).split('.')[1]) {
+                                            count = String(preparation.rate.from).split('.')[1].length;
+                                            step = 1 / Math.pow(10, count);
+                                        }
+                                        if (String(preparation.rate.to).split('.')[1]) {
+                                            count = String(preparation.rate.to).split('.')[1].length;
+                                            step = 1 / Math.pow(10, count) < step ? 1 / Math.pow(10, count) : step;
+                                        }
+
+                                        rates_title_arr.push(preparation.units);
+                                        rate = '<input ' + (preparation.rate.from === preparation.rate.to ? 'disabled="disabled"' : '') + ' type="range" name="slider-' + key + '-' + preparation.id + '" id="slider-' + key + '-' + preparation.id + '" value="' + preparation.rate.from + '" min="' + preparation.rate.from + '" max="' + preparation.rate.to + '" step="' + step + '" data-highlight="true">';
+                                    }
+                                    else {
+                                        rate = preparation.rate.from + (preparation.rate.from === preparation.rate.to ? '' : ' - ' + preparation.rate.to) + ' ' + preparation.units;
+                                    }
+                                    rates_content_arr.push(rate);
+
+                                });
+                                text += '<span class="rate clr-category">Норма расхода' + (rates_title_arr.length ? ', ' + rates_title_arr.join(' + ') : '') + '</span><br />';
+                                if (program.header.area) {
+                                    text += rates_content_arr.join('');
+                                } else {
+                                    text += rates_content_arr.join(' + ');
+                                    text += '<br />';
+                                }
+
+                                var url = reglament.preparations.type == 'product_mix' ? null : 'node/' + reglament.preparations.id;
+
+                                var product = '<div class="product-item">';
+                                product += '<div class="title"><span class="clr-category">' + l(title, url) + '</span> ' + title_suffix + '</div>';
                                 product += '<div class="box">';
-                                product += '<div class="image">' + photo0 + '</div>';
-                                product += '<div class="image1">' + photo1 + '</div>';
+                                product += '<div class="image">' + photos[0] + '</div>';
+                                if (photos[1]) product += '<div class="image1">' + photos[1] + '</div>';
                                 product += '<p class="description font-small">' + text + '</p>';
-                                product += '<div class="icon">' + icon + '</div>';
                                 product += '</div>';
 
-                                var url = reglament.preparation.type == 'product_mix' ? null : 'node/' + reglament.preparation.id;
-                                html += l(product, url, {
-                                        attributes: {
-                                            class: 'product-item wow fadeIn waves-effect waves-button',
-                                            'data-wow-delay': '0.2s'
-                                        }
-                                    }
-                                );
+                                if (program.header.area) {
+                                    product +=  '<div class="calculation">' +
+                                                '<div class="calc-wrapper"><div class="amountByItem"></div></div>' +
+                                                '<select name="flip-' + key + '" id="flip-' + key + '" data-role="slider" data-price0="' + prices[0] + '" data-price1="' + prices[1] + '" data-mini="true"><option value="off">Off</option><option value="on">On</option></select>' +
+                                                '</div>';
+                                } else {
+                                    product += '<div class="icon">' + icon + '</div>';
+                                }
+                                product += '</div>';
+
+                                html += product;
                             });
                         });
                     });
                 }
+
+                // повесить обработчики на элементы управления расчётом
+                html += drupalgap_jqm_page_event_script_code({
+                    page_id: drupalgap_get_page_id(),
+                    jqm_page_event: 'pageshow',
+                    jqm_page_event_callback: '_set_sliders_event'
+                });
 
                 // вывести неизлечимые ВО
                 if (category.hobjects) {
@@ -208,6 +250,16 @@ function theme_program_cat_page(program)
                 html += '</div>';
                 html += '</div>';
             });
+
+            if (area) {
+                html += '<div class="list-item col-xs-12 col-sm-6 category-calculation">';
+                html += '<h4 >Итог по программе</h4>';
+                html += '<div class="amountByProgram">' +
+                    '<div><h5>НА ГЕКТАР</h5><p class="amount">0 руб.</p></div>' +
+                    '<div><h5>ВСЕГО</h5><p class="total">0 руб.</p></div>' +
+                    '</div></div>';
+            }
+
         }
         else {
             html +=  '<div class="col-xs-12">Для культуры на данном этапе роста у нашей компании нет препаратов.</div>';
@@ -219,3 +271,64 @@ function theme_program_cat_page(program)
     catch (error) { console.log('theme_program_cat_page - ' + error); }
 }
 
+function recalculate(e)
+{
+    console.log('123');
+
+    // показать/убрать расчёты
+    var category = $(e.target).closest('.list-item').find('.category-item');
+    var cnt = $(category).data('cnt');
+    if ($(e.target).hasClass('ui-slider-switch')) {
+        if ($(e.target).val() === 'on') {
+            $(e.target).closest('.product-item').find('.amountByItem').addClass('is-active');
+            $(category).data('cnt', cnt + 1);
+            if (!cnt) {
+                $(category).find('.image-loader').addClass('is-active');
+            }
+        } else {
+            $(e.target).closest('.product-item').find('.amountByItem').removeClass('is-active');
+            cnt = cnt - 1;
+            if (!cnt) {
+                $(category).find('.image-loader').removeClass('is-active');
+            }
+            $(category).data('cnt', cnt);
+        }
+    }
+
+    var calc_arr = {};
+    $('.product-item').each(function(key, item) {
+        if ($(item).find('[id^=flip-]').val() === 'on') {
+            var amountByItem = 0;
+            $(item).find('[id^=slider-]').each(function(index, slider){
+                var rate = $(slider).val();
+                var price = $(item).find('[id^=flip-]').data('price' + index);
+                amountByItem += amountByItem + rate*price;
+            });
+
+            $(item).find('.amountByItem').html(accounting.formatNumber(amountByItem, 0, " ") + ' руб.' + ' x ' + area + ' га = ' + accounting.formatNumber(amountByItem*area, 0, " ") + ' руб.');
+
+            var cat_id = $(item).closest('.list-item').find('.category-item').attr('id');
+            if (!calc_arr[cat_id]) calc_arr[cat_id] = 0;
+            if (!calc_arr.total) calc_arr.total = 0;
+            calc_arr[cat_id] += amountByItem;
+            calc_arr.total += amountByItem;
+        }
+    });
+
+    for(var index in calc_arr) {
+        $('#' + index).find('.amountByCat .amount').html(accounting.formatNumber(calc_arr[index], 0, " ") + ' руб.');
+        $('#' + index).find('.amountByCat .total').html(accounting.formatNumber(calc_arr[index]*area, 0, " ") + ' руб.');
+    }
+    $('.amountByProgram .amount').html(accounting.formatNumber(calc_arr.total, 0, " ") + ' руб.');
+    $('.amountByProgram .total').html(accounting.formatNumber(calc_arr.total*area, 0, " ") + ' руб.');
+}
+
+function _set_sliders_event()
+{
+    var set_events = function() {
+        $('[id^=flip-], [id^=slider-]').on('change', function(e) {
+            recalculate(e);
+        });
+    };
+    setTimeout(set_events, 100);
+}
