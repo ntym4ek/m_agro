@@ -127,11 +127,15 @@ function theme_program_cat_page(program)
         var html = '';
         area = program.header.area;
 
-        html += '<h2>' + program.header.title + (program.header.area ? '<span>, ' + program.header.area + ' га</span>': '') + '</h2>';
+        html += '<h2>' + program.header.title + (program.header.area ? '<span>, <span>' + program.header.area + ' га</span></span>': '') + '</h2>';
         if (program.header.phase) html += '<h3>' + program.header.phase + '</h3>';
         html += '<h4>' + program.header.description + '</h4>';
         if (program.header.pdf)
             html += '<a onclick="window.open(\'' + program.header.pdf + '\', \'_system\', \'location=yes\')" class="btn-download ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-primary waves-effect waves-button"><i class="zmdi zmdi-download zmd-2x"></i></a>';
+
+        if (area) {
+            html += '<div class="select-all"><div>выбрать все препараты</div><div><select name="flip-all" id="flipper" data-role="slider" data-mini="true"><option value="off">Off</option><option value="on">On</option></select></div></div>';
+        }
 
         html += '<div class="row">';
         if (program.categories) {
@@ -192,7 +196,7 @@ function theme_program_cat_page(program)
                                         }
 
                                         rates_title_arr.push(preparation.units);
-                                        rate = '<input ' + (preparation.rate.from === preparation.rate.to ? 'disabled="disabled"' : '') + ' type="range" name="slider-' + key + '-' + preparation.id + '" id="slider-' + key + '-' + preparation.id + '" value="' + preparation.rate.from + '" min="' + preparation.rate.from + '" max="' + preparation.rate.to + '" step="' + step + '" data-highlight="true">';
+                                        rate = '<input ' + (preparation.rate.from === preparation.rate.to ? 'disabled="disabled"' : '') + ' type="range" name="slider-' + key + '-' + preparation.id + '-' + num + '" id="slider-' + key + '-' + preparation.id + '-' + num + '" value="' + preparation.rate.from + '" min="' + preparation.rate.from + '" max="' + preparation.rate.to + '" step="' + step + '" data-highlight="true">';
                                     }
                                     else {
                                         rate = preparation.rate.from + (preparation.rate.from === preparation.rate.to ? '' : ' - ' + preparation.rate.to) + ' ' + preparation.units;
@@ -221,7 +225,7 @@ function theme_program_cat_page(program)
                                 if (program.header.area) {
                                     product +=  '<div class="calculation">' +
                                                 '<div class="calc-wrapper"><div class="amountByItem"></div></div>' +
-                                                '<select name="flip-' + key + '" id="flip-' + key + '" data-role="slider" data-price0="' + prices[0] + '" data-price1="' + prices[1] + '" data-mini="true"><option value="off">Off</option><option value="on">On</option></select>' +
+                                                '<select name="flip-' + key + '-' + num + '" id="flip-' + key + '-' + num + '" data-role="slider" data-price0="' + prices[0] + '" data-price1="' + prices[1] + '" data-mini="true"><option value="off">Off</option><option value="on">On</option></select>' +
                                                 '</div>';
                                 } else {
                                     product += '<div class="icon">' + icon + '</div>';
@@ -273,20 +277,67 @@ function theme_program_cat_page(program)
 
 function recalculate(e)
 {
-    console.log('123');
+    console.log('recalculate');
+    try {
+        // нажат выбрать все
+        if ($(e.target).attr('id') === 'flipper') {
+            $('#solution_page [id^=flip-]').each(function (index, flip) {
+                console.log($(flip).attr('id'));
+                var state = $(e.target).val();
+                $(flip).val(state).slider('refresh');
+                _switch_flip(flip);
+            });
+        } else {
+            if ($(e.target).hasClass('ui-slider-switch')) {
+                _switch_flip(e.target);
+            }
+        }
+        // показать/убрать расчёты
 
-    // показать/убрать расчёты
-    var category = $(e.target).closest('.list-item').find('.category-item');
-    var cnt = $(category).data('cnt');
-    if ($(e.target).hasClass('ui-slider-switch')) {
-        if ($(e.target).val() === 'on') {
-            $(e.target).closest('.product-item').find('.amountByItem').addClass('is-active');
+        var calc_arr = {};
+        $('.product-item').each(function (key, item) {
+            if ($(item).find('[id^=flip-]').val() === 'on') {
+                var amountByItem = 0;
+                $(item).find('[id^=slider-]').each(function (index, slider) {
+                    var rate = $(slider).val();
+                    var price = $(item).find('[id^=flip-]').data('price' + index);
+                    amountByItem += amountByItem + rate * price;
+                });
+
+                $(item).find('.amountByItem').html(accounting.formatNumber(amountByItem, 0, " ") + ' руб.' + ' x ' + area + ' га = ' + accounting.formatNumber(amountByItem * area, 0, " ") + ' руб.');
+
+                var cat_id = $(item).closest('.list-item').find('.category-item').attr('id');
+                if (!calc_arr[cat_id]) calc_arr[cat_id] = 0;
+                if (!calc_arr.total) calc_arr.total = 0;
+                calc_arr[cat_id] += amountByItem;
+                calc_arr.total += amountByItem;
+            }
+        });
+
+        for (var index in calc_arr) {
+            $('#' + index).find('.amountByCat .amount').html(accounting.formatNumber(calc_arr[index], 0, " ") + ' руб.');
+            $('#' + index).find('.amountByCat .total').html(accounting.formatNumber(calc_arr[index] * area, 0, " ") + ' руб.');
+        }
+        $('.amountByProgram .amount').html(accounting.formatNumber(calc_arr.total, 0, " ") + ' руб.');
+        $('.amountByProgram .total').html(accounting.formatNumber(calc_arr.total * area, 0, " ") + ' руб.');
+    }
+    catch (error) { console.log('recalculate - ' + error); }
+}
+
+// переключить flip и показать/скрыть расчёты
+function _switch_flip(flip)
+{
+    try {
+        var category = $(flip).closest('.list-item').find('.category-item');
+        var cnt = $(category).data('cnt');
+        if ($(flip).val() === 'on') {
+            $(flip).closest('.product-item').find('.amountByItem').addClass('is-active');
             $(category).data('cnt', cnt + 1);
             if (!cnt) {
                 $(category).find('.image-loader').addClass('is-active');
             }
         } else {
-            $(e.target).closest('.product-item').find('.amountByItem').removeClass('is-active');
+            $(flip).closest('.product-item').find('.amountByItem').removeClass('is-active');
             cnt = cnt - 1;
             if (!cnt) {
                 $(category).find('.image-loader').removeClass('is-active');
@@ -294,41 +345,18 @@ function recalculate(e)
             $(category).data('cnt', cnt);
         }
     }
-
-    var calc_arr = {};
-    $('.product-item').each(function(key, item) {
-        if ($(item).find('[id^=flip-]').val() === 'on') {
-            var amountByItem = 0;
-            $(item).find('[id^=slider-]').each(function(index, slider){
-                var rate = $(slider).val();
-                var price = $(item).find('[id^=flip-]').data('price' + index);
-                amountByItem += amountByItem + rate*price;
-            });
-
-            $(item).find('.amountByItem').html(accounting.formatNumber(amountByItem, 0, " ") + ' руб.' + ' x ' + area + ' га = ' + accounting.formatNumber(amountByItem*area, 0, " ") + ' руб.');
-
-            var cat_id = $(item).closest('.list-item').find('.category-item').attr('id');
-            if (!calc_arr[cat_id]) calc_arr[cat_id] = 0;
-            if (!calc_arr.total) calc_arr.total = 0;
-            calc_arr[cat_id] += amountByItem;
-            calc_arr.total += amountByItem;
-        }
-    });
-
-    for(var index in calc_arr) {
-        $('#' + index).find('.amountByCat .amount').html(accounting.formatNumber(calc_arr[index], 0, " ") + ' руб.');
-        $('#' + index).find('.amountByCat .total').html(accounting.formatNumber(calc_arr[index]*area, 0, " ") + ' руб.');
-    }
-    $('.amountByProgram .amount').html(accounting.formatNumber(calc_arr.total, 0, " ") + ' руб.');
-    $('.amountByProgram .total').html(accounting.formatNumber(calc_arr.total*area, 0, " ") + ' руб.');
+    catch (error) { console.log('_switch_flip - ' + error); }
 }
 
 function _set_sliders_event()
 {
-    var set_events = function() {
-        $('[id^=flip-], [id^=slider-]').on('change', function(e) {
-            recalculate(e);
-        });
-    };
-    setTimeout(set_events, 100);
+    try {
+        var set_events = function() {
+            $('[name^=flip-], [id^=slider-]').on('change', function(e) {
+                recalculate(e);
+            });
+        };
+        setTimeout(set_events, 100);
+    }
+    catch (error) { console.log('_set_sliders_event - ' + error); }
 }
