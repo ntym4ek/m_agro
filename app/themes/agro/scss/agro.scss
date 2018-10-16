@@ -6,7 +6,7 @@ $screen-md-min: 992px;
 $screen-lg-min: 1200px;
 
 $font-size-h1: 3.998em;
-$font-size-h2: 2.827em;
+$font-size-h2: 2.3em;
 $font-size-h3: 1.999em;
 $font-size-h4: 1.414em;
 $font-size-text: 1em;
@@ -468,7 +468,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
 .protection-view {
     & > h2 {
         font-weight: 700;
-        margin: 0 0 0 0;
+        margin: 10px 0 15px 0;;
     }
     & > h3 { margin-top: 0; }
     & > h4 {
