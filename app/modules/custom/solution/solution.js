@@ -9,13 +9,19 @@ function solution_menu()
         solution : {
             title: 'Найти решение',
             page_callback: 'drupalgap_get_form',
-            page_arguments: ['solution_form_page', false]
+            page_arguments: ['solution_form_page', false],
+            options: {
+                reloadPage:true
+            }
 
         },
         calc : {
             title: 'Калькулятор',
             page_callback: 'drupalgap_get_form',
-            page_arguments: ['solution_form_page', true]
+            page_arguments: ['solution_form_page', true],
+            options: {
+                reloadPage:true
+            }
 
         },
         'solution-page': {
@@ -86,7 +92,11 @@ function solution_load(options)
 function solution_form_page(form, form_state, calculator)
 {
     try {
+        // console.log('solution_form_page');
+
         form.prefix = '<h5>Заполните форму ниже и мы поможем подобрать решение для защиты Вашего поля и увеличения урожайности культуры';
+
+        if (typeof calculator === 'undefined') calculator = false;
         if (calculator) {
             form.prefix += ' и расчитать его стоимость';
         }
@@ -198,6 +208,7 @@ function solution_form_page_validate(form, form_state)
 
 function solution_form_page_submit(form, form_state)
 {
+    solution_data_array = {};
     solution_data_array['culture_id']   = form_state.values['culture'];
     solution_data_array['phase_id']     = form_state.values['phase'] ? form_state.values['phase'] : 0;
     if (form_state.values['calculator'])  solution_data_array['area'] = form_state.values['area'];
