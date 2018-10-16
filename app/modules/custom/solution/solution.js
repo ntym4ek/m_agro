@@ -138,6 +138,10 @@ function solution_form_page(form, form_state, calculator)
                 title_placeholder: true,
                 type: 'textfield'
             };
+            // при вводе в текстовом поле и нажатии галочки на мобильной клавиатуре
+            // выкидывает на splash screen с зависанием
+            // скрытое текстовое поле решает проблему
+            // todo разобраться, убрать
             form.elements['dummy'] = {
                 type: 'textfield'
             };
@@ -189,7 +193,7 @@ function solution_form_page(form, form_state, calculator)
             type: 'submit',
             value: 'Найти решение',
             attributes: {
-                class: "ui-btn ui-btn-raised ui-mini clr-warning"
+                class: "ui-btn ui-btn-raised ui-mini clr-warning waves-effect waves-button"
             }
         };
 
