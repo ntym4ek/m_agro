@@ -138,9 +138,7 @@ function solution_form_page(form, form_state, calculator)
                 title_placeholder: true,
                 type: 'textfield'
             };
-            form.elements['are1'] = {
-                title: 'Площадь посева, га',
-                title_placeholder: true,
+            form.elements['dummy'] = {
                 type: 'textfield'
             };
         }
