@@ -158,11 +158,12 @@ small, .font-small {
     background-size: auto 30%;
     img {
         visibility: hidden;
-        width: 100%;
+        width: 100% !important;
     }
 }
+div[role="main"] .image-loader img { width: 100% !important; }
 
-// nessesary for nonresizing tab content swiping
+    // nessesary for nonresizing tab content swiping
 [data-role=nd2extTabs-container] { position: relative; }
 
 
@@ -304,7 +305,7 @@ small, .font-small {
         .row {
             justify-content: center;
             a.ui-btn {
-                margin: 0 auto;
+                margin: 0 auto; padding: 10px;
                 width: 30px;
                 @media (min-width: $screen-sm-min) { width: 50px; }
             }
@@ -422,6 +423,7 @@ small, .font-small {
 .product-item {
     color: #000; text-decoration: none;
     padding: 0 1em;
+    position: relative;
     &.ui-btn { margin-bottom: .5em; }
     .box {
         border: 1px solid #ddd;
@@ -699,11 +701,21 @@ small, .font-small {
     position: relative;
     h2 {
         color: $brand-green;
-        span {
+        & > span {
             font-weight: 100; letter-spacing: -2px;
+            span { white-space: nowrap; }
         }
     }
     .btn-download { position: absolute; right: 0; top: 0; }
+    .select-all {
+        display: flex;
+        justify-content: space-between;
+        div:first-child {
+            flex: auto;
+            text-align: right;
+            padding: 12px 10px;
+        }
+    }
     .product-item {
         .box .image1 {
             position: absolute; top: 35px; left: 30px;
