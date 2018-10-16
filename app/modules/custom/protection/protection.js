@@ -194,6 +194,8 @@ function theme_program_cat_page(program)
                                             count = String(preparation.rate.to).split('.')[1].length;
                                             step = 1 / Math.pow(10, count) < step ? 1 / Math.pow(10, count) : step;
                                         }
+                                        // если шагов на слайдере всего два - уменьшить шаг
+                                        if ((preparation.rate.to - preparation.rate.from)/step == 1) step = step/10;
 
                                         rates_title_arr.push(preparation.units);
                                         rate = '<input ' + (preparation.rate.from === preparation.rate.to ? 'disabled="disabled"' : '') + ' type="range" name="slider-' + key + '-' + preparation.id + '-' + num + '" id="slider-' + key + '-' + preparation.id + '-' + num + '" value="' + preparation.rate.from + '" min="' + preparation.rate.from + '" max="' + preparation.rate.to + '" step="' + step + '" data-highlight="true">';
@@ -277,15 +279,16 @@ function theme_program_cat_page(program)
 
 function recalculate(e)
 {
-    console.log('recalculate');
+    // console.log('recalculate');
     try {
         // нажат выбрать все
         if ($(e.target).attr('id') === 'flipper') {
             $('#solution_page [id^=flip-]').each(function (index, flip) {
-                console.log($(flip).attr('id'));
                 var state = $(e.target).val();
-                $(flip).val(state).slider('refresh');
-                _switch_flip(flip);
+                if ($(flip).val() !== state) {
+                    $(flip).val(state).slider('refresh');
+                    _switch_flip(flip);
+                }
             });
         } else {
             if ($(e.target).hasClass('ui-slider-switch')) {
@@ -337,6 +340,8 @@ function _switch_flip(flip)
                 $(category).find('.image-loader').addClass('is-active');
             }
         } else {
+            // при отключении одного из flip от ключить общий
+            $('#flipper').val('off').slider('refresh');
             $(flip).closest('.product-item').find('.amountByItem').removeClass('is-active');
             cnt = cnt - 1;
             if (!cnt) {
@@ -348,6 +353,7 @@ function _switch_flip(flip)
     catch (error) { console.log('_switch_flip - ' + error); }
 }
 
+// повесить события на элементы flip и slider
 function _set_sliders_event()
 {
     try {
