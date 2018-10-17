@@ -378,6 +378,12 @@ function send_request_form_submit(form, form_state)
         data: JSON.stringify({ 'program' : Program }),
         success: function (response) {
             $('#edit-send-request-form-submit').html('Запрос отправлен').addClass('ui-disabled');
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            $('#edit-send-request-form-submit').html('Попробуйте позже').addClass('ui-disabled');
+            setTimeout(function() {
+                $('#edit-send-request-form-submit').html('Отправить запрос').removeClass('ui-disabled');
+            }, 5000 );
         }
     });
 }
