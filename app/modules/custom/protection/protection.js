@@ -176,6 +176,13 @@ function theme_program_cat_page(program)
                                 var title = reglament.preparations.title.split('|')[0];
                                 var title_suffix = reglament.preparations.title.split('|')[1] !== undefined ? reglament.preparations.title.split('|')[1] : '';
 
+                                // заполнение запроса
+                                Program.preparations[reglament.preparations.id] = {
+                                    title: reglament.preparations.title,
+                                    status: 'off',
+                                    items: {}
+                                };
+
                                 // содержимое бокса
                                 var text = '';
                                 text += reglament.preparations.ingredients ? reglament.preparations.ingredients + '<br />' : '';
@@ -187,6 +194,11 @@ function theme_program_cat_page(program)
                                     photos.push(theme('image', {path: preparation.photo}));
                                     prices.push(preparation.price);
                                     // rates.push(preparation.rate);
+
+                                    Program.preparations[reglament.preparations.id].items[preparation.id] = {
+                                        title: preparation.title,
+                                        units: preparation.units
+                                    };
 
                                     var rate = '';
                                     if (program.header.area) {
@@ -393,12 +405,12 @@ function _send_request_form_get_region_options()
         taxonomy_term_index(query, {
             success: function(terms) {
                 if (terms.length == 0) { return; }
-                Regions = terms;
                 var widget = $('#edit-send-request-form-region');
 
                 var options = '';
                 for (var index in terms) {
                     options += '<option value="' + terms[index].tid + '">' + terms[index].name + '</option>';
+                    Regions[terms[index].tid] = terms[index].name;
                 }
                 $(widget).append(options);
                 $(widget).selectmenu('refresh', true);
@@ -414,7 +426,7 @@ function _send_request_form_get_region_options()
  */
 function recalculate(e)
 {
-    // console.log('recalculate');
+    console.log('recalculate');
     try {
         // нажат flip выбрать все
         if ($(e.target).attr('id') === 'flipper') {
@@ -444,11 +456,8 @@ function recalculate(e)
                     var pid = $(slider).data('pid');
                     amountByItem += amountByItem + rate * price;
                     // записать в Запрос
-                    Program.preparations[id].items = {};
-                    Program.preparations[id].items[pid] = {
-                        'rate': rate,
-                        'amount': rate * price
-                    }
+                    Program.preparations[id].items[pid].rate = rate;
+                    Program.preparations[id].items[pid].amount = rate * price;
                 });
 
                 $(item).find('.amountByItem').html(accounting.formatNumber(amountByItem, 0, " ") + ' руб.' + ' x ' + Area + ' га = ' + accounting.formatNumber(amountByItem * Area, 0, " ") + ' руб.');
@@ -499,7 +508,7 @@ function _switch_flip(flip)
             $(category).data('cnt', cnt);
             Program.cnt -= 1;
         }
-        Program.preparations[id] = { 'status': $(flip).val() };
+        Program.preparations[id].status = $(flip).val();
     }
     catch (error) { console.log('_switch_flip - ' + error); }
 }
