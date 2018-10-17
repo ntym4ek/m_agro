@@ -25,6 +25,14 @@ $brand-surfactants:     #9CC328;
 $brand-fertilizers:     #089244;
 $brand-mixes:           #334E91;
 
+.ui-page-theme-a {
+    .ui-btn.clr-btn-red,.ui-btn.clr-btn-red:hover { color: rgb(255,255,255); background-color: $brand-herbicides; }
+    .ui-btn.clr-btn-blue,.ui-btn.clr-btn-blue:hover { color: rgb(255,255,255); background-color: $brand-insecticides; }
+    .ui-btn.clr-btn-green,.ui-btn.clr-btn-green:hover { color: rgb(255,255,255); background-color: $brand-fertilizers; }
+    .ui-btn.clr-btn-light-green,.ui-btn.clr-btn-light-green:hover { color: rgb(255,255,255); background-color: $brand-surfactants; }
+    .ui-btn.clr-btn-orange,.ui-btn.clr-btn-orange:hover { color: rgb(255,255,255); background-color: $brand-desiccants; }
+}
+
 /* -------------------------------------------- Общие настройки ----------------------------------------------------- */
 html {  }
 body, input, select, textarea, button, .ui-btn,h1,h2,h3,h4,h5,h6 {

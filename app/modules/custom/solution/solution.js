@@ -136,7 +136,7 @@ function solution_form_page(form, form_state, calculator)
             form.elements['area'] = {
                 title: 'Площадь посева, га',
                 title_placeholder: true,
-                type: 'textfield'
+                type: 'number'
             };
             // при вводе в текстовом поле и нажатии галочки на мобильной клавиатуре
             // выкидывает на splash screen с зависанием
@@ -193,7 +193,7 @@ function solution_form_page(form, form_state, calculator)
             type: 'submit',
             value: 'Найти решение',
             attributes: {
-                class: "ui-btn ui-btn-raised ui-mini clr-warning waves-effect waves-button"
+                class: "ui-btn ui-btn-raised ui-mini clr-btn-blue waves-effect waves-button"
             }
         };
 

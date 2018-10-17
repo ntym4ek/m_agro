@@ -83,6 +83,7 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
             form.elements.field_pd_r_hobjects_comment.title = form.elements.field_pd_r_hobjects_comment.title + (form.elements.field_pd_r_hobjects_comment.required?' *':'');
             form.elements.field_pd_r_hobjects_comment.title_placeholder = true;
 
+            form.elements.submit.options.attributes.class = 'ui-mini clr-btn-blue';
             form.elements.submit.value = 'Отправить';
 
             // заменить стандартный валидатор и проверять самостоятельно

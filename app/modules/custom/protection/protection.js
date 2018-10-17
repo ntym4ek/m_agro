@@ -344,7 +344,7 @@ function send_request_form(form, form_state)
             type: 'submit',
             value: 'Отправить запрос',
             attributes: {
-                class: "ui-btn ui-btn-raised ui-mini clr-warning waves-effect waves-button"
+                class: "ui-btn ui-btn-raised ui-mini clr-btn-blue waves-effect waves-button"
             }
         };
 
@@ -377,13 +377,13 @@ function send_request_form_submit(form, form_state)
     solution_send_request({
         data: JSON.stringify({ 'program' : Program }),
         success: function (response) {
-            $('#edit-send-request-form-submit').html('Запрос отправлен').addClass('ui-disabled');
+            $('#edit-send-request-form-submit').html('Запрос отправлен').removeClass('clr-btn-blue').addClass('clr-btn-green');
         },
         error: function(xhr, textStatus, errorThrown) {
-            $('#edit-send-request-form-submit').html('Попробуйте позже').addClass('ui-disabled');
+            $('#edit-send-request-form-submit').html('Ошибка. Попробуйте позже').addClass('clr-btn-red');
             setTimeout(function() {
-                $('#edit-send-request-form-submit').html('Отправить запрос').removeClass('ui-disabled');
-            }, 5000 );
+                $('#edit-send-request-form-submit').html('Отправить запрос').removeClass('clr-btn-red').addClass('clr-btn-blue');
+            }, 8000 );
         }
     });
 }
