@@ -36,7 +36,7 @@ function agrohelp_services_preprocess(options)
 function agrohelp_form_alter(form, form_state, form_id, aux)
 {
     try {
-          // console.log('agrohelp_form_alter - ');
+           console.log('agrohelp_form_alter - ');
         if (form_id === 'entityform_edit' && form.bundle === 'agrohelp') {
             var lang = language_default();
             // изменить вывод формы запроса Агропомощи
@@ -48,9 +48,8 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
 
             form.elements.field_f_region.prefix = '<h3>О себе</h3>';
             delete form.elements.field_f_region.title;
-            form.elements.field_f_region[lang][0]['placeholder'] = 'Регион *';
-            //
-            //
+            form.elements.field_f_region[lang][0].placeholder = 'Регион *';
+            form.elements.field_f_region[lang][0].options.attributes['data-native-menu'] = false;
 
             form.elements.field_company.title = form.elements.field_company.title + (form.elements.field_company.required?' *':'');
             form.elements.field_company.title_placeholder = true;
@@ -67,12 +66,15 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
             form.elements.field_f_s_culture.prefix = '<h3>Нужна помощь!</h3>';
             delete form.elements.field_f_s_culture.title;
             form.elements.field_f_s_culture[lang][0]['placeholder'] = 'Культура *';
+            form.elements.field_f_s_culture[lang][0].options.attributes['data-native-menu'] = false;
             // формирование рендер массива виджета переключаем на наш модуль
             // так как стандартной поддежки селекта для поля entityreference нет
             form.elements.field_f_s_culture.field_info_instance.widget.module = 'agrohelp';
 
             delete form.elements.field_f_s_m_phase_mc.title;
             form.elements.field_f_s_m_phase_mc[lang][0]['placeholder'] = 'Фаза культуры';
+            form.elements.field_f_s_m_phase_mc[lang][0].options.attributes['data-native-menu'] = false;
+
 
             form.elements.field_ho_type.prefix = '<h3>Не могу определить</h3>';
             form.elements.field_ho_type.title = form.elements.field_ho_type.title + (form.elements.field_ho_type.required?' *':'');

@@ -384,30 +384,6 @@ div[role="main"] .image-loader img { width: 100% !important; }
     }
     &.ui-icon-carat-r:after { display: none; }
 }
-.category-calculation {
-    h4 {
-        background-color: $brand-insecticides;
-        color: #fff;
-        margin: 0; padding: 5px;
-    }
-    .amountByProgram {
-        background: #eee;
-        display: flex;
-        font-size: 12px;
-        padding: 8px 5px;
-        div {
-            flex: 1 1 50%;
-            padding: 5px;
-            &:first-child { flex: 1 1 35%; }
-        }
-        h5 {
-            color: $brand-insecticides; font-size: 1.2em;
-            margin: 0 0 5px 0;
-        }
-        p { margin: 5px 0; }
-
-    }
-}
 
 .category-15    { .clr-category { color: $brand-herbicides; }}
 .category-17    { .clr-category { color: $brand-insecticides; }}
@@ -763,6 +739,42 @@ div[role="main"] .image-loader img { width: 100% !important; }
                 }
             }
 
+        }
+    }
+    .calculation-total {
+        h4 {
+            background-color: $brand-insecticides;
+            color: #fff;
+            margin: 0; padding: 5px;
+        }
+        .amountByProgram {
+            background: #eee;
+            display: flex;
+            font-size: 12px;
+            padding: 8px 5px;
+            div {
+                flex: 1 1 50%;
+                padding: 5px;
+                &:first-child { flex: 1 1 35%; }
+            }
+            h5 {
+                color: $brand-insecticides; font-size: 1.2em;
+                margin: 0 0 5px 0;
+            }
+            p { margin: 5px 0; }
+
+        }
+    }
+    .calculation-send {
+        h4 {
+            background-color: $brand-desiccants;
+            color: #fff;
+            margin: 0; padding: 5px;
+        }
+        .box {
+            background: #eee;
+            font-size: 12px;
+            padding: 8px 5px;
         }
     }
 }

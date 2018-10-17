@@ -1,5 +1,7 @@
 // переменная для расчёта стоимости препаратов
-var area = 1;
+var Area = 1;
+var Program = {};
+var Regions = {};
 
 /**
  * Implements hook_menu().
@@ -125,7 +127,12 @@ function theme_program_cat_page(program)
     try {
          //console.log('theme_program_cat_page - ');
         var html = '';
-        area = program.header.area;
+        Area = program.header.area;
+        Program = {
+            'area': Area,
+            'preparations': {},
+            'cnt': 0
+        };
 
         html += '<h2>' + program.header.title + (program.header.area ? '<span>, <span>' + program.header.area + ' га</span></span>': '') + '</h2>';
         if (program.header.phase) html += '<h3>' + program.header.phase + '</h3>';
@@ -133,7 +140,7 @@ function theme_program_cat_page(program)
         if (program.header.pdf)
             html += '<a onclick="window.open(\'' + program.header.pdf + '\', \'_system\', \'location=yes\')" class="btn-download ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-primary waves-effect waves-button"><i class="zmdi zmdi-download zmd-2x"></i></a>';
 
-        if (area) {
+        if (Area) {
             html += '<div class="select-all"><div>выбрать все препараты</div><div><select name="flip-all" id="flipper" data-role="slider" data-mini="true"><option value="off">Off</option><option value="on">On</option></select></div></div>';
         }
 
@@ -146,10 +153,10 @@ function theme_program_cat_page(program)
 
                 html += '<div class="list-item col-xs-12 col-sm-6 category-' + tid + '" data-role="collapsible" data-inset="false">';
 
-                html += '<h4 class="category-item wow fadeIn waves-effect waves-button" data-wow-delay="0.2s" id="cat-' + tid + '" data-cnt="0">';
+                html += '<h4 class="category-item wow fadeIn waves-effect waves-button" id="cat-' + tid + '" data-cnt="0">';
                 html += '<div class="box">';
                 html += image;
-                if (area) html += '<div class="amountByCat">' +
+                if (Area) html += '<div class="amountByCat">' +
                     '<div><h5 class="clr-category">НА ГЕКТАР</h5><p class="amount"></p></div>' +
                     '<div><h5 class="clr-category">ВСЕГО</h5><p class="total"></p></div>' +
                     '</div>';
@@ -198,7 +205,7 @@ function theme_program_cat_page(program)
                                         if ((preparation.rate.to - preparation.rate.from)/step == 1) step = step/10;
 
                                         rates_title_arr.push(preparation.units);
-                                        rate = '<input ' + (preparation.rate.from === preparation.rate.to ? 'disabled="disabled"' : '') + ' type="range" name="slider-' + key + '-' + preparation.id + '-' + num + '" id="slider-' + key + '-' + preparation.id + '-' + num + '" value="' + preparation.rate.from + '" min="' + preparation.rate.from + '" max="' + preparation.rate.to + '" step="' + step + '" data-highlight="true">';
+                                        rate = '<input ' + (preparation.rate.from === preparation.rate.to ? 'disabled="disabled"' : '') + ' data-pid="' + preparation.id + '" type="range" name="slider-' + key + '-' + preparation.id + '-' + num + '" id="slider-' + key + '-' + preparation.id + '-' + num + '" value="' + preparation.rate.from + '" min="' + preparation.rate.from + '" max="' + preparation.rate.to + '" step="' + step + '" data-highlight="true">';
                                     }
                                     else {
                                         rate = preparation.rate.from + (preparation.rate.from === preparation.rate.to ? '' : ' - ' + preparation.rate.to) + ' ' + preparation.units;
@@ -217,17 +224,17 @@ function theme_program_cat_page(program)
                                 var url = reglament.preparations.type == 'product_mix' ? null : 'node/' + reglament.preparations.id;
 
                                 var product = '<div class="product-item">';
-                                product += '<div class="title"><span class="clr-category">' + l(title, url) + '</span> ' + title_suffix + '</div>';
-                                product += '<div class="box">';
-                                product += '<div class="image">' + photos[0] + '</div>';
+                                product +=      '<div class="title"><span class="clr-category">' + l(title, url) + '</span> ' + title_suffix + '</div>';
+                                product +=      '<div class="box">';
+                                product +=          '<div class="image">' + photos[0] + '</div>';
                                 if (photos[1]) product += '<div class="image1">' + photos[1] + '</div>';
-                                product += '<p class="description font-small">' + text + '</p>';
-                                product += '</div>';
+                                product +=          '<p class="description font-small">' + text + '</p>';
+                                product +=      '</div>';
 
                                 if (program.header.area) {
                                     product +=  '<div class="calculation">' +
-                                                '<div class="calc-wrapper"><div class="amountByItem"></div></div>' +
-                                                '<select name="flip-' + key + '-' + num + '" id="flip-' + key + '-' + num + '" data-role="slider" data-price0="' + prices[0] + '" data-price1="' + prices[1] + '" data-mini="true"><option value="off">Off</option><option value="on">On</option></select>' +
+                                                    '<div class="calc-wrapper"><div class="amountByItem"></div></div>' +
+                                                    '<select name="flip-' + key + '-' + num + '" id="flip-' + key + '-' + num + '" data-role="slider" data-id="' + reglament.preparations.id + '" data-price0="' + prices[0] + '" data-price1="' + prices[1] + '" data-mini="true"><option value="off">Off</option><option value="on">On</option></select>' +
                                                 '</div>';
                                 } else {
                                     product += '<div class="icon">' + icon + '</div>';
@@ -257,13 +264,21 @@ function theme_program_cat_page(program)
                 html += '</div>';
             });
 
-            if (area) {
-                html += '<div class="list-item col-xs-12 col-sm-6 category-calculation">';
-                html += '<h4 >Итог по программе</h4>';
-                html += '<div class="amountByProgram">' +
-                    '<div><h5>НА ГЕКТАР</h5><p class="amount">0 руб.</p></div>' +
-                    '<div><h5>ВСЕГО</h5><p class="total">0 руб.</p></div>' +
-                    '</div></div>';
+            if (Area) {
+                // итоговые суммы
+                html += '<div class="list-item col-xs-12 col-sm-6 calculation-total">';
+                html +=     '<h4 >Итог по программе</h4>';
+                html +=     '<div class="amountByProgram">' +
+                                '<div><h5>НА ГЕКТАР</h5><p class="amount">0 руб.</p></div>' +
+                                '<div><h5>ВСЕГО</h5><p class="total">0 руб.</p></div>' +
+                            '</div>' +
+                        '</div>';
+
+                // связь с представителем
+                // через action?
+                html += '<div class="list-item col-xs-12 col-sm-6 calculation-send" data-inset="false">';
+                html +=     drupalgap_render(drupalgap_get_form('send_request_form'));
+                        '</div>';
             }
 
         }
@@ -277,11 +292,131 @@ function theme_program_cat_page(program)
     catch (error) { console.log('theme_program_cat_page - ' + error); }
 }
 
+/**
+ * форма отправки Запроса
+ */
+function send_request_form(form, form_state)
+{
+    try {
+        form.prefix = '<h3>Отправить заявку</h3>';
+
+        form.elements['region'] = {
+            type: 'select',
+            attributes: { 'data-native-menu': false },
+            options: { '': 'Регион' },
+            children: []
+        };
+        var options = {
+            'page_id': drupalgap_get_page_id(drupalgap_path_get()),
+            'jqm_page_event': 'pageshow',
+            'jqm_page_event_callback': '_send_request_form_get_region_options'
+        };
+        form.elements['region'].children.push({ markup: drupalgap_jqm_page_event_script_code(options) });
+
+
+        form.elements['phone'] = {
+            title: 'Телефон',
+            title_placeholder: true,
+            type: 'tel',
+            attributes: { 'data-clear-btn': true }
+        };
+
+        form.elements['name'] = {
+            title: 'Представьтесь',
+            title_placeholder: true,
+            type: 'textfield',
+            attributes: { 'data-clear-btn': true }
+        };
+
+        form.elements['submit'] = {
+            type: 'submit',
+            value: 'Отправить запрос',
+            attributes: {
+                class: "ui-btn ui-btn-raised ui-mini clr-warning waves-effect waves-button"
+            }
+        };
+
+        return form;
+    } catch (error) { console.log('send_request_form - ' + error); }
+}
+
+function send_request_form_validate(form, form_state)
+{
+    if (!Program.cnt) {
+        drupalgap_form_set_error('', 'Включите в заявку хотя бы один препарат.');
+        return false;
+    }
+    if (!form_state.values['region']) {
+        drupalgap_form_set_error('region', 'Укажите Ваш регион.');
+        return false;
+    }
+    if (!form_state.values['phone']) {
+        drupalgap_form_set_error('phone', 'Укажите номер телефона для связи с Вами.');
+        return false;
+    }
+}
+
+function send_request_form_submit(form, form_state)
+{
+    Program.region = Regions[form_state.values['region']];
+    Program.name = form_state.values['name'] ? form_state.values['name'] : '';
+    Program.phone = form_state.values['phone'];
+
+    solution_send_request({
+        data: JSON.stringify({ 'program' : Program }),
+        success: function (response) {
+            $('#edit-send-request-form-submit').html('Запрос отправлен').addClass('ui-disabled');
+        }
+    });
+}
+
+function solution_send_request(options)
+{
+    try {
+        options.method = 'POST';
+        options.path = 'reglaments/send_request.json';
+        options.service = 'reglaments';
+        options.resource = 'send_request';
+        Drupal.services.call(options);
+    }
+    catch (error) { console.log('solution_send_request - ' + error); }
+}
+
+function _send_request_form_get_region_options()
+{
+    try {
+        //console.log('_send_request_form_get_region_options - ');
+        var query = {
+            parameters: { vid: 29, parent: 0 },
+            options: { orderby: { weight: 'asc', name: 'asc'}}
+        };
+        taxonomy_term_index(query, {
+            success: function(terms) {
+                if (terms.length == 0) { return; }
+                Regions = terms;
+                var widget = $('#edit-send-request-form-region');
+
+                var options = '';
+                for (var index in terms) {
+                    options += '<option value="' + terms[index].tid + '">' + terms[index].name + '</option>';
+                }
+                $(widget).append(options);
+                $(widget).selectmenu('refresh', true);
+
+            }
+        });
+    }
+    catch (error) { console.log('_send_request_form_get_region_options - ' + error); }
+}
+
+/**
+ * пересчёт всех включенных препаратов с выводом итогов по категориям и программе
+ */
 function recalculate(e)
 {
     // console.log('recalculate');
     try {
-        // нажат выбрать все
+        // нажат flip выбрать все
         if ($(e.target).attr('id') === 'flipper') {
             $('#solution_page [id^=flip-]').each(function (index, flip) {
                 var state = $(e.target).val();
@@ -295,19 +430,28 @@ function recalculate(e)
                 _switch_flip(e.target);
             }
         }
-        // показать/убрать расчёты
 
         var calc_arr = {};
         $('.product-item').each(function (key, item) {
             if ($(item).find('[id^=flip-]').val() === 'on') {
+                // обновить Запрос
+                var id = $(item).find('[id^=flip-]').data('id');
+                // посчитать стоимость
                 var amountByItem = 0;
                 $(item).find('[id^=slider-]').each(function (index, slider) {
-                    var rate = $(slider).val();
                     var price = $(item).find('[id^=flip-]').data('price' + index);
+                    var rate = $(slider).val();
+                    var pid = $(slider).data('pid');
                     amountByItem += amountByItem + rate * price;
+                    // записать в Запрос
+                    Program.preparations[id].items = {};
+                    Program.preparations[id].items[pid] = {
+                        'rate': rate,
+                        'amount': rate * price
+                    }
                 });
 
-                $(item).find('.amountByItem').html(accounting.formatNumber(amountByItem, 0, " ") + ' руб.' + ' x ' + area + ' га = ' + accounting.formatNumber(amountByItem * area, 0, " ") + ' руб.');
+                $(item).find('.amountByItem').html(accounting.formatNumber(amountByItem, 0, " ") + ' руб.' + ' x ' + Area + ' га = ' + accounting.formatNumber(amountByItem * Area, 0, " ") + ' руб.');
 
                 var cat_id = $(item).closest('.list-item').find('.category-item').attr('id');
                 if (!calc_arr[cat_id]) calc_arr[cat_id] = 0;
@@ -319,26 +463,31 @@ function recalculate(e)
 
         for (var index in calc_arr) {
             $('#' + index).find('.amountByCat .amount').html(accounting.formatNumber(calc_arr[index], 0, " ") + ' руб.');
-            $('#' + index).find('.amountByCat .total').html(accounting.formatNumber(calc_arr[index] * area, 0, " ") + ' руб.');
+            $('#' + index).find('.amountByCat .total').html(accounting.formatNumber(calc_arr[index] * Area, 0, " ") + ' руб.');
         }
         $('.amountByProgram .amount').html(accounting.formatNumber(calc_arr.total, 0, " ") + ' руб.');
-        $('.amountByProgram .total').html(accounting.formatNumber(calc_arr.total * area, 0, " ") + ' руб.');
+        $('.amountByProgram .total').html(accounting.formatNumber(calc_arr.total * Area, 0, " ") + ' руб.');
+        Program.total = calc_arr.total;
     }
     catch (error) { console.log('recalculate - ' + error); }
 }
 
-// переключить flip и показать/скрыть расчёты
+/**
+ * переключить flip и показать/скрыть расчёты
+ */
 function _switch_flip(flip)
 {
     try {
         var category = $(flip).closest('.list-item').find('.category-item');
         var cnt = $(category).data('cnt');
+        var id = $(flip).data('id');
         if ($(flip).val() === 'on') {
             $(flip).closest('.product-item').find('.amountByItem').addClass('is-active');
             $(category).data('cnt', cnt + 1);
             if (!cnt) {
                 $(category).find('.image-loader').addClass('is-active');
             }
+            Program.cnt += 1;
         } else {
             // при отключении одного из flip от ключить общий
             $('#flipper').val('off').slider('refresh');
@@ -348,12 +497,16 @@ function _switch_flip(flip)
                 $(category).find('.image-loader').removeClass('is-active');
             }
             $(category).data('cnt', cnt);
+            Program.cnt -= 1;
         }
+        Program.preparations[id] = { 'status': $(flip).val() };
     }
     catch (error) { console.log('_switch_flip - ' + error); }
 }
 
-// повесить события на элементы flip и slider
+/**
+ * повесить события на элементы flip и slider
+ */
 function _set_sliders_event()
 {
     try {
