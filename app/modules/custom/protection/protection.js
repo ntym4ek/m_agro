@@ -129,8 +129,12 @@ function theme_program_cat_page(program)
         var html = '';
         Area = program.header.area;
         Program = {
+            'culture': program.header.title,
+            'phase': program.header.phase ? program.header.phase : '',
             'area': Area,
+            'seeding': program.header.seeding,
             'preparations': {},
+            'hobjects': {},
             'cnt': 0
         };
 
@@ -153,7 +157,7 @@ function theme_program_cat_page(program)
 
                 html += '<div class="list-item col-xs-12 col-sm-6 category-' + tid + '" data-role="collapsible" data-inset="false">';
 
-                html += '<h4 class="category-item wow fadeIn waves-effect waves-button" id="cat-' + tid + '" data-cnt="0">';
+                html += '<h4 class="category-item waves-effect waves-button" id="cat-' + tid + '" data-cnt="0">';
                 html += '<div class="box">';
                 html += image;
                 if (Area) html += '<div class="amountByCat">' +
@@ -166,6 +170,9 @@ function theme_program_cat_page(program)
                 html += '</h4>';
 
                 html += '<div>';
+
+                // записать в Запрос ВО, для которых нет решения
+                Program.hobjects[tid] = category.hobjects;
 
                 if (category.stages) {
                     $.each(category.stages, function (num, stage) {
@@ -187,7 +194,10 @@ function theme_program_cat_page(program)
                                 var text = '';
                                 text += reglament.preparations.ingredients ? reglament.preparations.ingredients + '<br />' : '';
                                 if (!program.header.phase) text += '<span class="period clr-category">Фаза культуры</span><br />' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - <span>' + reglament.period.end.name) + '</span><br />';
-                                if (reglament.hobjects && reglament.hobjects.length) text += '<span class="hobjects clr-category">Вредные объекты</span><br />' + reglament.hobjects + '<br />';
+                                if (reglament.hobjects && reglament.hobjects.length) {
+                                    text += '<span class="hobjects clr-category">Вредные объекты</span><br />' + reglament.hobjects + '<br />';
+                                    Program.preparations[reglament.preparations.id].hobjects = reglament.hobjects;
+                                }
 
                                 var photos = [], prices = [], rates = [], rates_title_arr = [], rates_content_arr = [];
                                 $.each(reglament.preparations['items'], function (key_p, preparation) {
@@ -197,7 +207,8 @@ function theme_program_cat_page(program)
 
                                     Program.preparations[reglament.preparations.id].items[preparation.id] = {
                                         title: preparation.title,
-                                        units: preparation.units
+                                        units: preparation.units,
+                                        unit: preparation.unit
                                     };
 
                                     var rate = '';
@@ -213,7 +224,7 @@ function theme_program_cat_page(program)
                                             count = String(preparation.rate.to).split('.')[1].length;
                                             step = 1 / Math.pow(10, count) < step ? 1 / Math.pow(10, count) : step;
                                         }
-                                        // если шагов на слайдере всего два - уменьшить шаг
+                                        // если значений на слайдере всего два - уменьшить шаг
                                         if ((preparation.rate.to - preparation.rate.from)/step == 1) step = step/10;
 
                                         rates_title_arr.push(preparation.units);
@@ -246,7 +257,7 @@ function theme_program_cat_page(program)
                                 if (program.header.area) {
                                     product +=  '<div class="calculation">' +
                                                     '<div class="calc-wrapper"><div class="amountByItem"></div></div>' +
-                                                    '<select name="flip-' + key + '-' + num + '" id="flip-' + key + '-' + num + '" data-role="slider" data-id="' + reglament.preparations.id + '" data-price0="' + prices[0] + '" data-price1="' + prices[1] + '" data-mini="true"><option value="off">Off</option><option value="on">On</option></select>' +
+                                                    '<select name="flip-' + key + '-' + num + '" id="flip-' + key + '-' + num + '" data-role="slider" data-cat="' + tid + '" data-id="' + reglament.preparations.id + '" data-price0="' + prices[0] + '" data-price1="' + prices[1] + '" data-mini="true"><option value="off">Off</option><option value="on">On</option></select>' +
                                                 '</div>';
                                 } else {
                                     product += '<div class="icon">' + icon + '</div>';
@@ -454,6 +465,7 @@ function recalculate(e)
             if ($(item).find('[id^=flip-]').val() === 'on') {
                 // обновить Запрос
                 var id = $(item).find('[id^=flip-]').data('id');
+                var tid = $(item).find('[id^=flip-]').data('cat');
                 // посчитать стоимость
                 var amountByItem = 0;
                 $(item).find('[id^=slider-]').each(function (index, slider) {
@@ -465,6 +477,8 @@ function recalculate(e)
                     Program.preparations[id].items[pid].rate = rate;
                     Program.preparations[id].items[pid].amount = rate * price;
                 });
+                // для протравителей умножить на норму высева
+                if (tid == 71533) { amountByItem = amountByItem * Program.seeding/1000; }
 
                 $(item).find('.amountByItem').html(accounting.formatNumber(amountByItem, 0, " ") + ' руб.' + ' x ' + Area + ' га = ' + accounting.formatNumber(amountByItem * Area, 0, " ") + ' руб.');
 

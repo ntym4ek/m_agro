@@ -138,13 +138,18 @@ function solution_form_page(form, form_state, calculator)
                 title_placeholder: true,
                 type: 'number'
             };
+            form.elements['seeding'] = {
+                title: 'Норма высева (кг/га)',
+                title_placeholder: true,
+                type: 'number'
+            };
             // при вводе в текстовом поле и нажатии галочки на мобильной клавиатуре
             // выкидывает на splash screen с зависанием
             // скрытое текстовое поле решает проблему
             // todo разобраться, убрать
-            form.elements['dummy'] = {
-                type: 'textfield'
-            };
+            // form.elements['dummy'] = {
+            //     type: 'textfield'
+            // };
         }
 
         /* ----------------------------------- Вредители -------------------------------------------------------------*/
@@ -204,9 +209,9 @@ function solution_form_page(form, form_state, calculator)
 
 function solution_form_page_validate(form, form_state)
 {
-    if (form_state.values['calculator'] && !form_state.values['area']) {
-        drupalgap_form_set_error('area', 'Для расчёта стоимости необходимо задать площадь посева.');
-        return false;
+    if (form_state.values['calculator']) {
+        if (!form_state.values['area']) { drupalgap_form_set_error('area', 'Для расчёта стоимости необходимо задать площадь посева.'); return false; }
+        if (!form_state.values['seeding']) { drupalgap_form_set_error('seeding', 'Для расчёта стоимости необходимо задать норму высева.'); return false; }
     }
     if (form_state.values['phase'] == null && form_state.values['weeds'] == null && form_state.values['pests'] == null && form_state.values['diseases'] == null) {
         drupalgap_form_set_error('phase', 'Задайте Фазу культуры и/или Вредный объекты.');
@@ -218,7 +223,10 @@ function solution_form_page_submit(form, form_state)
     solution_data_array = {};
     solution_data_array['culture_id']   = form_state.values['culture'];
     solution_data_array['phase_id']     = form_state.values['phase'] ? form_state.values['phase'] : 0;
-    if (form_state.values['calculator'])  solution_data_array['area'] = form_state.values['area'];
+    if (form_state.values['calculator'])  {
+        solution_data_array['area'] = form_state.values['area'];
+        solution_data_array['seeding'] = form_state.values['seeding'];
+    }
     if (form_state.values['weeds'])       solution_data_array['weeds_arr'] = form_state.values['weeds'];
     if (form_state.values['pests'])       solution_data_array['pests_arr'] = form_state.values['pests'];
     if (form_state.values['diseases'])    solution_data_array['diseases_arr'] = form_state.values['diseases'];
@@ -277,6 +285,7 @@ function _solution_form_culture_onchange(culture_id_tag)
                     $(widget).selectmenu('refresh', true);
                     $(widget).closest('.form-item').css('display', 'block');
                     $('.field-name-area').css('display', 'block');
+                    $('.field-name-seeding').css('display', 'block');
                 }
             }
         );
