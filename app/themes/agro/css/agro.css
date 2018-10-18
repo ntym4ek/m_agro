@@ -435,7 +435,7 @@ div[role="main"] .image-loader img {
     background: url(../images/loader.gif);
     background-size: cover;
     background-position: center;
-    border-radius: 3em;
+    border-radius: 6em;
     width: 6em;
     height: 6em; }
   .ui-loader.ui-loader-verbose {
