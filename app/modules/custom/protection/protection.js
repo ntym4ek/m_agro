@@ -325,7 +325,7 @@ function theme_program_cat_page(program)
 function send_request_form(form, form_state)
 {
     try {
-        form.prefix = '<h3>Отправить заявку</h3><p class="font-small">Заполните регион и укажите телефон или E-Mail.<br />На указанный E-Mail мы отправим копию расчитанной программы.</p>';
+        form.prefix = '<h3>Отправить заявку</h3><p class="font-small">Заполните регион и укажите телефон или E-Mail.<br />На указанный E-Mail мы отправим копию рассчитанной программы.</p>';
 
         form.elements['region'] = {
             type: 'select',
