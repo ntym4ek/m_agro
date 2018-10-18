@@ -293,11 +293,12 @@ function theme_program_cat_page(program)
             if (Area) {
                 // итоговые суммы
                 html += '<div class="list-item col-xs-12 col-sm-6 calculation-total">';
-                html +=     '<h4 >Итог по программе</h4>';
+                html +=     '<h4>Итог по программе</h4>';
                 html +=     '<div class="amountByProgram">' +
                                 '<div><h5>НА ГЕКТАР</h5><p class="amount">0 руб.</p></div>' +
                                 '<div><h5>ВСЕГО</h5><p class="total">0 руб.</p></div>' +
                             '</div>' +
+                            '<p class="font-small">Указанные цены могут быть снижены. Для расчёта скидки свяжитесь с нашим представителем через форму ниже.</p>' +
                         '</div>';
 
                 // связь с представителем
@@ -324,7 +325,7 @@ function theme_program_cat_page(program)
 function send_request_form(form, form_state)
 {
     try {
-        form.prefix = '<h3>Отправить заявку</h3>';
+        form.prefix = '<h3>Отправить заявку</h3><p class="font-small">Заполните регион и укажите телефон или E-Mail. На указанный E-Mail мы отправим копию расчитанной программы.</p>';
 
         form.elements['region'] = {
             type: 'select',
@@ -354,6 +355,13 @@ function send_request_form(form, form_state)
             attributes: { 'data-clear-btn': true }
         };
 
+        form.elements['email'] = {
+            title: 'E-Mail',
+            title_placeholder: true,
+            type: 'email',
+            attributes: { 'data-clear-btn': true }
+        };
+
         form.elements['submit'] = {
             type: 'submit',
             value: 'Отправить',
@@ -369,15 +377,15 @@ function send_request_form(form, form_state)
 function send_request_form_validate(form, form_state)
 {
     if (!Program.cnt) {
-        drupalgap_form_set_error('', 'Включите в заявку хотя бы один препарат.');
+        drupalgap_form_set_error('', 'С помощью переключателей включите в заявку хотя бы один препарат.');
         return false;
     }
     if (!form_state.values['region']) {
         drupalgap_form_set_error('region', 'Укажите Ваш регион.');
         return false;
     }
-    if (!form_state.values['phone']) {
-        drupalgap_form_set_error('phone', 'Укажите номер телефона для связи с Вами.');
+    if (!form_state.values['phone'] && !form_state.values['email']) {
+        drupalgap_form_set_error('phone', 'Укажите номер телефона или E-Mail.');
         return false;
     }
 }
@@ -387,6 +395,7 @@ function send_request_form_submit(form, form_state)
     Program.region = Regions[form_state.values['region']];
     Program.name = form_state.values['name'] ? form_state.values['name'] : '';
     Program.phone = form_state.values['phone'];
+    Program.email = form_state.values['email'];
 
     solution_send_request({
         data: JSON.stringify({ 'program' : Program }),
