@@ -770,8 +770,8 @@ div[role="main"] .image-loader img { width: 100% !important; }
                 margin: 0 0 5px 0;
             }
             p { margin: 5px 0; }
-
         }
+        & > p { display: none; }
     }
     .calculation-send {
         h4 {

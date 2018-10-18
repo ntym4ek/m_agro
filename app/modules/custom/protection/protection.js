@@ -325,7 +325,7 @@ function theme_program_cat_page(program)
 function send_request_form(form, form_state)
 {
     try {
-        form.prefix = '<h3>Отправить заявку</h3><p class="font-small">Заполните регион и укажите телефон или E-Mail. На указанный E-Mail мы отправим копию расчитанной программы.</p>';
+        form.prefix = '<h3>Отправить заявку</h3><p class="font-small">Заполните регион и укажите телефон или E-Mail.<br />На указанный E-Mail мы отправим копию расчитанной программы.</p>';
 
         form.elements['region'] = {
             type: 'select',
@@ -512,6 +512,9 @@ function recalculate(e)
         $('.amountByProgram .amount').html(accounting.formatNumber(calc_arr.total, 0, " ") + ' руб.');
         $('.amountByProgram .total').html(accounting.formatNumber(calc_arr.total * Area, 0, " ") + ' руб.');
         Program.total = calc_arr.total;
+
+        if (calc_arr.total) $('.calculation-total > p').css('display', 'block');
+        else                $('.calculation-total > p').css('display', 'none');
     }
     catch (error) { console.log('recalculate - ' + error); }
 }
@@ -533,7 +536,7 @@ function _switch_flip(flip)
             }
             Program.cnt += 1;
         } else {
-            // при отключении одного из flip от ключить общий
+            // при отключении одного из flip отключить общий
             $('#flipper').val('off').slider('refresh');
             $(flip).closest('.product-item').find('.amountByItem').removeClass('is-active');
             cnt = cnt - 1;
