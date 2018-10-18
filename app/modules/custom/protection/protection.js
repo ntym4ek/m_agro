@@ -174,7 +174,8 @@ function theme_program_cat_page(program)
                 html += '<div>';
 
                 // записать в Запрос ВО, для которых нет решения
-                Program.hobjects[tid] = category.hobjects;
+                // для Протравителей и фунгицидов не дублирова
+                Program.hobjects[tid == 71533 ? 16 : tid] = category.hobjects;
 
                 if (category.stages) {
                     $.each(category.stages, function (num, stage) {
