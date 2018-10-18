@@ -157,7 +157,9 @@ function theme_program_cat_page(program)
 
                 html += '<div class="list-item col-xs-12 col-sm-6 category-' + tid + '" data-role="collapsible" data-inset="false">';
 
-                html += '<h4 class="category-item waves-effect waves-button" id="cat-' + tid + '" data-cnt="0">';
+                var attributes = Area ? 'id="cat-' + tid + '" data-cnt="0"' : '';
+
+                html += '<h4 class="category-item waves-effect waves-button" ' + attributes + '>';
                 html += '<div class="box">';
                 html += image;
                 if (Area) html += '<div class="amountByCat">' +
@@ -345,7 +347,7 @@ function send_request_form(form, form_state)
         };
 
         form.elements['name'] = {
-            title: 'Представьтесь',
+            title: 'Имя',
             title_placeholder: true,
             type: 'textfield',
             attributes: { 'data-clear-btn': true }
@@ -353,7 +355,7 @@ function send_request_form(form, form_state)
 
         form.elements['submit'] = {
             type: 'submit',
-            value: 'Отправить запрос',
+            value: 'Отправить',
             attributes: {
                 class: "ui-btn ui-btn-raised ui-mini clr-btn-blue waves-effect waves-button"
             }
@@ -388,13 +390,16 @@ function send_request_form_submit(form, form_state)
     solution_send_request({
         data: JSON.stringify({ 'program' : Program }),
         success: function (response) {
-            $('#edit-send-request-form-submit').html('Запрос отправлен').removeClass('clr-btn-blue').addClass('clr-btn-green');
+            new $.nd2Toast({
+                message : "Заявка отправлена",
+                ttl : 3000
+            });
         },
         error: function(xhr, textStatus, errorThrown) {
-            $('#edit-send-request-form-submit').html('Ошибка. Попробуйте позже').addClass('clr-btn-red');
-            setTimeout(function() {
-                $('#edit-send-request-form-submit').html('Отправить запрос').removeClass('clr-btn-red').addClass('clr-btn-blue');
-            }, 8000 );
+            new $.nd2Toast({
+                message : "Ошибка. Попробуйте позже",
+                ttl : 3000
+            });
         }
     });
 }
