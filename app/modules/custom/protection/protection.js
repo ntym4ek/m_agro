@@ -458,7 +458,7 @@ function _send_request_form_get_region_options()
  */
 function recalculate(e)
 {
-    console.log('recalculate');
+    // console.log('recalculate');
     try {
         // нажат flip выбрать все
         if ($(e.target).attr('id') === 'flipper') {
