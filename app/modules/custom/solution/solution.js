@@ -144,7 +144,10 @@ function solution_form_page(form, form_state, calculator)
             form.elements['seeding'] = {
                 title: 'Норма высева (кг/га)',
                 title_placeholder: true,
-                type: 'number'
+                type: 'number',
+                attributes: {
+                    onkeypress: "drupalgap_form_onkeypress('" + form.id + "', event)"
+                }
             };
             // при вводе в текстовом поле и нажатии галочки на мобильной клавиатуре
             // выкидывает на splash screen с зависанием
