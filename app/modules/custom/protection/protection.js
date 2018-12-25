@@ -166,7 +166,7 @@ function theme_program_cat_page(program)
                     '<div><h5 class="clr-category">НА ГЕКТАР</h5><p class="amount"></p></div>' +
                     '<div><h5 class="clr-category">ВСЕГО</h5><p class="total"></p></div>' +
                     '</div>';
-                html += '<div class="icon">' + icon + '</div>';
+                html += '<div class="icon">' + icon + '<div class="folder">развернуть</div></div>';
                 html += '</div>';
                 html += '<div class="title">' + category.name + '</div>';
                 html += '</h4>';
@@ -239,6 +239,7 @@ function theme_program_cat_page(program)
                                     rates_content_arr.push(rate);
 
                                 });
+                                
                                 text += '<span class="rate clr-category">Норма расхода' + (rates_title_arr.length ? ', ' + rates_title_arr.join(' + ') : '') + '</span><br />';
                                 if (program.header.area) {
                                     text += rates_content_arr.join('');
@@ -277,7 +278,7 @@ function theme_program_cat_page(program)
                 html += drupalgap_jqm_page_event_script_code({
                     page_id: drupalgap_get_page_id(),
                     jqm_page_event: 'pageshow',
-                    jqm_page_event_callback: '_set_sliders_event'
+                    jqm_page_event_callback: '_init_events'
                 });
 
                 // вывести неизлечимые ВО
@@ -325,7 +326,7 @@ function theme_program_cat_page(program)
 function send_request_form(form, form_state)
 {
     try {
-        form.prefix = '<h3>Отправить заявку</h3><p class="font-small">Заполните регион и укажите телефон или E-Mail.<br />На указанный E-Mail мы отправим копию рассчитанной программы.</p>';
+        form.prefix = '<h3>Отправить заявку</h3><p class="font-small">Заполните регион и укажите телефон или E-Mail.<br />Рассчитанная програама будет отправлена нашему региональному представителю и на указанный E-Mail.</p>';
 
         form.elements['region'] = {
             type: 'select',
@@ -446,7 +447,6 @@ function _send_request_form_get_region_options()
                 }
                 $(widget).append(options);
                 $(widget).selectmenu('refresh', true);
-
             }
         });
     }
@@ -554,15 +554,25 @@ function _switch_flip(flip)
 /**
  * повесить события на элементы flip и slider
  */
-function _set_sliders_event()
+function _init_events()
 {
     try {
-        var set_events = function() {
+        var set_sliders = function() {
             $('[name^=flip-], [id^=slider-]').on('change', function(e) {
                 recalculate(e);
             });
         };
-        setTimeout(set_events, 100);
+        setTimeout(set_sliders, 100);
+
+        $('.category-item').on('click', function() {
+            var el = $(this).find('.folder');
+            if ($(el).data('unfolded')) {
+                $(el).data('unfolded', false).html('развернуть');
+            } else {
+                $(el).data('unfolded', true).html('свернуть');
+            }
+
+        });
     }
-    catch (error) { console.log('_set_sliders_event - ' + error); }
+    catch (error) { console.log('_init_events - ' + error); }
 }
