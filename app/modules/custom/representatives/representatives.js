@@ -24,20 +24,21 @@ function representatives_menu() {
 function representatives_page()
 {
     try {
-        console.log('representatives_page - ');
-
-        var content = {};
-        content['list'] = {
-            theme: 'jqm_item_list',
-            format_attributes: {
-                'data-inset': 'true'
+        return content = {
+            'form': {
+                markup: drupalgap_render(drupalgap_get_form('representatives_filter_form'))
             },
-            items: [],
-            attributes: {
-                'id': 'representatives_listing_items'
+            'list': {
+                theme: 'jqm_item_list',
+                format_attributes: {
+                    'data-inset': 'true'
+                },
+                items: [],
+                attributes: {
+                    'id': 'representatives_listing_items'
+                }
             }
         };
-        return content;
     }
     catch (error) {
         console.log('representatives_page - ' + error);
@@ -47,11 +48,13 @@ function representatives_page()
 /**
  * The pageshow callback for the representatives listing page.
  */
-function representatives_page_pageshow() {
+function representatives_page_pageshow(region_id)
+{
     try {
+        var rid = region_id ? '/' + region_id : '';
         // Grab some recent content and display it.
         views_datasource_get_view_result(
-            'source/representatives', {
+            'source/representatives' + rid, {
                 success: function(content) {
                     // Extract the nodes into items, then drop them in the list.
                     var items = [];
@@ -59,19 +62,22 @@ function representatives_page_pageshow() {
 
                     // сформировать массив выводимых представителей
                     // директора не выводим
-                    delete reps.head;
-                    // сначала глава отдела продаж
-                    items.push(reps.head2['sales_head']); delete reps.head2['sales_head'];
-                    // региональные менеджеры
-                    for (var index in reps.head2) {
-                        items.push(reps.head2[index]);
+                    if (reps.head) {
+                        delete reps.head;
+                        // сначала глава отдела продаж
+                        items.push(reps.head2['sales_head']);
+                        delete reps.head2['sales_head'];
+                        // региональные менеджеры
+                        for (var index in reps.head2) {
+                            items.push(reps.head2[index]);
+                        }
+                        delete reps.head2;
                     }
-                    delete reps.head2;
                     for (var index in reps) {
                         if (!reps.hasOwnProperty(index)) { continue; }
                         var region = reps[index];
                         for (var index2 in region) {
-                            items.push(region[index2]);
+                            if (region[index2]['access']) items.push(region[index2]);
                         }
                     }
 
@@ -86,6 +92,28 @@ function representatives_page_pageshow() {
                 }
             }
         );
+
+        if (!rid) {
+            var query = {
+                parameters: {vid: 29, parent: 0},
+                options: {orderby: {weight: 'asc', name: 'asc'}}
+            };
+            taxonomy_term_index(query, {
+                success: function (terms) {
+                    if (terms.length == 0) { return; }
+                    var widget = $('select.representatives_filter');
+
+                    var options = '';
+                    for (var index in terms) {
+                        options += '<option value="' + terms[index].tid + '">' + terms[index].name + '</option>';
+                        Regions[terms[index].tid] = terms[index].name;
+                    }
+                    $(widget).append(options);
+                    $(widget).selectmenu('refresh', true);
+                }
+            });
+        }
+
     }
     catch (error) { console.log('node_page_pageshow - ' + error); }
 }
@@ -154,4 +182,33 @@ function representatives_get_card(delta, item)
                     '</div>' +
                 '</div>' +
             '</div>';
+}
+
+/**
+ * форма отправки Запроса
+ */
+function representatives_filter_form(form, form_state)
+{
+    try {
+        form.prefix = '<h3>Найти представителя</h3><p class="font-small">Выберите регион, чтобы отфильтровать список</p>';
+        form.options.attributes['class'] += 'representatives-filter-form';
+
+        form.elements['region'] = {
+            type: 'select',
+            attributes: {
+                'data-native-menu': false,
+                onchange: '_representatives_filter_onchange(this)',
+                class: 'representatives_filter'
+            },
+            options: { '': 'Регион', 0: 'Все регионы' },
+            children: []
+        };
+
+        return form;
+    } catch (error) { console.log('representatives_filter_form - ' + error); }
+}
+
+function _representatives_filter_onchange(select)
+{
+    representatives_page_pageshow($(select).val());
 }
