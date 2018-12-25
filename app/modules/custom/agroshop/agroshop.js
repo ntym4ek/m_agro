@@ -1069,7 +1069,8 @@ function agroshop_block_info() {
 /**
  * Implements hook_block_view().
  */
-function agroshop_block_view(delta, region) {
+function agroshop_block_view(delta, region)
+{
     try {
         var content = '';
         switch (delta) {
