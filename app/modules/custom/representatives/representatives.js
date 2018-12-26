@@ -7,7 +7,10 @@ function representatives_menu() {
         items['representatives'] = {
             title: 'Представители',
             page_callback: 'representatives_page',
-            pageshow: 'representatives_page_pageshow'
+            pageshow: 'representatives_page_pageshow',
+            options: {
+                reloadPage:true
+            }
         };
 
         return items;
