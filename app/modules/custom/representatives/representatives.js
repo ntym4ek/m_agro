@@ -85,6 +85,9 @@ function representatives_page_pageshow(region_id)
 
                     // выводим
                     drupalgap_item_list_populate('#representatives_listing_items', items_html);
+                    // повторном заполнении списка
+                    // высота контейнера (через style) не обновляется, активируем вручную
+                    $.mobile.resetActivePageHeight();
                 }
             }
         );
