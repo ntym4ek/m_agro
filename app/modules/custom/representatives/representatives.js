@@ -7,10 +7,7 @@ function representatives_menu() {
         items['representatives'] = {
             title: 'Представители',
             page_callback: 'representatives_page',
-            pageshow: 'representatives_page_pageshow',
-            options: {
-                reloadPage:true
-            }
+            pageshow: 'representatives_page_pageshow'
         };
 
         return items;
@@ -79,8 +76,7 @@ function representatives_page_pageshow(region_id)
                             if (region[index2]['access']) items.push(region[index2]);
                         }
                     }
-dpm(rid);
-dpm(content);
+
                     // преобразуем массив представителей в массив выводимых карточек
                     var items_html = [];
                     for (var index in items) {
@@ -211,5 +207,4 @@ function representatives_filter_form(form, form_state)
 function _representatives_filter_onchange(select)
 {
     representatives_page_pageshow($(select).val());
-    console.log('_representatives_filter_onchange - ' + $(select).val());
 }
