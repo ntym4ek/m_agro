@@ -908,7 +908,10 @@ div[role="main"] .image-loader img { width: 100% !important; }
 
 /* -------------------------------------------- Представители ------------------------------------------------------- */
 #representatives {
-    .representatives-filter-form { margin-bottom: 2em; }
+    .representatives-filter-form {
+        margin-bottom: 2em;
+        h3 { margin-top: 15px; }
+    }
     .nd2-card {
       &.card-media-right .card-title .card-primary-title,
       &.card-media-right .card-title .card-subtitle {
