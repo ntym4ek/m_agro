@@ -76,7 +76,8 @@ function representatives_page_pageshow(region_id)
                             if (region[index2]['access']) items.push(region[index2]);
                         }
                     }
-console.log('representatives_page_pageshow - ');
+dpm(rid);
+dpm(content);
                     // преобразуем массив представителей в массив выводимых карточек
                     var items_html = [];
                     for (var index in items) {
