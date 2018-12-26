@@ -253,8 +253,12 @@ function theme_program_cat_page(program)
                                 var product = '<div class="product-item">';
                                 product +=      '<div class="title"><span class="clr-category">' + l(title, url) + '</span> ' + title_suffix + '</div>';
                                 product +=      '<div class="box">';
-                                product +=          '<div class="image">' + photos[0] + '</div>';
-                                if (photos[1]) product += '<div class="image1">' + photos[1] + '</div>';
+                                if (photos[1]) {
+                                    product +=      '<div class="image">' + photos[0] + '</div>';
+                                    product +=      '<div class="image1">' + photos[1] + '</div>';
+                                } else {
+                                    product +=      l('<div class="image">' + photos[0] + '</div>', url);
+                                }
                                 product +=          '<p class="description font-small">' + text + '</p>';
                                 product +=      '</div>';
 
