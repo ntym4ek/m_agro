@@ -12,9 +12,7 @@ function representatives_menu() {
 
         return items;
     }
-    catch (error) {
-        console.log('representatives_menu - ' + error);
-    }
+    catch (error) { console.log('representatives_menu - ' + error); }
 }
 
 /**
@@ -40,9 +38,7 @@ function representatives_page()
             }
         };
     }
-    catch (error) {
-        console.log('representatives_page - ' + error);
-    }
+    catch (error) { console.log('representatives_page - ' + error); }
 }
 
 /**
@@ -80,7 +76,7 @@ function representatives_page_pageshow(region_id)
                             if (region[index2]['access']) items.push(region[index2]);
                         }
                     }
-
+console.log('representatives_page_pageshow - ');
                     // преобразуем массив представителей в массив выводимых карточек
                     var items_html = [];
                     for (var index in items) {
@@ -211,4 +207,5 @@ function representatives_filter_form(form, form_state)
 function _representatives_filter_onchange(select)
 {
     representatives_page_pageshow($(select).val());
+    console.log('_representatives_filter_onchange - ' + $(select).val());
 }
