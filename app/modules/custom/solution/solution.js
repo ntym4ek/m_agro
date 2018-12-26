@@ -204,7 +204,7 @@ function solution_form_page(form, form_state, calculator)
             type: 'submit',
             value: 'Найти решение',
             attributes: {
-                class: "ui-btn ui-btn-raised ui-mini clr-btn-blue waves-effect waves-button"
+                class: "ui-btn ui-btn-raised ui-mini clr-btn-blue waves-effect waves-button dg_form_submit_button"
             }
         };
 
