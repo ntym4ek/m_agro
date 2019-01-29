@@ -2,7 +2,7 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.kccc.agroshop"
-		version   = "2.0.15">
+		version   = "2.0.16">
 	<name>Мобильный агроном</name>
 	<description>Приложение ООО Торговый Дом "Кирово-Чепецкая Химическая Компания"</description>
 	<author href="kccc.ru" email="support@kccc.ru">KCCC GROUP</author>
@@ -74,7 +74,9 @@
 
 	<!-- плагины ищем на http://cordova.apache.org/plugins/ -->
 
-	<!-- This plugin provides a web browser view that displays when calling cordova.InAppBrowser.open() -->
+    <!-- This plugin provides AppMetrica analytics tool -->
+    <plugin name="yandex-appmetrica-plugin-cordova" source="npm" />
+    <!-- This plugin provides a web browser view that displays when calling cordova.InAppBrowser.open() -->
 	<plugin name="cordova-plugin-inappbrowser" source="npm" />
 	<!-- This plugin provides an implementation of an old version of the Network Information API. It provides information about the device's cellular and wifi connection, and whether the device has an internet connection. -->
 	<plugin name="cordova-plugin-network-information" source="npm" />
@@ -96,7 +98,7 @@
 		<param name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="The app would like to access the photo library when you attach images to content." />
 	</plugin>
 
-	<!-- при переходе phonegap-version на версии cli-* необходимо включить плагин whitelist и настроить доступ (параметры ниже)  -->
+    <!-- при переходе phonegap-version на версии cli-* необходимо включить плагин whitelist и настроить доступ (параметры ниже)  -->
 	<!-- This plugin implements a whitelist policy for navigating the application webview on Cordova 4.0 -->
 	<plugin name="cordova-plugin-whitelist" source="npm" />
 

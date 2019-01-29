@@ -12,7 +12,6 @@
       
       <!-- jQuery Mobile -->
       <link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" />
-      <!--<script type="text/javascript" src="jquery-1.11.1.min.js"></script>-->
       <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
       <!--<script type="text/javascript" src="jquery.mobile-1.4.5.js"></script>-->
       <script type="text/javascript" src="jquery.mobile-1.4.5.min.js"></script>
@@ -73,11 +72,24 @@
 
       <!-- Load DrupalGap -->
       <script type="text/javascript">
-//          после перехода на cordova cli-7.1.0 параметр config.xml "overlaysWebView" при компиляции
-//          устанавливается всегда в true (https://forums.adobe.com/thread/2443968)
-//          пока меняем его динамически
           document.addEventListener('deviceready', function() {
+              // после перехода на cordova cli-7.1.0 параметр config.xml "overlaysWebView" при компиляции
+              // устанавливается всегда в true (https://forums.adobe.com/thread/2443968)
+              // пока меняем его динамически
               StatusBar.overlaysWebView(false);
+
+              // инициализация плагина AppMetrica
+              // https://tech.yandex.ru/appmetrica/doc/mobile-sdk-dg/concepts/cordova-plugin-docpage/
+              var configuration = {
+                  // Mandatory
+                  apiKey: '2f817cda-7695-4ad1-a988-ebe1402007bc',
+                  // Optional
+                  trackLocationEnabled: true,
+                  reportCrashesEnabled: true,
+                  loggingEnabled: true,
+                  sessionTimeout: 15
+              };
+              window.appMetrica.activate(configuration);
           }, false);
 
           drupalgap_onload();
@@ -85,4 +97,3 @@
 
     </body>
 </html>
-
