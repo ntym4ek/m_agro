@@ -2,7 +2,7 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.kccc.agroshop"
-		version   = "2.0.17">
+		version   = "2.0.18">
 	<name>Мобильный агроном</name>
 	<description>Приложение ООО Торговый Дом "Кирово-Чепецкая Химическая Компания"</description>
 	<author href="kccc.ru" email="support@kccc.ru">KCCC GROUP</author>
@@ -76,6 +76,7 @@
 
     <!-- This plugin provides AppMetrica analytics tool -->
     <plugin name="yandex-appmetrica-plugin-cordova" source="npm" />
+
     <!-- This plugin provides a web browser view that displays when calling cordova.InAppBrowser.open() -->
 	<plugin name="cordova-plugin-inappbrowser" source="npm" />
 	<!-- This plugin provides an implementation of an old version of the Network Information API. It provides information about the device's cellular and wifi connection, and whether the device has an internet connection. -->
