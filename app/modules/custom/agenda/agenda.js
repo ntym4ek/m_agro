@@ -93,7 +93,7 @@ function agenda_list_page_empty(view)
  */
 function agenda_node_page_view_alter_agenda(node, options)
 {
-    //console.log('agenda_node_page_view_alter_agenda - ');
+    console.log('agenda_node_page_view_alter_agenda - ');
     try {
         var content = {};
         content['title'] = {
@@ -122,7 +122,134 @@ function agenda_node_page_view_alter_agenda(node, options)
                     '</div>'
         };
 
+        var days = Math.floor(node.field_period['und'][0]['value2'] - node.field_period['und'][0]['value'])/3600/24 + 1;
+        content['form'] = {
+            markup: drupalgap_get_form('registration_form', node.nid, days)
+        };
+
         options.success(content);
     }
     catch (error) { console.log('agenda_node_page_view_alter_agenda - ' + error); }
+}
+
+function registration_form(form, form_state, nid, days)
+{
+    try {
+        form.prefix = '<h3>Запланировать встречу</h3>' +
+            '<p class="font-small">Наш представитель получит уведомление и свяжется в Вами.</p>';
+
+        form.elements['nid'] = {
+            type: 'hidden',
+            value: nid
+        };
+        form.elements['reg_sure'] = {
+            type: 'select',
+            options: { '0': 'Точно пойду', '1': 'Возможно пойду' }
+        };
+
+        var date_options = {};
+        var date_array = ['Выберите день', 'Первый день', 'Второй день', 'Третий день', 'Четвертый день', 'Пятый день', 'Шестой день'];
+        for (var i = 0; i <= days; i++) {
+            date_options[i] = date_array[i];
+        }
+        form.elements['date_select'] = {
+            type: 'select',
+            options: date_options
+        };
+
+        form.elements['phone'] = {
+            title: 'Телефон',
+            title_placeholder: true,
+            type: 'tel',
+            attributes: { 'data-clear-btn': true }
+        };
+
+        form.elements['company'] = {
+            title: 'Компания',
+            title_placeholder: true,
+            type: 'textfield',
+            attributes: { 'data-clear-btn': true }
+        };
+
+        form.elements['profile_post'] = {
+            title: 'Должность',
+            title_placeholder: true,
+            type: 'textfield',
+            attributes: { 'data-clear-btn': true }
+        };
+
+        form.elements['fullname'] = {
+            title: 'Имя',
+            title_placeholder: true,
+            type: 'textfield',
+            attributes: { 'data-clear-btn': true }
+        };
+
+        form.elements['contact_message'] = {
+            title: 'Можно оставить сообщение',
+            title_placeholder: true,
+            type: 'textarea'
+        };
+
+        form.elements['submit'] = {
+            type: 'submit',
+            value: 'Отправить',
+            attributes: {
+                class: "ui-btn ui-btn-raised ui-mini clr-btn-blue waves-effect waves-button"
+            }
+        };
+
+        return form;
+    } catch (error) { console.log('registration_form - ' + error); }
+}
+
+function registration_form_validate(form, form_state)
+{
+    if (!form_state.values['phone'] && !form_state.values['email']) {
+        drupalgap_form_set_error('phone', 'Укажите номер телефона');
+        return false;
+    }
+}
+
+function registration_form_submit(form, form_state)
+{
+    console.log('registration_form_submit - ');
+    try {
+        var registration = form_state['values'];
+        registration_create({
+            data: JSON.stringify({ 'registration' : registration }),
+            success: function (response) {
+                if (response.success) {
+                    new $.nd2Toast({
+                        message : 'Заявка зарегистрирована.',
+                        ttl : 3000
+                    });
+                } else {
+                    new $.nd2Toast({
+                        message : response.message,
+                        ttl : 3000
+                    });
+                }
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                new $.nd2Toast({
+                    message : errorThrown,
+                    ttl : 3000
+                });
+            }
+        });
+    }
+    catch (error) { console.log('registration_form_submit - ' + error); }
+}
+
+function registration_create(options)
+{
+    try {
+        options.method = 'POST';
+        options.path = 'registration.json';
+        options.service = 'registration';
+        options.resource = 'create';
+        Drupal.services.call(options);
+    }
+    catch (error) { console.log('registration_create - ' + error); }
 }
