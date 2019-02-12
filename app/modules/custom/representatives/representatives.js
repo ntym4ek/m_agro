@@ -135,25 +135,20 @@ function representatives_get_card(delta, item)
         for(index in item.regions) { regions.push(item.regions[index]); }
     }
 
-    var phones = [];
-    var whatsapp = [];
-    if (typeof item.phones !== 'undefined') {
-        if (item.expert) {
-            for(index in item.phones) {
-                var call = item.phones[index];
-                call = call.replace(/-/g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '').replace(/\+/g, '');
-                if (call.indexOf('9') === 1) {
-                    var button_link = bl('WhatsApp', null, {
-                        attributes: {
-                            class: 'ui-btn ui-mini ui-btn-wide ui-btn-raised clr-btn-green waves-effect waves-button',
-                            onclick: "window.open('" + "https://wa.me/" + call + "', '_system', 'location=yes')"
-                        }
-                    });
-                    whatsapp.push(button_link);
-                }
+    var whatsapp = '';
+    if (item.expert) {
+        var call = item.expert;
+        call = call.replace(/-/g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '').replace(/\+/g, '');
+        var whatsapp = bl('WhatsApp', null, {
+            attributes: {
+                class: 'ui-btn ui-mini ui-btn-wide ui-btn-raised clr-btn-green waves-effect waves-button',
+                onclick: "window.open('" + "https://wa.me/" + call + "', '_system', 'location=yes')"
             }
-        }
+        });
+    }
 
+    var phones = [];
+    if (typeof item.phones !== 'undefined') {
         for(index in item.phones) {
             var call = item.phones[index];
             call = call.replace(/-/g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '');
@@ -193,7 +188,7 @@ function representatives_get_card(delta, item)
                 (regions.length ? '<div class="card-supporting-text has-action has-title">' + regions.join(', ') + '</div>' : '') +
                 '<div class="card-action">' +
                     '<div class="row between-xs">' +
-                        '<div class="col-xs-12">' + whatsapp.join('') + '</div>' +
+                        '<div class="col-xs-12">' + whatsapp + '</div>' +
                     '</div>' +
                     '<div class="row between-xs">' +
                         '<div class="col-xs-6">' +

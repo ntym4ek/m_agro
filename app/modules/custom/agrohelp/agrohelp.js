@@ -27,7 +27,8 @@ function agrohelp_page()
     try {
         return content = {
             'intro': {
-                markup: '<p>Бла-бла-бла, мур-мур-мур</p>'
+                markup: '<p>Для получения консультации агронома, выберите удобный для Вас формат</p>' +
+                        '<h4>Консультация онлайн</h4><br />'
             },
             // 'form': {
             //     markup: drupalgap_render(drupalgap_get_form('experts_filter_form'))
@@ -43,11 +44,11 @@ function agrohelp_page()
                 }
             },
             'mid': {
-                markup: '<h4 class="align-center">или</h4><br /><p>заполнить форму и получить ответ офлайн</p>'
+                markup: '<p class="align-center">или</p><h4>Консультация офлайн</h4>'
             },
             'button' : {
                 theme: 'button_link',
-                text: 'Перейти к форме',
+                text: 'Заполнить форму',
                 attributes: {
                     class: 'ui-btn ui-mini ui-btn-raised clr-btn-blue'
                 },
