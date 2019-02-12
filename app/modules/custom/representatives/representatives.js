@@ -47,6 +47,8 @@ function representatives_page()
 function representatives_page_pageshow(region_id)
 {
     try {
+        console.log('representatives_page_pageshow - ');
+
         var rid = region_id ? '/' + region_id : '';
         // Grab some recent content and display it.
         views_datasource_get_view_result(
@@ -114,7 +116,7 @@ function representatives_page_pageshow(region_id)
         }
 
     }
-    catch (error) { console.log('node_page_pageshow - ' + error); }
+    catch (error) { console.log('representatives_page_pageshow - ' + error); }
 }
 
 /**
@@ -122,6 +124,8 @@ function representatives_page_pageshow(region_id)
  */
 function representatives_get_card(delta, item)
 {
+    console.log('representatives_get_card - ');
+
     var name = item.surname + '<br />' + item.name + ' ' + item.name2;
 
     var photo = theme('image', {path: Drupal.settings.site_path + item.photo});
@@ -132,7 +136,24 @@ function representatives_get_card(delta, item)
     }
 
     var phones = [];
+    var whatsapp = [];
     if (typeof item.phones !== 'undefined') {
+        if (item.expert) {
+            for(index in item.phones) {
+                var call = item.phones[index];
+                call = call.replace(/-/g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '').replace(/\+/g, '');
+                if (call.indexOf('9') === 1) {
+                    var button_link = bl('WhatsApp', null, {
+                        attributes: {
+                            class: 'ui-btn ui-mini ui-btn-wide ui-btn-raised clr-btn-green waves-effect waves-button',
+                            onclick: "window.open('" + "https://wa.me/" + call + "', '_system', 'location=yes')"
+                        }
+                    });
+                    whatsapp.push(button_link);
+                }
+            }
+        }
+
         for(index in item.phones) {
             var call = item.phones[index];
             call = call.replace(/-/g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '');
@@ -169,8 +190,11 @@ function representatives_get_card(delta, item)
                     '<h4 class="card-primary-title">' + name + '</h4>' +
                     '<h5 class="card-subtitle">' + item.office + '</h5>' +
                 '</div>' +
-                '<div class="card-supporting-text has-action has-title">' + regions.join(', ') + '</div>' +
+                (regions.length ? '<div class="card-supporting-text has-action has-title">' + regions.join(', ') + '</div>' : '') +
                 '<div class="card-action">' +
+                    '<div class="row between-xs">' +
+                        '<div class="col-xs-12">' + whatsapp.join('') + '</div>' +
+                    '</div>' +
                     '<div class="row between-xs">' +
                         '<div class="col-xs-6">' +
                             '<div class="box">' + phones.join('') + '</div>' +

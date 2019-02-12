@@ -60,6 +60,7 @@ function homepage_page()
 
         html += '<div class="router">';
         html +=   '<img data-animate="true" class="pr-balloon b1 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/1.png" />';
+        html +=   '<img data-animate="true" class="pr-balloon b10 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/10.png" />';
         html +=   '<div class="row">';
         html +=     '<div class="col-xs-6">';
         html +=       '<div class="route">';
@@ -76,7 +77,8 @@ function homepage_page()
         html +=     '<div class="col-xs-6">';
         html +=       '<div class="route">';
         html +=         '<img data-animate="true" class="pr-balloon b4 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/4.png" />';
-        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/agrohelp.png"></div><div class="r-title">Агропомощь</div>', 'entityform/add/agrohelp');
+        html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/agrohelp.png"></div><div class="r-title">Агропомощь</div>', 'agrohelp');
+        // html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/agrohelp.png"></div><div class="r-title">Агропомощь</div>', 'entityform/add/agrohelp');
         html +=       '</div>';
         html +=     '</div>';
         html +=     '<div class="col-xs-6">';
@@ -141,7 +143,7 @@ function _balloon(delta)
         $('.pr-balloon').addClass('processed');
     }
 
-   if (delta == -1 || bnum_curr > 8) {
+   if (delta == -1 || bnum_curr > 9) {
        $('.b' + bnum_curr).removeClass('visible');
        $('.pr-actions').removeClass('visible');
        setTimeout(function () {

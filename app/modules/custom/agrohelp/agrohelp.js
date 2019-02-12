@@ -1,3 +1,170 @@
+/**
+ * Implements hook_menu().
+ */
+function agrohelp_menu()
+{
+    var items = {};
+    items['agrohelp'] = {
+        title: 'Агропомощь',
+        page_callback: 'agrohelp_page',
+        pageshow: 'agrohelp_page_pageshow'
+    };
+
+    return items;
+}
+
+
+/**
+ * -------------------------------------- Страница роутера Агропомощи --------------------------------------------------
+ */
+
+/**
+ * callback function
+ * страница выбора вида Агропомощи
+ */
+function agrohelp_page()
+{
+    try {
+        return content = {
+            'intro': {
+                markup: '<p>Бла-бла-бла, мур-мур-мур</p>'
+            },
+            // 'form': {
+            //     markup: drupalgap_render(drupalgap_get_form('experts_filter_form'))
+            // },
+            'list': {
+                theme: 'jqm_item_list',
+                format_attributes: {
+                    'data-inset': 'true'
+                },
+                items: [],
+                attributes: {
+                    'id': 'experts_listing_items'
+                }
+            },
+            'mid': {
+                markup: '<h4 class="align-center">или</h4><br /><p>заполнить форму и получить ответ офлайн</p>'
+            },
+            'button' : {
+                theme: 'button_link',
+                text: 'Перейти к форме',
+                attributes: {
+                    class: 'ui-btn ui-mini ui-btn-raised clr-btn-blue'
+                },
+                path: 'entityform/add/agrohelp'
+            }
+
+        };
+    }
+    catch (error) { console.log('agrohelp_page - ' + error); }
+}
+
+/**
+ * The pageshow callback for the Агропомощь page.
+ */
+function agrohelp_page_pageshow(region_id)
+{
+    // console.log('agrohelp_page_pageshow - ');
+
+    try {
+        var rid = region_id ? '/' + region_id : '';
+        // Grab some recent content and display it.
+        views_datasource_get_view_result(
+            'source/experts' + rid, {
+                success: function(content) {
+                    // Extract the nodes into items, then drop them in the list.
+                    var items = [];
+                    var reps = content.representatives;
+
+                    // сформировать массив выводимых представителей
+                    // директора не выводим
+                    if (reps.head) {
+                        delete reps.head;
+                        // сначала глава отдела продаж
+                        items.push(reps.head2['sales_head']);
+                        delete reps.head2['sales_head'];
+                        // региональные менеджеры
+                        for (var index in reps.head2) {
+                            items.push(reps.head2[index]);
+                        }
+                        delete reps.head2;
+                    }
+                    for (var index in reps) {
+                        if (!reps.hasOwnProperty(index)) { continue; }
+                        var region = reps[index];
+                        for (var index2 in region) {
+                            items.push(region[index2]);
+                        }
+                    }
+
+                    // преобразуем массив представителей в массив выводимых карточек
+                    var items_html = [];
+                    for (var index in items) {
+                        items_html.push(representatives_get_card(index, items[index]));
+                    }
+
+                    // выводим
+                    drupalgap_item_list_populate('#experts_listing_items', items_html);
+                    // повторном заполнении списка
+                    // высота контейнера (через style) не обновляется, активируем вручную
+                    $.mobile.resetActivePageHeight();
+                }
+            }
+        );
+
+        if (!rid) {
+            var query = {
+                parameters: {vid: 29, parent: 0},
+                options: {orderby: {weight: 'asc', name: 'asc'}}
+            };
+            taxonomy_term_index(query, {
+                success: function (terms) {
+                    if (terms.length == 0) { return; }
+                    var widget = $('select.experts_filter');
+
+                    var options = '';
+                    for (var index in terms) {
+                        options += '<option value="' + terms[index].tid + '">' + terms[index].name + '</option>';
+                        Regions[terms[index].tid] = terms[index].name;
+                    }
+                    $(widget).append(options);
+                    $(widget).selectmenu('refresh', true);
+                }
+            });
+        }
+
+    }
+    catch (error) { console.log('agrohelp_page_pageshow - ' + error); }
+}
+
+/**
+ * форма отправки Запроса
+ */
+function experts_filter_form(form, form_state)
+{
+    try {
+        form.prefix = '<h3>Найти специалиста</h3><p class="font-small">Выберите регион, чтобы отфильтровать список</p>';
+        form.options.attributes['class'] += 'experts-filter-form';
+
+        form.elements['region'] = {
+            type: 'select',
+            attributes: {
+                'data-native-menu': false,
+                onchange: '_experts_filter_onchange(this)',
+                class: 'experts_filter'
+            },
+            options: { '': 'Регион', 0: 'Все регионы' },
+            children: []
+        };
+
+        return form;
+    } catch (error) { console.log('experts_filter_form - ' + error); }
+}
+
+function _experts_filter_onchange(select)
+{
+    agrohelp_page_pageshow($(select).val());
+}
 
 /**
  * hook_services_preprocess
