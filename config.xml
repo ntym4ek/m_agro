@@ -57,7 +57,8 @@
 	<!-- stastusbar -->
 	<preference name="StatusBarOverlaysWebView" value="false" />
 	<preference name="StatusBarStyle" value="blacktranslucent" />
-	<preference name="StatusBarBackgroundColor" value="#0A6B36" />
+	<!--<preference name="StatusBarBackgroundColor" value="#0A6B36" />-->
+	<preference name="StatusBarBackgroundColor" value="#FFFFFF" />
 
 	<!-- splashscreen -->
 	<preference name="SplashScreenDelay" value="0" />
