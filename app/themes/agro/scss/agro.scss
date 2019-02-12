@@ -242,17 +242,18 @@ div[role="main"] .image-loader img { width: 100% !important; }
             img { height: 25px; }
         }
          a {
-             color: #fff;
+             color: #727271;
              text-decoration: none;
          }
     }
     & > .ui-btn {
+        color: #727271!important;
         padding: .1em;
     }
 }
 /* -------------------------------------------- Заставка ------------------------------------------------------------ */
 #_drupalgap_splash {
-    background-image: linear-gradient(135deg, #0A6B36, #16B55E);
+    background: #fff;
     #_drupalgap_splash_content img {
         display: inline-block;
         margin: auto 0;
@@ -286,14 +287,14 @@ div[role="main"] .image-loader img { width: 100% !important; }
 
 /* -------------------------------------------- Домашняя страница --------------------------------------------------- */
 #homepage {
-    background-image: linear-gradient(135deg, #0A6B36, #16B55E);
+    background-image: linear-gradient(135deg, #fff, #f9f9f9);
     .router {
         text-align: center;
         .route {
             margin: 30px auto 0;
             position: relative;
             a {
-                color: #fff; text-decoration: none;
+                color: #727271; text-decoration: none;
                 display: block;
                 width: 60%; max-width: 100px;
                 margin: auto;
@@ -330,16 +331,16 @@ div[role="main"] .image-loader img { width: 100% !important; }
         width: 250px!important;
         @media (min-width: $screen-sm-min) {  width: 350px !important; }
         &.b1 {
-            top: 40px; left: -25px;
-            @media (min-width: $screen-sm-min) { top: 40px; left: -50px; }
+            top: 10px; left: -30px;
+            @media (min-width: $screen-sm-min) { top: 10px; left: -50px; }
         }
         &.b2 {
-            bottom: -105px; left: -15px;
-            @media (min-width: $screen-sm-min) { bottom: -145px; left: 20px; }
+            bottom: -125px; left: -15px;
+            @media (min-width: $screen-sm-min) { bottom: -165px; left: 10px; }
         }
         &.b3 {
-            bottom: -110px; right: -25px;
-            @media (min-width: $screen-sm-min) { bottom: -145px; right: -25px; }
+            bottom: -125px; right: -25px;
+            @media (min-width: $screen-sm-min) { bottom: -175px; right: -6px; }
         }
         &.b4 {
             top: -100px; left: 0;
@@ -354,16 +355,20 @@ div[role="main"] .image-loader img { width: 100% !important; }
             @media (min-width: $screen-sm-min) { top: -100px; left: 70px; }
         }
         &.b7 {
-            top: -100px; left: -28px;
-            @media (min-width: $screen-sm-min) { top: -145px; left: -8px; }
+            top: -110px; left: -41px;
+            @media (min-width: $screen-sm-min) { top: -160px; left: -5px; }
         }
         &.b8 {
-            top: -100px; left: -110px;
-            @media (min-width: $screen-sm-min) { top: -145px; left: -120px; }
+            top: -115px; left: -110px;
+            @media (min-width: $screen-sm-min) { top: -170px; left: -95px; }
         }
         &.b9 {
-            top: -100px; left: -82px;
-            @media (min-width: $screen-sm-min) { top: -145px; left: -80px; }
+            top: -110px; right: -70px;
+            @media (min-width: $screen-sm-min) { top: -165px; right: -55px; }
+        }
+        &.b10 {
+            top: 10px; right: -64px;
+            @media (min-width: $screen-sm-min) { top: -10px; right: -100px; }
         }
     }
     .pr-actions {
@@ -414,7 +419,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
 
 /* -------------------------------------------- Выбор каталога ------------------------------------------------------ */
 #catalog {
-    background-image: linear-gradient(135deg, #0A6B36, #16B55E);
+    background-image: linear-gradient(135deg, #fff, #f9f9f9);
     .router {
         text-align: center;
         .route {
@@ -977,6 +982,9 @@ div[role="main"] .image-loader img { width: 100% !important; }
         h3 { font-size: $font-size-h3; }
         h4 { font-size: $font-size-h4; }
         a { text-decoration: none; }
+    }
+    .card-action .ui-btn {
+        margin-bottom: 15px;
     }
 }
 

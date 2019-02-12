@@ -1,8 +1,7 @@
 /*
  * Color Definition Sheet
  */
-
-.nd2-bg-500 { background-color: #0A6B36; color: #ffffff; }
+.nd2-bg-500 { background-color: #fff; color: #ffffff; }
 
 /*
  * Custom Styles
@@ -11,15 +10,16 @@
 
 
 .ui-page-theme-a .ui-header {
-	background-color: #0A6B36;
-	color: #ffffff;
+    background-color: #fff;
+    box-shadow: none!important;
+    /* color: #ffffff; */
 }
 
 .ui-page-theme-a .ui-footer {
-	background-color: #ffffff;
+	background-color: #fff;
 	color: #323232;
 
-	box-shadow: 0px 0px 7px rgba(0,0,0,0.1);
+	box-shadow: 0 0 7px rgba(0,0,0,0.1);
 }
 
 li.ui-tabs-active > .ui-link.ui-btn.ui-tabs-anchor,
