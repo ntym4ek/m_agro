@@ -22,10 +22,10 @@ function representatives_menu() {
 function representatives_page()
 {
     try {
-        return content = {
-            'form': {
-                markup: drupalgap_render(drupalgap_get_form('representatives_filter_form'))
-            },
+        var content = {};
+        content = {
+            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2">'},
+            'form': { markup: drupalgap_render(drupalgap_get_form('representatives_filter_form')) },
             'list': {
                 theme: 'jqm_item_list',
                 format_attributes: {
@@ -35,8 +35,10 @@ function representatives_page()
                 attributes: {
                     'id': 'representatives_listing_items'
                 }
-            }
+            },
+            'suffix': { markup: '</div></div>' }
         };
+        return content;
     }
     catch (error) { console.log('representatives_page - ' + error); }
 }
@@ -139,9 +141,9 @@ function representatives_get_card(delta, item)
     if (item.expert) {
         var call = item.expert;
         call = call.replace(/-/g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '').replace(/\+/g, '');
-        var whatsapp = bl('WhatsApp', null, {
+        var whatsapp = bl('<i class="zmdi zmdi-whatsapp"></i> WhatsApp консультация', null, {
             attributes: {
-                class: 'ui-btn ui-mini ui-btn-wide ui-btn-raised clr-btn-green waves-effect waves-button',
+                class: 'ui-btn ui-whatsapp ui-btn-wide ui-btn-raised clr-btn-green waves-effect waves-button',
                 onclick: "window.open('" + "https://wa.me/" + call + "', '_system', 'location=yes')"
             }
         });
@@ -208,9 +210,11 @@ function representatives_get_card(delta, item)
 function representatives_filter_form(form, form_state)
 {
     try {
-        form.prefix = '<h3>Найти представителя</h3><p class="font-small">Выберите регион, чтобы отфильтровать список</p>';
         form.options.attributes['class'] += 'representatives-filter-form';
 
+        form.elements['intro'] = {
+            markup: '<h3>Найти представителя</h3><p>Выберите регион, чтобы отфильтровать список</p>'
+        };
         form.elements['region'] = {
             type: 'select',
             attributes: {

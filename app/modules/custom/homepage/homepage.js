@@ -133,7 +133,7 @@ function homepage_page()
 function _balloon(delta)
 {
     // we will show Presentation only once
-    if (variable_get('presentation')) {
+    if (variable_get('presentation') || Drupal.settings.skip_start_help) {
         return;
     }
 

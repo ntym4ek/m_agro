@@ -29,15 +29,17 @@ function protection_menu()
 function protection_list_page()
 {
     try {
-        var content = {};
-        content['list'] = {
-            theme: 'view',
-            format_attributes: {
-                'data-inset': 'true',
-                'class': 'row'
+        var content = {
+            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-10 col-sm-offset-1">' },
+            'list' : {
+                theme: 'view',
+                format_attributes: {
+                    'data-inset': 'true'
+                },
+                path: 'protection-catalog.json',
+                row_callback: 'protection_list_page_row'
             },
-            path: 'protection-catalog.json',
-            row_callback: 'protection_list_page_row'
+            'suffix': { markup: '</div></div>' }
         };
         return content;
     }
@@ -49,16 +51,17 @@ function protection_list_page_row(view, row)
     try {
         var content = '';
         var image = theme('image', { path: row.bkg.src });
+        var icon = theme('image', {path: row.icon.src});
 
         content +=  '<div class="box">';
-        content +=      image;
-        content +=      '<div class="icon"><img src="' + row.icon.src + '"></div>';
+        content +=      '<div class="icon">' + icon + '</div>';
+        content +=      '<div class="image">' + image + '</div>';
         content +=  '</div>';
         content +=  '<div class="title">' + row.title + '</div>';
 
         return l(content, 'protection-system/' + row.nid, {
             'attributes': {
-                'class': 'category-item col-xs-12 col-sm-6 wow fadeIn waves-effect waves-button',
+                'class': 'category-item wow fadeIn waves-effect waves-button',
                 'data-wow-delay': '0.2s'
             }
         });
@@ -138,38 +141,46 @@ function theme_program_cat_page(program)
             'cnt': 0
         };
 
+        html += '<div class="content-header">';
         html += '<h2>' + program.header.title + (program.header.area ? '<span>, <span>' + program.header.area + ' га</span></span>': '') + '</h2>';
         if (program.header.phase) html += '<h3>' + program.header.phase + '</h3>';
         html += '<h4>' + program.header.description + '</h4>';
         if (program.header.pdf)
             html += '<a onclick="window.open(\'' + program.header.pdf + '\', \'_system\', \'location=yes\')" class="btn-download ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-primary waves-effect waves-button"><i class="zmdi zmdi-download zmd-2x"></i></a>';
-
-        if (Area) {
-            html += '<div class="select-all"><div>выбрать все препараты</div><div><select name="flip-all" id="flipper" data-role="slider" data-mini="true"><option value="off">Off</option><option value="on">On</option></select></div></div>';
-        }
+        html += '</div>';
 
         html += '<div class="row">';
+        html +=     '<div class="col-xs-12 col-sm-10 col-sm-offset-1">';
+
+        if (Area) {
+            html += '<div class="select-all "><div>выбрать все препараты</div><div><select name="flip-all" id="flipper" data-role="slider" data-mini="true"><option value="off">Off</option><option value="on">On</option></select></div></div>';
+        }
+
         if (program.categories) {
             $.each(program.categories, function (index, category) {
                 var tid = category.tid;
                 var image = theme('image', {path: category.bkg});
                 var icon = theme('image', {path: category.icon});
 
-                html += '<div class="list-item col-xs-12 col-sm-6 category-' + tid + '" data-role="collapsible" data-inset="false">';
+                html += '<div class="list-item category-' + tid + '" data-role="collapsible" data-inset="false">';
 
                 var attributes = Area ? 'id="cat-' + tid + '" data-cnt="0"' : '';
 
-                html += '<h4 class="category-item waves-effect waves-button" ' + attributes + '>';
-                html += '<div class="box">';
-                html += image;
-                if (Area) html += '<div class="amountByCat">' +
-                    '<div><h5 class="clr-category">НА ГЕКТАР</h5><p class="amount"></p></div>' +
-                    '<div><h5 class="clr-category">ВСЕГО</h5><p class="total"></p></div>' +
-                    '</div>';
-                html += '<div class="icon">' + icon + '<div class="folder">развернуть</div></div>';
-                html += '</div>';
-                html += '<div class="title">' + category.name + '</div>';
-                html += '</h4>';
+                html +=     '<h4 class="category-item waves-effect waves-button" ' + attributes + '>';
+                html +=         '<div class="box">';
+                html +=             '<div class="icon">' + icon + '</div>';
+                html +=             '<div class="image">'
+                html +=                 image;
+                if (Area) {
+                    html +=             '<div class="cat-amount">' +
+                                            '<div><h5 class="clr-category">НА ГЕКТАР</h5><p class="amount"></p></div>' +
+                                            '<div><h5 class="clr-category">ВСЕГО</h5><p class="total"></p></div>' +
+                                        '</div>';
+                }
+                html +=             '</div>';
+                html +=         '</div>';
+                html +=         '<div class="title">' + category.name + '<div class="folder">развернуть</div></div>';
+                html +=     '</h4>';
 
                 html += '<div>';
 
@@ -294,30 +305,48 @@ function theme_program_cat_page(program)
                 html += '</div>';
                 html += '</div>';
             });
+            html +=  '</div>';
+            html +=  '</div>';
 
             if (Area) {
+                html += '<div class="row">';
+                html +=     '<div class="col-xs-12 col-sm-10 col-sm-offset-1">';
+
                 // итоговые суммы
-                html += '<div class="list-item col-xs-12 col-sm-6 calculation-total">';
-                html +=     '<h4>Итог по программе</h4>';
-                html +=     '<div class="amountByProgram">' +
-                                '<div><h5>НА ГЕКТАР</h5><p class="amount">0 руб.</p></div>' +
-                                '<div><h5>ВСЕГО</h5><p class="total">0 руб.</p></div>' +
+                var icon = theme('image', { path: program.header.icon });
+                html += '<div class="category-item calculation-total">';
+                html +=     '<div class="box">';
+                html +=         '<div class="icon">' + icon + '</div>';
+                html +=         '<div class="image">';
+                html +=             '<h4>Итог по программе</h4>';
+                html +=             '<div id="prog-amount" class="cat-amount">' +
+                                        '<div><h5>НА ГЕКТАР</h5><p class="amount">0 руб.</p></div>' +
+                                        '<div><h5>ВСЕГО</h5><p class="total">0 руб.</p></div>' +
+                                    '</div>' +
+                                '</div>' +
                             '</div>' +
                             '<p class="font-small">Указанные цены могут быть снижены. Для расчёта скидки свяжитесь с нашим представителем через форму ниже.</p>' +
                         '</div>';
 
+                html +=     '</div>';
+                html +=  '</div>';
+
                 // связь с представителем
                 // через action?
-                html += '<div class="list-item col-xs-12 col-sm-6 calculation-send" data-inset="false">';
-                html +=     drupalgap_render(drupalgap_get_form('send_request_form'));
-                        '</div>';
+                html += '<div class="row">';
+                html +=     '<div class="col-xs-12 col-sm-6 col-sm-offset-3">';
+                html +=         '<div class="list-item calculation-send" data-inset="false">';
+                html +=             drupalgap_render(drupalgap_get_form('send_request_form'));
+                html +=         '</div>';
+                html +=     '</div>';
+                html +=  '</div>';
+
             }
 
         }
         else {
-            html +=  '<div class="col-xs-12">Для культуры на данном этапе роста у нашей компании нет препаратов.</div>';
+            html +=  '<div>Для культуры на данном этапе роста у нашей компании нет препаратов.</div>';
         }
-        html +=  '</div>';
 
         return html;
     }
@@ -510,11 +539,11 @@ function recalculate(e)
         });
 
         for (var index in calc_arr) {
-            $('#' + index).find('.amountByCat .amount').html(accounting.formatNumber(calc_arr[index], 0, " ") + ' руб.');
-            $('#' + index).find('.amountByCat .total').html(accounting.formatNumber(calc_arr[index] * Area, 0, " ") + ' руб.');
+            $('#' + index).find('.cat-amount .amount').html(accounting.formatNumber(calc_arr[index], 0, " ") + ' руб.');
+            $('#' + index).find('.cat-amount .total').html(accounting.formatNumber(calc_arr[index] * Area, 0, " ") + ' руб.');
         }
-        $('.amountByProgram .amount').html(accounting.formatNumber(calc_arr.total, 0, " ") + ' руб.');
-        $('.amountByProgram .total').html(accounting.formatNumber(calc_arr.total * Area, 0, " ") + ' руб.');
+        $('#prog-amount .amount').html(accounting.formatNumber(calc_arr.total, 0, " ") + ' руб.');
+        $('#prog-amount .total').html(accounting.formatNumber(calc_arr.total * Area, 0, " ") + ' руб.');
         Program.total = calc_arr.total;
 
         if (calc_arr.total) $('.calculation-total > p').css('display', 'block');
@@ -536,7 +565,7 @@ function _switch_flip(flip)
             $(flip).closest('.product-item').find('.amountByItem').addClass('is-active');
             $(category).data('cnt', cnt + 1);
             if (!cnt) {
-                $(category).find('.image-loader').addClass('is-active');
+                $(category).find('.image').addClass('is-active');
             }
             Program.cnt += 1;
         } else {
@@ -545,7 +574,7 @@ function _switch_flip(flip)
             $(flip).closest('.product-item').find('.amountByItem').removeClass('is-active');
             cnt = cnt - 1;
             if (!cnt) {
-                $(category).find('.image-loader').removeClass('is-active');
+                $(category).find('.image').removeClass('is-active');
             }
             $(category).data('cnt', cnt);
             Program.cnt -= 1;

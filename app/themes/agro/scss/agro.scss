@@ -15,6 +15,7 @@ $font-size-small: 0.8em;
 $brand-green: #0A6B36;
 $text-color: #333;
 $text-muted: #a3a3a3;
+$text-muted-2x: #ccc;
 
 $brand-herbicides:      #E31E25;
 $brand-insecticides:    #01A0E2;
@@ -39,7 +40,7 @@ body, input, select, textarea, button, .ui-btn,h1,h2,h3,h4,h5,h6 {
     font-family: ubuntu, "Helvetica Neue", sans-serif;
 }
 body {
-    color: #333; font-size: 12px; font-weight: 400; line-height: 1.45;
+    color: $text-color; font-size: 12px; font-weight: 400; line-height: 1.45;
     @media (min-width: $screen-sm-min) {
         font-size: 16px;
     }
@@ -61,6 +62,8 @@ h2 { font-size: $font-size-h2; }
 h3 { font-size: $font-size-h3; }
 h4 { font-size: $font-size-h4; }
 
+div > h3:first-child,
+form > h3:first-child { margin-top: 0; }
 
 small, .font-small {
     font-size: $font-size-small;
@@ -73,8 +76,12 @@ small, .font-small {
 }
 
 .ui-collapsible {
+    &:not([class*="col-"]) { margin: 0; }
     h4 {
         a {
+            &.ui-btn,
+            &.ui-btn:hover,
+            &.ui-btn:focus { background: none; }
             color: inherit; font-size: inherit; text-transform: none;
             padding: .5rem 1rem;
             &:after { display: none; }
@@ -101,10 +108,10 @@ small, .font-small {
         }
     }
 }
+
 // разворачиваемые списки
 .list-item.ui-collapsible {
     background: none;
-    margin: 0;
     h4 a {
         font-weight: 400;
         padding: 0;
@@ -234,12 +241,16 @@ div[role="main"] .image-loader img { width: 100% !important; }
 .ui-header {
     .ui-title {
         margin: 0 72px;
-        font-size: 18px; line-height: 1em;
+        font-size: 1.7em; line-height: 1em;
         text-align: center;
         &.page-title-image {
             padding: 10px 0;
-            height: 25px;
-            img { height: 25px; }
+            height: 30px;
+            img { height: 30px; }
+            @media (min-width: $screen-sm-min) {
+                height: 40px;
+                img { height: 40px; }
+            }
         }
          a {
              color: #727271;
@@ -247,7 +258,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
          }
     }
     & > .ui-btn {
-        color: #727271!important;
+        color: #727271!important; font-size: 1.7em;
         padding: .1em;
     }
 }
@@ -286,7 +297,8 @@ div[role="main"] .image-loader img { width: 100% !important; }
 }
 
 /* -------------------------------------------- Домашняя страница --------------------------------------------------- */
-#homepage {
+#homepage,
+#catalog {
     background-image: linear-gradient(135deg, #fff, #f9f9f9);
     .router {
         text-align: center;
@@ -294,19 +306,25 @@ div[role="main"] .image-loader img { width: 100% !important; }
             margin: 30px auto 0;
             position: relative;
             a {
-                color: #727271; text-decoration: none;
+                color: $text-color; font-size: 1.2em; line-height: 1.3; text-decoration: none;
                 display: block;
-                width: 60%; max-width: 100px;
-                margin: auto;
-                div.waves-effect { border-radius: 50px; }
+                margin: 0 auto;
+                div.waves-effect {
+                    border-radius: 50px;
+                    max-width: 100px;
+                    margin: 0 auto;
+                }
                 @media (min-width: $screen-sm-min) {
-                    max-width: 200px;
-                    div.waves-effect { border-radius: 100px; }
+                    //font-size: 18px;
+                    div.waves-effect {
+                        border-radius: 100px;
+                        max-width: 170px;
+                    }
                 }
             }
         }
         .r-title {
-            margin-top: 5px;
+            margin-top: 10px;
             position: relative;
             @media (min-width: $screen-sm-min) { font-size: 1.2em; }
         }
@@ -416,80 +434,71 @@ div[role="main"] .image-loader img { width: 100% !important; }
     }
 }
 
-
-/* -------------------------------------------- Выбор каталога ------------------------------------------------------ */
-#catalog {
-    background-image: linear-gradient(135deg, #fff, #f9f9f9);
-    .router {
-        text-align: center;
-        .route {
-            margin: 30px auto 0;
-            a {
-                color: #727271; text-decoration: none;
-                display: block;
-                width: 60%; max-width: 150px;
-                margin: auto;
-                div.waves-effect { border-radius: 75px; }
-                @media (min-width: $screen-sm-min) {
-                    max-width: 200px;
-                    div.waves-effect { border-radius: 100px; }
-                }
-            }
-        }
-    }
-}
-
 /* -------------------------------------------- Категории ----------------------------------------------------------- */
 .category-item {
-    color: #000; font-size: .9em; text-decoration: none;
+    color: #000; font-size: inherit; text-decoration: none;
+    display: block;
     margin-bottom: 1em;
+    a { font-size: inherit; }
     .box {
-        background: #eee;
+        display: flex;
         position: relative;
-        height: 100px;
-        & > .image-loader {
-            display: flex; align-items: center; justify-content: center;
-            position: relative; z-index: 1;
-            max-height: 100px;
-            overflow: hidden;
-            transition: all 300ms ease-in-out;
-            @media (min-width: $screen-md-min) {
-                max-height: 150px;
+        .icon {
+            display: block;
+            flex: 0 0 110px;
+            > div {
+                width: 80px; height: 80px;
+                -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;
+                .ui-collapsible-collapsed & {
+                    -webkit-transform: rotate(-360deg); -ms-transform: rotate(-360deg); -o-transform: rotate(-360deg); transform: rotate(-360deg);
+                }
             }
-            &.is-active { max-height: 30px; }
+            @media (min-width: $screen-sm-min) {
+                flex-basis: 140px;
+                > div { width: 100px; height: 100px; }
+            }
         }
-        .amountByCat {
-            font-size: 12px;
+        .image {
+            flex: 1 1 200px;
+            position: relative;
+            .image-loader {
+                overflow: hidden;
+                transition: all 300ms ease-in-out;
+                position: relative; z-index: 1;
+                max-height: 80px;
+            }
+            &.is-active .image-loader { max-height: 30px; }
+            @media (min-width: $screen-sm-min) {
+                .image-loader { max-height: 100px; }
+                &.is-active .image-loader { max-height: 40px; }
+            }
+        }
+        .cat-amount {
+            background: #eee;
             display: flex;
-            position: absolute; bottom: 0; left: 0; right: 0; z-index: 0;
-            padding: 8px 5px;
+            position: absolute; bottom: 0; left: 0; right: 0; top:0; z-index: 0;
+            padding: 35px 5px 5px;
             div {
                 flex: 1 1 50%;
-                padding: 5px;
+                padding: 0 5px;
                 &:first-child { flex: 1 1 35%; }
             }
             h5 {
                 font-size: 1.2em;
-                margin-bottom: 5px;
+                margin: 0 0 5px;
             }
-            p { margin: 5px 0; }
+            p { margin: 5px 0 0; }
+            @media (min-width: $screen-sm-min) {
+                padding-top: 45px;
+            }
         }
     }
     .title {
         font-size: 1.2em;
-        padding: .2em 0 .7em 0;
-    }
-    .icon {
-        width: 50px; height: 50px;
-        position: absolute; bottom: -25px; right: 30px; z-index: 1;
-        -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;
-        .ui-collapsible-collapsed & {
-            -webkit-transform: rotate(-360deg); -ms-transform: rotate(-360deg); -o-transform: rotate(-360deg); transform: rotate(-360deg);
-        }
+        padding: .5em .2em;
         .folder {
-            color: #ccc;
-            position: absolute; bottom: 10px; right: 55px;
-            transition: all 0.4s ease-in-out;
+            color: $text-muted-2x; font-size: .7em;
+            position: absolute; bottom: 20px; right: 8px;
         }
     }
     &.ui-icon-carat-r:after { display: none; }
@@ -508,8 +517,9 @@ div[role="main"] .image-loader img { width: 100% !important; }
 /* -------------------------------------------- Каталог ------------------------------------------------------------- */
 .product-item {
     color: #000; text-decoration: none;
-    padding: 0 1em;
+    display: block;
     position: relative;
+    width: 100%;
     &.ui-btn { margin-bottom: .5em; }
     .box {
         border: 1px solid #ddd;
@@ -549,19 +559,8 @@ div[role="main"] .image-loader img { width: 100% !important; }
 
 
 /* -------------------------------------------- Общее для нод ------------------------------------------------------- */
-.node-view,
-.node-view .product .p-title,
-.protection-view {
-    & > h2 {
-        font-weight: 700;
-        margin: 10px 0 15px 0;;
-    }
-    & > h3 { margin-top: 0; }
-    & > h4 {
-        color: $text-muted; font-size: 1.3em;
-        margin: .5em 0 1em;
-    }
-
+//.node-view .product .p-title,
+.node-view {
     img { display: block; }
     .image-info {
         background: #f0f0f0;
@@ -569,12 +568,21 @@ div[role="main"] .image-loader img { width: 100% !important; }
         .period { text-align: right; }
     }
 }
+.content-header {
+    margin-bottom: 2em;
+    h2 {
+        font-weight: 700;
+        margin: 10px 0 15px 0;;
+    }
+    h3 { margin-top: 0; }
+    h4 {
+        color: $text-muted;
+        margin: .5em 0 0;
+    }
+}
+
 /* -------------------------------------------- Препарат ------------------------------------------------------------ */
 .product {
-    .p-title {
-        //h2, h3 { margin-bottom: 0; }
-        //h3 { margin-top: 0; }
-    }
     .p-price {
         background: #fff; border-radius: 4px;
         font-size: 1.3em; font-weight: 700; text-align: center;
@@ -796,6 +804,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
     .select-all {
         display: flex;
         justify-content: space-between;
+        margin-bottom: 10px;
         div:first-child {
             flex: auto;
             text-align: right;
@@ -857,25 +866,14 @@ div[role="main"] .image-loader img { width: 100% !important; }
             color: #fff;
             margin: 0; padding: 5px;
         }
-        .amountByProgram {
-            background: #eee;
-            display: flex;
-            font-size: 12px;
-            padding: 8px 5px;
-            div {
-                flex: 1 1 50%;
-                padding: 5px;
-                &:first-child { flex: 1 1 35%; }
-            }
-            h5 {
-                color: $brand-insecticides; font-size: 1.2em;
-                margin: 0 0 5px 0;
-            }
-            p { margin: 5px 0; }
+        .cat-amount {
+            position:relative;
+            padding: 5px 5px 10px;
         }
         & > p { display: none; }
     }
     .calculation-send {
+        margin-top: 2em;
         h4 {
             background-color: $brand-desiccants;
             color: #fff;
@@ -889,7 +887,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
     }
 }
 /* -------------------------------------------- Найти решение ------------------------------------------------------- */
-#solution_form_page {
+#solution_form {
     h5 { margin: 1em 0; }
     h3.hobjects,
     .field-name-phase,
@@ -918,18 +916,18 @@ div[role="main"] .image-loader img { width: 100% !important; }
         h3 { margin-top: 15px; }
     }
     .nd2-card {
-      &.card-media-right .card-title .card-primary-title,
-      &.card-media-right .card-title .card-subtitle {
-        margin-right: 100px;
-      }
-      .card-supporting-text {
-        font-size: $font-size-text;
-        white-space: normal;
-      }
-      .card-action {
-        a { font-size: .8em; }
-        a:not(:last-child) { margin-bottom: .5em; }
-      }
+        &.card-media-right .card-title .card-primary-title,
+        &.card-media-right .card-title .card-subtitle {
+            margin-right: 100px;
+        }
+        .card-supporting-text {
+            font-size: $font-size-text;
+            white-space: normal;
+        }
+        .card-action {
+            a { font-size: .8em; }
+            a:not(:last-child) { margin-bottom: .5em; }
+        }
     }
 }
 
@@ -966,6 +964,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
 // карточки тизеров
 .nd2-card {
     margin: 0 auto;
+    max-width: 500px;
     .card-title {
         h3.card-primary-title { font-size: $font-size-h3; line-height: 1.2; }
         h4.card-primary-title {
@@ -985,6 +984,10 @@ div[role="main"] .image-loader img { width: 100% !important; }
     }
     .card-action .ui-btn {
         margin-bottom: 15px;
+    }
+    .ui-whatsapp i {
+        font-size: 2em; vertical-align: middle;
+        position: absolute; left: 28px; top: 5px;
     }
 }
 

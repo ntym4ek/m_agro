@@ -8,8 +8,7 @@ function solution_menu()
     return {
         solution : {
             title: 'Найти решение',
-            page_callback: 'drupalgap_get_form',
-            page_arguments: ['solution_form_page', false],
+            page_callback: 'solution_form_page',
             options: {
                 reloadPage:true
             }
@@ -17,8 +16,7 @@ function solution_menu()
         },
         calc : {
             title: 'Калькулятор',
-            page_callback: 'drupalgap_get_form',
-            page_arguments: ['solution_form_page', true],
+            page_callback: 'calc_form_page',
             options: {
                 reloadPage:true
             }
@@ -38,6 +36,46 @@ function solution_menu()
 /**
  * -------------------------------------- Страница Решения -------------------------------------------------------------
  */
+
+/**
+ * The callback страницы Найти решение.
+ */
+function solution_form_page(pid)
+{
+    var content = {};
+    content['intro'] = {
+        markup: '<div class="content-header"><h4>Заполните форму ниже и мы поможем подобрать решение для защиты Вашего поля и увеличения урожайности культуры</h4></div>'
+    };
+    content['container'] = {
+        markup: '<div class="row">' +
+                    '<div class="col-xs-12 col-sm-8 col-sm-offset-2">' +
+                        drupalgap_get_form('solution_form', false) +
+                   '</div>' +
+                '</div>'
+    };
+
+    return content;
+}
+
+/**
+ * The callback страницы Калькулятор.
+ */
+function calc_form_page(pid)
+{
+    var content = {};
+    content['intro'] = {
+        markup: '<div class="content-header"><h4>Заполните форму ниже и мы поможем подобрать решение для защиты Вашего поля и увеличения урожайности культуры и расчитать его стоимость</h4></div>'
+    };
+    content['container'] = {
+        markup: '<div class="row">' +
+                    '<div class="col-xs-12 col-sm-8 col-sm-offset-2">' +
+                        drupalgap_get_form('solution_form', true) +
+                    '</div>' +
+                '</div>'
+    };
+
+    return content;
+}
 
 /**
  * The callback страницы Найти решение.
@@ -89,19 +127,12 @@ function solution_load(options)
 /**
  * ----------------------------------------------- Форма с фильтрами ---------------------------------------------------
  */
-function solution_form_page(form, form_state, calculator)
+function solution_form(form, form_state, calculator)
 {
     try {
-        // console.log('solution_form_page');
-
-        form.prefix = '<h5>Заполните форму ниже и мы поможем подобрать решение для защиты Вашего поля и увеличения урожайности культуры';
+        // console.log('solution_form');
 
         if (typeof calculator === 'undefined') calculator = false;
-        if (calculator) {
-            form.prefix += ' и расчитать его стоимость';
-        }
-
-        form.prefix += '.</h5>';
 
         form.elements['calculator'] = {
             type: 'hidden',
@@ -111,9 +142,9 @@ function solution_form_page(form, form_state, calculator)
         /* ----------------------------------- Культура --------------------------------------------------------------*/
         form.elements['culture'] = {
             type: 'select',
-            prefix: '<h3>Моя культура</h3>',
+            prefix: '<h3 style="margin-top: 0;">Моя культура</h3>',
             attributes: {
-                onchange: "_solution_form_culture_onchange('#edit-solution-form-page-culture');",
+                onchange: "_solution_form_culture_onchange('#edit-solution-form-culture');",
                 'data-native-menu': 'false'
             },
             options: { '': 'Культура' },
@@ -210,10 +241,10 @@ function solution_form_page(form, form_state, calculator)
 
         return form;
     }
-    catch (error) { console.log('solution_form_page - ' + error); }
+    catch (error) { console.log('solution_form - ' + error); }
 }
 
-function solution_form_page_validate(form, form_state)
+function solution_form_validate(form, form_state)
 {
     if (form_state.values['calculator']) {
         if (!form_state.values['area']) { drupalgap_form_set_error('area', 'Для расчёта стоимости необходимо задать площадь посева.'); return false; }
@@ -224,7 +255,7 @@ function solution_form_page_validate(form, form_state)
     }
 }
 
-function solution_form_page_submit(form, form_state)
+function solution_form_submit(form, form_state)
 {
     solution_data_array = {};
     solution_data_array['culture_id']   = form_state.values['culture'];
@@ -252,7 +283,7 @@ function _solution_form_get_culture_options()
             { success: function (data) {
                     if (data.items.length == 0) { return; }
 
-                    var widget = $('#edit-solution-form-page-culture');
+                    var widget = $('#edit-solution-form-culture');
 
                     var options = '';
                     for (var index in data.items) {
@@ -280,7 +311,7 @@ function _solution_form_culture_onchange(culture_id_tag)
             { success: function (data) {
                     if (data.items.length == 0) { return; }
 
-                    var widget = $('#edit-solution-form-page-phase');
+                    var widget = $('#edit-solution-form-phase');
 
                     var options = '<option value="">Фаза культуры</option>';
                     for (var index in data.items) {
@@ -302,7 +333,7 @@ function _solution_form_culture_onchange(culture_id_tag)
             { success: function (data) {
                     if (data.items.length == 0) { return; }
 
-                    var widget = $('#edit-solution-form-page-weeds');
+                    var widget = $('#edit-solution-form-weeds');
 
                     var options = '<option value="">Сорное растение</option>';
                     for (var index in data.items) {
@@ -321,7 +352,7 @@ function _solution_form_culture_onchange(culture_id_tag)
             { success: function (data) {
                     if (data.items.length == 0) { return; }
 
-                    var widget = $('#edit-solution-form-page-pests');
+                    var widget = $('#edit-solution-form-pests');
 
                     var options = '<option value="">Вредитель</option>';
                     for (var index in data.items) {
@@ -339,7 +370,7 @@ function _solution_form_culture_onchange(culture_id_tag)
             { success: function (data) {
                     if (data.items.length == 0) { return; }
 
-                    var widget = $('#edit-solution-form-page-diseases');
+                    var widget = $('#edit-solution-form-diseases');
 
                     var options = '<option value="">Болезнь</option>';
                     for (var index in data.items) {

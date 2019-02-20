@@ -2,7 +2,7 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.kccc.agroshop"
-		version   = "2.0.20">
+		version   = "2.0.21">
 	<name>Мобильный агроном</name>
 	<description>Приложение ООО Торговый Дом "Кирово-Чепецкая Химическая Компания"</description>
 	<author href="kccc.ru" email="support@kccc.ru">KCCC GROUP</author>
@@ -89,7 +89,7 @@
 	<!-- This plugin provides access to some native dialog UI elements -->
 	<plugin name="cordova-plugin-dialogs" source="npm" />
 	<!-- This plugin is required to work with splash screens. This plugin displays and hides a splash screen during application launch. -->
-	<plugin name="cordova-plugin-splashscreen" source="npm" />
+	<!--<plugin name="cordova-plugin-splashscreen" source="npm" />-->
 	<!-- The StatusBar object provides some functions to customize the iOS and Android StatusBar. -->
 	<plugin name="cordova-plugin-statusbar" source="npm" />
 	<!-- Этот плагин определяет глобальный объект navigator.camera , который предоставляет API для съемки и выбора изображений из библиотеки изображений системы. -->
@@ -127,20 +127,20 @@
         <icon src="resources/logo/152.png" width="152" height="152" />
         <icon src="resources/logo/180.png" width="180" height="180" />
         <icon src="resources/logo/1024.png" width="1024" height="1024" />
-        <splash src="resources/splash/320_480.png" width="320" height="480" />
-        <splash src="resources/splash/480_320.png" width="480" height="320" />
-        <splash src="resources/splash/640_960.png" width="640" height="960" />
-        <splash src="resources/splash/640_1136.png" width="640" height="1136" />
-        <splash src="resources/splash/750_1334.png" width="750" height="1334" />
-        <splash src="resources/splash/768_1024.png" width="768" height="1024" />
-        <splash src="resources/splash/960_640.png" width="960" height="640" />
-        <splash src="resources/splash/1024_768.png" width="1024" height="768" />
-        <splash src="resources/splash/1136_640.png" width="1136" height="640" />
-		<splash src="resources/splash/1242_2208.png" width="1242" height="2208" />
-        <splash src="resources/splash/1334_750.png" width="1334" height="750" />
-        <splash src="resources/splash/1536_2048.png" width="1536" height="2048" />
-        <splash src="resources/splash/2048_1536.png" width="2048" height="1536" />
-		<splash src="resources/splash/2208_1242.png" width="2208" height="1242" />
+        <!--<splash src="resources/splash/320_480.png" width="320" height="480" />-->
+        <!--<splash src="resources/splash/480_320.png" width="480" height="320" />-->
+        <!--<splash src="resources/splash/640_960.png" width="640" height="960" />-->
+        <!--<splash src="resources/splash/640_1136.png" width="640" height="1136" />-->
+        <!--<splash src="resources/splash/750_1334.png" width="750" height="1334" />-->
+        <!--<splash src="resources/splash/768_1024.png" width="768" height="1024" />-->
+        <!--<splash src="resources/splash/960_640.png" width="960" height="640" />-->
+        <!--<splash src="resources/splash/1024_768.png" width="1024" height="768" />-->
+        <!--<splash src="resources/splash/1136_640.png" width="1136" height="640" />-->
+		<!--<splash src="resources/splash/1242_2208.png" width="1242" height="2208" />-->
+        <!--<splash src="resources/splash/1334_750.png" width="1334" height="750" />-->
+        <!--<splash src="resources/splash/1536_2048.png" width="1536" height="2048" />-->
+        <!--<splash src="resources/splash/2048_1536.png" width="2048" height="1536" />-->
+		<!--<splash src="resources/splash/2208_1242.png" width="2208" height="1242" />-->
 	</platform>
 
 	<platform name="android">
@@ -150,18 +150,18 @@
 		<icon src="resources/logo/96.png" density="xhdpi" />
 		<icon src="resources/logo/144.png" density="xxhdpi" />
 		<icon src="resources/logo/192.png" density="xxxhdpi" />
-		<splash src="resources/splash/200_320.png" density="port-ldpi" />
-		<splash src="resources/splash/320_200.png" density="land-ldpi" />
-		<splash src="resources/splash/320_480.png" density="port-mdpi" />
-		<splash src="resources/splash/480_320.png" density="land-mdpi" />
-		<splash src="resources/splash/480_800.png" density="port-hdpi" />
-        <splash src="resources/splash/720_1280.png" density="port-xhdpi" />
-		<splash src="resources/splash/800_480.png" density="land-hdpi" />
-        <splash src="resources/splash/960_1600.png" density="port-xxhdpi" />
-		<splash src="resources/splash/1280_720.png" density="land-xhdpi" />
-        <splash src="resources/splash/1280_1920.png" density="port-xxxhdpi" />
-		<splash src="resources/splash/1600_960.png" density="land-xxhdpi" />
-		<splash src="resources/splash/1920_1280.png" density="land-xxxhdpi" />
+		<!--<splash src="resources/splash/200_320.png" density="port-ldpi" />-->
+		<!--<splash src="resources/splash/320_200.png" density="land-ldpi" />-->
+		<!--<splash src="resources/splash/320_480.png" density="port-mdpi" />-->
+		<!--<splash src="resources/splash/480_320.png" density="land-mdpi" />-->
+		<!--<splash src="resources/splash/480_800.png" density="port-hdpi" />-->
+        <!--<splash src="resources/splash/720_1280.png" density="port-xhdpi" />-->
+		<!--<splash src="resources/splash/800_480.png" density="land-hdpi" />-->
+        <!--<splash src="resources/splash/960_1600.png" density="port-xxhdpi" />-->
+		<!--<splash src="resources/splash/1280_720.png" density="land-xhdpi" />-->
+        <!--<splash src="resources/splash/1280_1920.png" density="port-xxxhdpi" />-->
+		<!--<splash src="resources/splash/1600_960.png" density="land-xxhdpi" />-->
+		<!--<splash src="resources/splash/1920_1280.png" density="land-xxxhdpi" />-->
 	</platform>
 
 </widget>

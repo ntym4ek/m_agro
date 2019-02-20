@@ -11,7 +11,7 @@ function agro_info() {
                         'data-role': 'header',
                         'data-position': 'fixed',
                         'data-wow-delay': '0.2s',
-                        class: "wow fadeInDown"
+                        class: "wow"
                     }
                 },
                 content: {
@@ -39,10 +39,10 @@ function agro_info() {
  * Implements hook_TYPE_tpl_html().
  */
 function agro_page_tpl_html() {
-    return '<div {:drupalgap_page_attributes:}>' +
-        '{:header:}' +
-        '{:content:}' +
-        '</div>';
+    return  '<div {:drupalgap_page_attributes:}>' +
+                '{:header:}' +
+                '{:content:}' +
+            '</div>';
 }
 
 /**

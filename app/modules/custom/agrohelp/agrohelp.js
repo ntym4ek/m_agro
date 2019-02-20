@@ -26,13 +26,12 @@ function agrohelp_page()
 {
     try {
         return content = {
-            'intro': {
-                markup: '<p>Для получения консультации агронома, выберите удобный для Вас формат</p>' +
-                        '<h4>Консультация онлайн</h4><br />'
-            },
+            'intro':  { markup: '<div class="content-header"><h4>Для получения консультации агронома, выберите удобный для Вас формат</h4></div>' },
+            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2">'},
             // 'form': {
             //     markup: drupalgap_render(drupalgap_get_form('experts_filter_form'))
-            // },
+            // }, ''
+            'list_prefix': { markup: '<h3>Консультация онлайн</h3>'},
             'list': {
                 theme: 'jqm_item_list',
                 format_attributes: {
@@ -44,17 +43,17 @@ function agrohelp_page()
                 }
             },
             'mid': {
-                markup: '<p class="align-center">или</p><h4>Консультация офлайн</h4>'
+                markup: '<p class="align-center">или</p><h3>Консультация офлайн</h3>'
             },
             'button' : {
                 theme: 'button_link',
                 text: 'Заполнить форму',
                 attributes: {
-                    class: 'ui-btn ui-mini ui-btn-raised clr-btn-blue'
+                    class: 'ui-btn ui-btn-raised clr-btn-blue'
                 },
                 path: 'entityform/add/agrohelp'
-            }
-
+            },
+            'suffix': { markup: '</div></div>' }
         };
     }
     catch (error) { console.log('agrohelp_page - ' + error); }
