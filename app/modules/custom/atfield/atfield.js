@@ -190,6 +190,7 @@ function theme_atfield_season_page(season)
         var html = '';
 
         // об авторе
+
         html += '<div class="atf-header">';
         html +=     '<h2>' + season.culture + '</h2>';
         html +=     '<h4>' + season.region + '</h4>';
@@ -205,6 +206,8 @@ function theme_atfield_season_page(season)
         html +=     '</div>';
         html += '</div>';
 
+        html += '<div class="row">';
+        html += '<div class="col-xs-12 col-sm-10 col-sm-offset-1">';
 
         // ДО обработки
         var before = season.measurements.shift();
@@ -343,6 +346,8 @@ function theme_atfield_season_page(season)
         }
         html +=     '</div>';
 
+        html += '</div>';
+        html += '</div>';
         html += '</div>';
 
         // будем биндить на скролл, вероятность прогрузки изображений - 99%

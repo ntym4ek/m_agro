@@ -93,14 +93,11 @@ function agenda_list_page_empty(view)
  */
 function agenda_node_page_view_alter_agenda(node, options)
 {
-    console.log('agenda_node_page_view_alter_agenda - ');
+    // console.log('agenda_node_page_view_alter_agenda - ');
     try {
-        var content = {};
-        content['title'] = {
-            markup: '<h2>' + node.title + '</h2>'
-        };
-        content['subtitle'] = {
-            markup: '<h4>' + node.body['ru'][0]['summary'] + '</h4>'
+        var content = {
+            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-10 col-sm-offset-1">' },
+            'header': '<div class="content-header"><h2>' + node.title + '</h2><h4>' + node.body['ru'][0]['summary'] + '</h4></div>'
         };
         content['image'] = {
             theme: 'image',
@@ -124,7 +121,11 @@ function agenda_node_page_view_alter_agenda(node, options)
 
         var days = Math.floor(node.field_period['und'][0]['value2'] - node.field_period['und'][0]['value'])/3600/24 + 1;
         content['form'] = {
-            markup: drupalgap_get_form('registration_form', node.nid, days)
+            markup: '<div class="row">' +
+                        '<div class="col-xs-12 col-sm-8 col-sm-offset-2">' +
+                            drupalgap_get_form('registration_form', node.nid, days) +
+                        '</div>' +
+                    '</div>'
         };
 
         options.success(content);
@@ -136,7 +137,7 @@ function registration_form(form, form_state, nid, days)
 {
     try {
         form.prefix = '<h3>Запланировать встречу</h3>' +
-            '<p class="font-small">Наш представитель получит уведомление и свяжется в Вами.</p>';
+            '<p>Наш представитель получит уведомление и свяжется в Вами.</p>';
 
         form.elements['nid'] = {
             type: 'hidden',

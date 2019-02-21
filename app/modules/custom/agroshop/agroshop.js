@@ -549,7 +549,7 @@ function theme_product_display(pd) {
 
         html += '<div class="product">';
         html +=   '<div class="row">';
-        html +=     '<div class="col-xs">';
+        html +=     '<div class="col-xs-12">';
         html +=         '<div class="content-header">';
         html +=             '<h2' + brand_style + '>' + title + '</h2>';
         html +=             title_suffix ? '<h3>' + title_suffix + '</h3>' : '';
@@ -602,7 +602,7 @@ function theme_product_display(pd) {
         html +=   '</div>';
         html +=   '<div class="row tabs-wrapper">';
         // закладки
-        html +=     '<ul data-role="nd2extTabs" data-swipe="true" ' + brand_style + '>';
+        html +=     '<ul class="col-xs-12" data-role="nd2extTabs" data-swipe="true" ' + brand_style + '>';
         html +=       '<li data-tab="description">Описание</li>';
         if (composition !== '')  html += '<li data-tab="composition">Состав</li>';
         if (research !== '')     html += '<li data-tab="research">Исследования</li>';
@@ -610,7 +610,7 @@ function theme_product_display(pd) {
         if (files !== '')        html += '<li data-tab="files">Файлы</li>';
         html +=     '</ul>';
         // панели закладок
-        html +=   '<div class="tabs-content ui-content wow fadeIn" data-role="nd2extTabs-container" data-inset="false" data-wow-delay="0.2s">';
+        html +=   '<div class="col-xs-12 tabs-content ui-content wow fadeIn" data-role="nd2extTabs-container" data-inset="false" data-wow-delay="0.2s">';
         html +=     '<div data-role="nd2extTab" data-tab="description" class="p-description">' + description + '</div>';
         if (composition !== '')  html += '<div data-role="nd2extTab" data-tab="composition" class="p-composition">' + composition + '</div>';
         if (research !== '')     html += '<div data-role="nd2extTab" data-tab="research" class="p-research">' + research + '</div>';
