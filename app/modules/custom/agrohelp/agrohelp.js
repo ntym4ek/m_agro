@@ -203,17 +203,18 @@ function agrohelp_services_preprocess(options)
 function agrohelp_form_alter(form, form_state, form_id, aux)
 {
     try {
-           // console.log('agrohelp_form_alter - ');
+            console.log('agrohelp_form_alter - ');
         if (form_id === 'entityform_edit' && form.bundle === 'agrohelp') {
             var lang = language_default();
             // изменить вывод формы запроса Агропомощи
 
             // todo извлечь поле с инструкциями из entityform type (drupalgap.content_types_list[bundle].data)
-            var instruction = '<p>Если у Вас возникли затруднения с определением вредного объекта, будь то сорняк, вредитель или болезнь на Вашем участке или в поле, заполните форму ниже, чтобы наш специалист смог помочь.</p>'
-                + '<p>Профессиональный агроном проверит полученные данные и ответит по одному из оставленных контактов.</p>';
-            form.prefix = instruction;
+            var intro = '<div class="content-header"><h4>Если у Вас возникли затруднения с определением вредного объекта, будь то сорняк, вредитель или болезнь на Вашем участке или в поле, заполните форму ниже, чтобы наш специалист смог помочь.'
+                    + '<br />Наш научный консультант проверит полученные данные и ответит по одному из оставленных контактов.</h4></div>';
+            var content_prefix = '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2">';
+            form.prefix = '</div>' + intro + content_prefix + '<div>';
 
-            form.elements.field_f_region.prefix = '<h3>О себе</h3>';
+            form.elements.field_f_region.prefix = '<h3 style="margin-top: 0;">О себе</h3>';
             delete form.elements.field_f_region.title;
             form.elements.field_f_region[lang][0].placeholder = 'Регион *';
             form.elements.field_f_region[lang][0].options.attributes['data-native-menu'] = false;
@@ -252,6 +253,9 @@ function agrohelp_form_alter(form, form_state, form_id, aux)
 
             form.elements.submit.options.attributes.class = 'ui-mini clr-btn-blue';
             form.elements.submit.value = 'Отправить';
+
+            var content_suffix = '</div></div>';
+            form.suffix = '</div>' + content_suffix + '<div>';
 
             // заменить стандартный валидатор и проверять самостоятельно
             form.validate.push('agrohelp_form_validate');
