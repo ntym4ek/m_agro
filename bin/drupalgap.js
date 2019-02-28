@@ -1672,7 +1672,7 @@ function theme_autocomplete(variables) {
     else {
       // Prepare the items then set the data filter reveal attribute.
       widget.items = _theme_autocomplete_prepare_items(variables);
-      widget.attributes['data-filter-reveal'] = true;
+      if (typeof widget.attributes['data-filter-reveal'] === 'undefined') widget.attributes['data-filter-reveal'] = true;
     }
 
     // Save a reference to the autocomplete text field input.
@@ -2000,7 +2000,13 @@ function _theme_autocomplete_prepare_items(variables) {
               '\', this, \'' + variables.autocomplete_id + '\')'
             }
           };
-          var _item = l(label, null, options);
+
+          // учесть заданные атрибуты
+          var _item = {
+              attributes: item.attributes,
+              content: l(label, null, options)
+          };
+
           _items.push(_item);
       }
     }
