@@ -2,6 +2,9 @@
  * Development |
  **************/
 
+// пропустить подсказки при запуске приложения
+Drupal.settings.skip_start_help = false;
+
 // Uncomment to clear the app's local storage cache each time the app loads.
 // window.localStorage.clear();
 
@@ -35,7 +38,7 @@ Drupal.settings.cache.entity = {
 
     /* Globals (will be used if not overwritten below) */
     enabled: true,
-    expiration: 60, // # of seconds to cache, set to 0 to cache forever
+    expiration: 3600, // # of seconds to cache, set to 0 to cache forever
 
     /* Entity types */
     entity_types: {
@@ -49,10 +52,10 @@ Drupal.settings.cache.entity = {
             /* Content types (aka bundles) */
             bundles: {
                 agenda: {
-                    expiration: 86400
+                    expiration: 604800
                 },
                 product_agro: {
-                    expiration: 86400
+                    expiration: 604800
                 }
             }
         }
@@ -60,10 +63,9 @@ Drupal.settings.cache.entity = {
 };
 
 /* Views Caching */
-
 Drupal.settings.cache.views = {
     enabled: true,
-    expiration: 3600
+    expiration: 604800
 };
 
 /*********************|
@@ -138,6 +140,7 @@ Drupal.modules.custom['agenda'] = {};
 Drupal.modules.custom['atfield'] = {};
 Drupal.modules.custom['protection'] = {};
 Drupal.modules.custom['solution'] = {};
+Drupal.modules.custom['qsearch'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |
