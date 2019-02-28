@@ -40,10 +40,11 @@ body, input, select, textarea, button, .ui-btn,h1,h2,h3,h4,h5,h6 {
     font-family: ubuntu, "Helvetica Neue", sans-serif;
 }
 body {
-    color: $text-color; font-size: 12px; font-weight: 400; line-height: 1.45;
-    @media (min-width: $screen-sm-min) {
-        font-size: 16px;
-    }
+    color: $text-color; font-weight: 400; line-height: 1.45;
+    font-size: 12px;
+    @media (min-width: $screen-sm-min) { font-size: 14px; }
+    @media (min-width: $screen-md-min) { font-size: 16px; }
+    @media (min-width: $screen-lg-min) { font-size: 22px; }
 }
 
 p {
@@ -69,6 +70,15 @@ small, .font-small {
     font-size: $font-size-small;
     line-height: 1.4em;
 }
+
+
+ul.clear-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ui-btn { font-size: inherit; }
 
 .ui-mobile label {
     font-size: 14px;
@@ -150,12 +160,23 @@ small, .font-small {
 }
 
 .ui-listview {
-    .ui-btn {
-        font-weight: 400;
-        &:focus {
-            background-color: #e8e8e8;
-        }
+    margin: 0;
+    li a { padding: .5em 0; }
+    .ui-li-divider {
+        font-size: 1.2em; font-weight: 100;
+        padding: 1.8em 0 .1em;
+        a { text-decoration: none; }
+        &:first-child { padding-top: 0; }
     }
+    .title {
+        font-size: 1.5em; font-weight: 500;
+    }
+    .subtitle {
+        color: $text-muted;
+        margin-top: 2px;
+    }
+
+    .ui-content & { margin: 0; }
 }
 
 // исправить форматирование чекбоксов
@@ -173,6 +194,7 @@ small, .font-small {
     background-repeat: no-repeat;
     background-size: auto 30%;
     img {
+        display: inline-block;
         visibility: hidden;
         width: 100% !important;
     }
@@ -245,12 +267,18 @@ div[role="main"] .image-loader img { width: 100% !important; }
         font-size: 1.7em; line-height: 1em;
         text-align: center;
         &.page-title-image {
-            padding: 10px 0;
-            height: 30px;
-            img { height: 30px; }
+            height: 40px;
+            padding: 5px 0;
+            img { height: 40px; }
             @media (min-width: $screen-sm-min) {
-                height: 40px;
-                img { height: 40px; }
+                height: 50px;
+                padding: 10px 0;
+                img { height: 50px; }
+            }
+            @media (min-width: $screen-md-min) {
+                height: 60px;
+                padding: 15px 0;
+                img { height: 60px; }
             }
         }
          a {
@@ -259,16 +287,28 @@ div[role="main"] .image-loader img { width: 100% !important; }
          }
     }
     & > .ui-btn {
-        color: #727271!important; font-size: 1.7em;
-        padding: .1em;
+        color: #727271!important; font-size: 2.3em; line-height: 1em;
+        padding: .3em .1em;
+        width: 1em; height: 1em;
+        top: .14em;
     }
 }
 /* -------------------------------------------- Заставка ------------------------------------------------------------ */
 #_drupalgap_splash {
-    background: #fff;
-    #_drupalgap_splash_content img {
-        display: inline-block;
-        margin: auto 0;
+    .drupalgap_splash_content {
+        display: flex;
+        justify-content: center;
+        picture {
+            display: flex;
+            height: 100vh;
+            img {
+                display: inline-block;
+                height: 100%;
+                width: initial !important;
+                max-width: none;
+            }
+
+        }
     }
 }
 
@@ -277,13 +317,17 @@ div[role="main"] .image-loader img { width: 100% !important; }
     opacity: 1;
     width: 6em; height: 6em;
     margin-left: -3em; margin-top: -3em;
+    width: 15vh; height: 15vh;
+    margin-left: -7.5vh; margin-top: -7.5vh;
 }
 .ui-loader {
-    top: 10em;
+    top: 19vh;
     .ui-icon-loading {
         background: url(../images/loader.gif); background-size: cover; background-position: center;
         border-radius: 6em;
         width: 6em; height: 6em;
+        border-radius: 15vh;
+        width: 15vh; height: 15vh;
     }
     &.ui-loader-verbose {
         background-color: rgba(0,0,0,0.6);
@@ -307,7 +351,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
             margin: 30px auto 0;
             position: relative;
             a {
-                color: $text-color; font-size: 1.3em; line-height: 1.3; text-decoration: none;
+                color: $text-color; font-size: 1.7em; line-height: 1.3; text-decoration: none;
                 display: block;
                 margin: 0 auto;
                 div.waves-effect {
@@ -315,8 +359,10 @@ div[role="main"] .image-loader img { width: 100% !important; }
                     max-width: 100px;
                     margin: 0 auto;
                 }
-                @media (min-width: $screen-sm-min) {
-                    //font-size: 18px;
+            }
+            @media (min-width: $screen-sm-min) {
+                margin-top: 50px;
+                a {
                     div.waves-effect {
                         border-radius: 100px;
                         max-width: 170px;
@@ -449,6 +495,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
             flex: 0 0 110px;
             > div {
                 width: 80px; height: 80px;
+                margin: 0 15px;
                 -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;
                 .ui-collapsible-collapsed & {
                     -webkit-transform: rotate(-360deg); -ms-transform: rotate(-360deg); -o-transform: rotate(-360deg); transform: rotate(-360deg);
@@ -459,21 +506,25 @@ div[role="main"] .image-loader img { width: 100% !important; }
                 > div { width: 100px; height: 100px; }
             }
         }
-        .image {
-            flex: 1 1 200px;
-            position: relative;
-            .image-loader {
-                overflow: hidden;
-                transition: all 300ms ease-in-out;
-                position: relative; z-index: 1;
-                max-height: 80px;
-            }
-            &.is-active .image-loader { max-height: 30px; }
-            @media (min-width: $screen-sm-min) {
-                .image-loader { max-height: 100px; }
-                &.is-active .image-loader { max-height: 40px; }
-            }
+        .text {
+            display: flex;
+            align-items: center;
         }
+        //.image {
+        //    flex: 1 1 200px;
+        //    position: relative;
+        //    .image-loader {
+        //        overflow: hidden;
+        //        transition: all 300ms ease-in-out;
+        //        position: relative; z-index: 1;
+        //        max-height: 80px;
+        //    }
+        //    &.is-active .image-loader { max-height: 30px; }
+        //    @media (min-width: $screen-sm-min) {
+        //        .image-loader { max-height: 100px; }
+        //        &.is-active .image-loader { max-height: 40px; }
+        //    }
+        //}
         .cat-amount {
             background: #eee;
             display: flex;
@@ -495,8 +546,8 @@ div[role="main"] .image-loader img { width: 100% !important; }
         }
     }
     .title {
-        font-size: 1.2em;
-        padding: .5em .2em;
+        font-size: 1.7em;
+        padding: .2em;
         .folder {
             color: $text-muted-2x; font-size: .7em;
             position: absolute; bottom: 20px; right: 8px;
@@ -523,29 +574,61 @@ div[role="main"] .image-loader img { width: 100% !important; }
     width: 100%;
     &.ui-btn { margin-bottom: .5em; }
     .box {
-        border: 1px solid #ddd;
-        position: relative;
-        min-height: 60px;
-        margin-bottom: 2em;
+        display: flex;
+        min-height: 80px;
+        margin-bottom: 1em;
         .image {
-            position: absolute; top: -25px; left : 0;
-            width: 90px; height: 90px;
+            flex: 0 0 100px;
+            margin-top: -28px;
+            margin-left: -10px;
         }
-        p {
-            color: #000; white-space: normal; text-align: justify;
-            padding: 0 70px 0 90px;
+        .text {
+            flex: 1 1 200px;
+            white-space: normal;
+            font-size: 11px; line-height: 13px;
+            span { display: inline-block; }
+            .ingredients {
+                color: $text-muted; font-size: .9em;
+                margin-bottom: 6px;
+            }
+        }
+        .icon {
+            flex: 0 0 60px;
+            padding-left: 5px;
         }
     }
     .title {
+        font-size: 1.5em;
         padding: .6em 0 .3em 0;
-        margin-left: 95px;
+        margin-left: 90px;
         a { color: inherit; text-decoration: none; }
     }
-    .icon {
-        width: 50px; height: 50px;
-        position: absolute; bottom: -25px; right: 20px;
-    }
     &.ui-icon-carat-r:after { display: none; }
+    @media (min-width: $screen-sm-min) {
+        .box {
+            .image { flex-basis: 130px; }
+            .text {
+                font-size: 15px; line-height: 17px;
+            }
+            .icon { flex-basis: 100px; }
+        }
+        .title {
+            margin-left: 120px;
+        }
+    }
+    @media (min-width: $screen-md-min) {
+        .box {
+            .image { flex-basis: 150px; }
+            .text {
+                font-size: 18px; line-height: 21px;
+            }
+            .icon { flex-basis: 110px; }
+        }
+        .title {
+            font-size: 1.7em;
+            margin-left: 140px;
+        }
+    }
 
 }
 .ui-page-theme-a a.product-item,
@@ -598,6 +681,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
             div:first-child:not(.p-price) { text-align: right; }
         }
         @media (min-width: $screen-sm-min) {
+            font-size: 1em;
             .row { margin-bottom: .8em; }
         }
     }
