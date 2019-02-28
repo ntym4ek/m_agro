@@ -15,7 +15,8 @@ function agroshop_menu() {
         items['prot-products/%'] = {
             title: 'Препараты',
             title_callback: 'prot_products_page_title_callback',
-            page_callback: 'prot_products_page'
+            page_callback: 'prot_products_page',
+            pageshow: 'prot_products_page_show'
         };
         items['fert-products'] = {
             title: 'Удобрения',
@@ -101,7 +102,7 @@ function prot_cat_page() {
     try {
         // console.log('prot_cat_page - ');
         var content = {
-            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-10 col-sm-offset-1">' },
+            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">' },
             'list': {
                 theme: 'view',
                 format_attributes: {
@@ -123,13 +124,14 @@ function prot_cat_page_row(view, row) {
         // вернуть html код строки любой категории, кроме "Все продукты"
         if (row.tid !== 50) {
             var content = '';
-            var image = theme('image', { path: row.img.src });
+            // var image = theme('image', { path: row.img.src });
             var icon = theme('image', {path: row.icon_img.src});
             content +=  '<div class="box">';
             content +=      '<div class="icon">' + icon + '</div>';
-            content +=      '<div class="image">' + image + '</div>';
+            content +=      '<div class="text">';
+            content +=          '<div class="title">' + row.name + '</div>';
+            content +=      '</div>';
             content +=  '</div>';
-            content +=  '<div class="title">' + row.name + '</div>';
             html = l(content, 'prot-products/' + row.tid, {
                 'attributes': {
                     'class': 'category-item wow fadeIn waves-effect waves-button',
@@ -152,7 +154,7 @@ function prot_cat_page_row(view, row) {
 function fert_products_page() {
     try {
         var content = {
-            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2">' },
+            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3>' },
             'list' : {
                 theme: 'view',
                 format_attributes: {
@@ -173,7 +175,7 @@ function fert_products_page() {
 
 function fert_products_page_row(view, row) {
     try {
-        console.log('fert_products_page_row');
+        // console.log('fert_products_page_row');
         var image = theme('image', { path: row.img.src });
         var icon = theme('image', { path: row.icon_img.src });
         var title = row.title.split('|')[0];
@@ -183,7 +185,7 @@ function fert_products_page_row(view, row) {
         content += '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
         content += '<div class="box">';
         content +=   '<div class="image">' + image + '</div>';
-        content +=   '<p class="font-small">' + row.descr + '</p>';
+        content +=   '<p>' + row.descr + '</p>';
         content +=   '<div class="icon">' + icon + '</div>';
         content += '</div>';
 
@@ -225,7 +227,8 @@ function prot_products_page_title_callback(callback, title) {
 }
 
 // содержимое страницы
-function prot_products_page() {
+function prot_products_page()
+{
     try {
         // Grab the collection from the path.
         var category_tid = arg(1);
@@ -233,14 +236,18 @@ function prot_products_page() {
         category_tid = encodeURIComponent(category_tid);
 
         var content = {
-            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2">' },
+            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">' },
             'list' : {
-                theme: 'view',
+                theme: 'item_list',
                 format_attributes: {
                     'data-inset': 'true',
                     'class': 'category-' + category_tid
                 },
-                path: 'prot.json/' + category_tid,
+                items: [],
+                attributes: {
+                    id: 'agro_listing_items',
+                    class: 'clear-list'
+                },
                 row_callback: 'prot_products_page_row',
                 empty_callback: 'prot_products_page_empty'
             },
@@ -252,7 +259,54 @@ function prot_products_page() {
     catch (error) { console.log('prot_products_page - ' + error); }
 }
 
-function prot_products_page_row(view, row) {
+function prot_products_page_show()
+{
+    console.log('prot_products_page_show - ');
+    try {
+        var category_tid = arg(1);
+        if (!category_tid) { category_tid = 'all'; }
+        category_tid = encodeURIComponent(category_tid);
+
+        var path = 'source/qsearch/' + category_tid;
+        views_datasource_get_view_result(path, {
+            success: function (data) {
+                if (data.preparations[category_tid]) {
+                    var items = [];
+                    var cat = data.preparations[category_tid];
+                    $.each(cat.items, function(index, item){
+                        var image = theme('image', { path: item.photo });
+                        var icon = theme('image', { path: item.icon });
+
+                        var content = '';
+                        content += '<div class="title"><span style="color: #' + cat.color + '">' + item.title + '</span></div>';
+                        content += '<div class="box">';
+                        content +=   '<div class="image">' + image + '</div>';
+                        content +=   '<div class="text">';
+                        content +=      '<span class="ingredients">' + item.ingredients + '</span>';
+                        content +=      '<span>' + item.description + '</span>';
+                        content +=   '</div>';
+                        content +=   '<div class="icon">' + icon + '</div>';
+                        content += '</div>';
+
+                        items.push(
+                            l(content, 'node/' + item.nid + '?cid=' + cat.tid + '&cname=' + cat.name, {
+                                attributes: {
+                                    class: 'product-item wow fadeIn waves-effect waves-button',
+                                    'data-wow-delay': '0.2s'
+                                }
+                            })
+                        );
+                    });
+                    drupalgap_item_list_populate('#agro_listing_items', items);
+                }
+            }
+        });
+    }
+    catch (error) { console.log('prot_products_page_show - ' + error); }
+}
+
+function prot_products_page_row(view, row)
+{
     try {
         //console.log('prot_products_page_row');
         var image = theme('image', { path: row.img.src });
@@ -262,7 +316,7 @@ function prot_products_page_row(view, row) {
         content += '<div class="title"><span class="clr-category">' + row.title + '</span>' + '</div>';
         content += '<div class="box">';
         content +=   '<div class="image">' + image + '</div>';
-        content +=   '<p class="font-small">' + row.descr + '</p>';
+        content +=   '<div class="text">' + row.descr + '</div>';
         content +=   '<div class="icon">' + icon + '</div>';
         content += '</div>';
 
@@ -276,6 +330,59 @@ function prot_products_page_row(view, row) {
     }
     catch (error) { console.log('prot_products_page_row - ' + error); }
 }
+
+// содержимое страницы
+// function prot_products_page() {
+//     try {
+//         // Grab the collection from the path.
+//         var category_tid = arg(1);
+//         if (!category_tid) { category_tid = 'all'; }
+//         category_tid = encodeURIComponent(category_tid);
+//
+//         var content = {
+//             'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">' },
+//             'list' : {
+//                 theme: 'view',
+//                 format_attributes: {
+//                     'data-inset': 'true',
+//                     'class': 'category-' + category_tid
+//                 },
+//                 path: 'prot.json/' + category_tid,
+//                 row_callback: 'prot_products_page_row',
+//                 empty_callback: 'prot_products_page_empty'
+//             },
+//             'suffix': { markup: '</div></div>' }
+//         };
+//
+//         return content;
+//     }
+//     catch (error) { console.log('prot_products_page - ' + error); }
+// }
+//
+// function prot_products_page_row(view, row) {
+//     try {
+//         //console.log('prot_products_page_row');
+//         var image = theme('image', { path: row.img.src });
+//         var icon = theme('image', { path: row.icon_img.src });
+//
+//         var content = '';
+//         content += '<div class="title"><span class="clr-category">' + row.title + '</span>' + '</div>';
+//         content += '<div class="box">';
+//         content +=   '<div class="image">' + image + '</div>';
+//         content +=   '<div class="text">' + row.descr + '</div>';
+//         content +=   '<div class="icon">' + icon + '</div>';
+//         content += '</div>';
+//
+//         return l(content, 'node/' + row.nid + '?cid=' + row.category_id + '&cname=' + row.category_name, {
+//                 attributes: {
+//                     class: 'product-item wow fadeIn waves-effect waves-button',
+//                     'data-wow-delay': '0.2s'
+//                 }
+//             }
+//         );
+//     }
+//     catch (error) { console.log('prot_products_page_row - ' + error); }
+// }
 
 function prot_products_page_empty() {
     try {
@@ -395,7 +502,7 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
  */
 function theme_product_display(pd) {
     try {
-        //console.log('theme_product_display');
+        console.log('theme_product_display');
 
         var html = '';
         var pid = Object.keys(pd.field_product_entities)[0];
@@ -435,14 +542,16 @@ function theme_product_display(pd) {
         var consumption = '', cons_from = 99999, cons_to = 0;
         if (pd.field_pd_reglaments_entities !== undefined) {
             $.each(pd.field_pd_reglaments_entities, function (index, reglament) {
-                if (reglament.length) {
+                if (reglament.field_pd_r_prep_rate.length) {
                     var f = parseFloat(reglament.field_pd_r_prep_rate[0].from);
                     var t = parseFloat(reglament.field_pd_r_prep_rate[0].to);
                     cons_from = cons_from > f ? f : cons_from;
                     cons_to = cons_to < t ? t : cons_to;
                 }
             });
-            if (cons_from !== 99999) consumption = accounting.formatNumber(cons_from, 2, " ") + '-' + accounting.formatNumber(cons_to, 2, " ") + ' ' + unit_name + '/га';
+            if (cons_from !== 99999) {
+                consumption = accounting.formatNumber(cons_from, 2, " ") + '-' + accounting.formatNumber(cons_to, 2, " ") + ' ' + unit_name + '/га';
+            }
         }
 
         // if (pd.field_pd_consumption_rate != undefined) {
@@ -454,7 +563,7 @@ function theme_product_display(pd) {
         // стоимость обработки
         var cost = 0;
         var price_per_unit = '';
-        if (pd.field_pd_reglaments_entities !== undefined && pd.field_pd_price_per_unit !== undefined) {
+        if (cons_from !== 99999 && pd.field_pd_reglaments_entities !== undefined && pd.field_pd_price_per_unit !== undefined) {
             price_per_unit = pd.field_pd_price_per_unit['amount'] / 100;
             if (price_per_unit) cost = accounting.formatNumber(cons_from * price_per_unit, 0, " ") + '-' + accounting.formatNumber(cons_to * price_per_unit, 0, " ") + ' руб./га';
         }
@@ -1092,9 +1201,8 @@ function agroshop_block_view(delta, region)
                 if (drupalgap_path_get() == drupalgap.settings.front) {
                     content += bl('', '#', {
                         attributes: {
-                            class: 'ui-btn ui-btn-left zmdi zmdi-accounts-alt waves-effect waves-button',
-                            'data-wow-delay': '0.8s',
-                            onclick: "javascript:drupalgap_goto('representatives');"
+                            class: 'ui-btn ui-btn-left zmdi zmdi-search waves-effect waves-button',
+                            onclick: "javascript:drupalgap_goto('qsearch');"
                         }
                     });
                 }
@@ -1103,7 +1211,6 @@ function agroshop_block_view(delta, region)
                     content = bl('', '#' + drupalgap_panel_id('menu_panel_block'), {
                         attributes: {
                             class: 'ui-btn ui-btn-left zmdi zmdi-home waves-effect waves-button',
-                            'data-wow-delay': '0.8s',
                             onclick: "javascript:drupalgap_goto('homepage');"
                         }
                     });
@@ -1117,7 +1224,6 @@ function agroshop_block_view(delta, region)
                     content += bl("", '#', {
                         attributes: {
                             class: 'ui-btn ui-btn-right zmdi zmdi-settings waves-effect waves-button ui-disabled',
-                            'data-wow-delay': '0.8s',
                             onclick: "javascript:drupalgap_goto('settings');"
                         }
                     });
@@ -1126,7 +1232,6 @@ function agroshop_block_view(delta, region)
                     content += bl('', '#', {
                         attributes: {
                             class: 'ui-btn ui-btn-right ui-btn-right zmdi zmdi-mail-reply waves-effect waves-button',
-                            'data-wow-delay': '0.8s',
                             onclick: 'javascript:drupalgap_back();'
                         }
                     });
