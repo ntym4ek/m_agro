@@ -24,7 +24,7 @@
       <!-- stable release -->
       <!--<script type="text/javascript" charset="utf-8" src="bin/drupalgap-7.0.2.min.js"></script>-->
       <!-- dev release -->
-      <!-- drupalgap.min.js НЕ ИСПОЛЬЗОВАТЬ, так как drupalgap.js пропатчен -->
+      <!-- drupalgap.min.js НЕ ИСПОЛЬЗОВАТЬ, так как drupalgap.js пропатчен и изменен -->
       <script type="text/javascript" charset="utf-8" src="bin/drupalgap.js"></script>
       <script type="text/javascript" charset="utf-8" src="app/settings.js"></script>
       <link rel="stylesheet" href="css/drupalgap.css" />
@@ -63,10 +63,14 @@
 
       <!-- Mobile Application Splash Screen -->
       <div id="_drupalgap_splash" data-role="page">
-          <div class="ui-content" data-role="content">
-              <div id="_drupalgap_splash_content" style="text-align: center; position: absolute; top: 0; left: 0;">
-                <img src="app/themes/agro/images/splash.png" alt="Кирово-Чепецкая Химическая Компания" />
-              </div>
+          <div class="drupalgap_splash_content">
+                  <picture>
+                      <source   media="(orientation: portrait)"
+                                srcset="app/themes/agro/images/splash/720_1280.png, app/themes/agro/images/splash/1242_2208.png 2x">
+                      <source   media="(orientation: landscape)"
+                                srcset="app/themes/agro/images/splash/1280_720.png, app/themes/agro/images/splash/2208_1242.png 2x">
+                      <img      src="app/themes/agro/images/splash/1280_720.png">
+                  </picture>
           </div>
       </div>
 
