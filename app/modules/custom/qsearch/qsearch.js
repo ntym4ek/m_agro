@@ -130,7 +130,7 @@ function _show_qsearch_list(items)
     $("#qsearch-wrapper").html(drupalgap_render(content));
     $('#qsearch_autocomplete_input-list').listview().filterable();
 
-    $(".ui-input-search input").focus();
+    // $(".ui-input-search input").focus();
 }
 
 function qsearch_autocomplete_item_onclick(id, item)
