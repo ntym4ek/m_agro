@@ -3,7 +3,7 @@
  **************/
 
 // пропустить подсказки при запуске приложения
-Drupal.settings.skip_start_help = false;
+Drupal.settings.skip_start_help = true;
 
 // Uncomment to clear the app's local storage cache each time the app loads.
 // window.localStorage.clear();

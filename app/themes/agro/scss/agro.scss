@@ -140,6 +140,7 @@ ul.clear-list {
 // вместе с изменением поведения попапа при расчёты высоты
 // вмещаем его в текущий экран
 .ui-popup-container {
+    font-size: 1.3em;
     border-radius: 5px;
     overflow: hidden;
     &::after {
@@ -152,16 +153,30 @@ ul.clear-list {
     }
     .ui-selectmenu {
         height: 100%;
+        display: flex;
+        flex-direction: column;
+        .ui-header {
+            flex: 0 0 3.5em;
+            background-color: $brand-green;
+            color: #fff; text-align: center;
+            height: 3.5em;
+            h1 {
+                display: inline-block;
+                font-size: 1.3em;
+                margin: 0 auto;
+                padding: .5em 0; }
+            .ui-btn { padding: .3em 0; }
+        }
         .ui-selectmenu-list {
-            height: 100%;
+            flex: 1 1 100%;
             overflow-y: scroll;
         }
+        a { font-weight: 400; }
     }
 }
 
 .ui-listview {
     margin: 0;
-    li a { padding: .5em 0; }
     .ui-li-divider {
         font-size: 1.2em; font-weight: 100;
         padding: 1.8em 0 .1em;
@@ -194,7 +209,7 @@ ul.clear-list {
     background-repeat: no-repeat;
     background-size: auto 30%;
     img {
-        display: inline-block;
+        display: block;
         visibility: hidden;
         width: 100% !important;
     }
@@ -260,8 +275,8 @@ div[role="main"] .image-loader img { width: 100% !important; }
     }
 }
 
-/* -------------------------------------------- Header -------------------------------------------------------------- */
-.ui-header {
+/* -------------------------------------------- Header (шапка) ------------------------------------------------------ */
+.region_header.ui-header {
     .ui-title {
         margin: 0 72px;
         font-size: 1.7em; line-height: 1em;
@@ -269,17 +284,17 @@ div[role="main"] .image-loader img { width: 100% !important; }
         &.page-title-image {
             height: 40px;
             padding: 5px 0;
-            img { height: 40px; }
+            img {
+                display: inline-block;
+                height: 40px; }
             @media (min-width: $screen-sm-min) {
                 height: 50px;
                 padding: 10px 0;
-                img { height: 50px; }
-            }
+                img { height: 50px; }}
             @media (min-width: $screen-md-min) {
                 height: 60px;
                 padding: 15px 0;
-                img { height: 60px; }
-            }
+                img { height: 60px; }}
         }
          a {
              color: #727271;
@@ -288,9 +303,11 @@ div[role="main"] .image-loader img { width: 100% !important; }
     }
     & > .ui-btn {
         color: #727271!important; font-size: 2.3em; line-height: 1em;
-        padding: .3em .1em;
+        padding: .3em;
         width: 1em; height: 1em;
         top: .14em;
+        &.ui-btn-left { left: .1em; }
+        &.ui-btn-right { right: .1em; }
     }
 }
 /* -------------------------------------------- Заставка ------------------------------------------------------------ */
@@ -358,6 +375,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
                     border-radius: 50px;
                     max-width: 100px;
                     margin: 0 auto;
+                    img { display: block; }
                 }
             }
             @media (min-width: $screen-sm-min) {
@@ -490,46 +508,27 @@ div[role="main"] .image-loader img { width: 100% !important; }
     .box {
         display: flex;
         position: relative;
+        justify-content: space-between;
         .icon {
             display: block;
-            flex: 0 0 110px;
-            > div {
-                width: 80px; height: 80px;
-                margin: 0 15px;
+            flex: 0 0 8.3em;
+            > .image-loader {
+                margin-right: 15px;
                 -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;
-                .ui-collapsible-collapsed & {
-                    -webkit-transform: rotate(-360deg); -ms-transform: rotate(-360deg); -o-transform: rotate(-360deg); transform: rotate(-360deg);
-                }
-            }
-            @media (min-width: $screen-sm-min) {
-                flex-basis: 140px;
-                > div { width: 100px; height: 100px; }
             }
         }
         .text {
+            flex: 1 1 110px;
             display: flex;
             align-items: center;
+            position: relative;
         }
-        //.image {
-        //    flex: 1 1 200px;
-        //    position: relative;
-        //    .image-loader {
-        //        overflow: hidden;
-        //        transition: all 300ms ease-in-out;
-        //        position: relative; z-index: 1;
-        //        max-height: 80px;
-        //    }
-        //    &.is-active .image-loader { max-height: 30px; }
-        //    @media (min-width: $screen-sm-min) {
-        //        .image-loader { max-height: 100px; }
-        //        &.is-active .image-loader { max-height: 40px; }
-        //    }
-        //}
         .cat-amount {
             background: #eee;
             display: flex;
             position: absolute; bottom: 0; left: 0; right: 0; top:0; z-index: 0;
-            padding: 35px 5px 5px;
+            padding: 3em .5em .5em;
+            opacity: 0;
             div {
                 flex: 1 1 50%;
                 padding: 0 5px;
@@ -540,21 +539,48 @@ div[role="main"] .image-loader img { width: 100% !important; }
                 margin: 0 0 5px;
             }
             p { margin: 5px 0 0; }
-            @media (min-width: $screen-sm-min) {
-                padding-top: 45px;
+        }
+        .folder {
+            flex: 0 0 2.5em;
+            display: flex;
+            color: $text-muted-2x;
+            justify-content: center;
+            i {
+                align-self: center;
+                margin: 0;
             }
         }
     }
     .title {
-        font-size: 1.7em;
+        font-size: 1.7em; line-height: 1.2; white-space: normal;
+        position: absolute; top: 50%; right: 0; left: 0; z-index: 1;
+        transform: translateY(-50%);
         padding: .2em;
-        .folder {
-            color: $text-muted-2x; font-size: .7em;
-            position: absolute; bottom: 20px; right: 8px;
+        -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;
+    }
+    .bkg-category { background-color: #aaa; }
+
+    &.is-active {
+        .icon .image-loader { -webkit-transform: rotate(-360deg); -ms-transform: rotate(-360deg); -o-transform: rotate(-360deg); transform: rotate(-360deg); }
+        .title {
+            color: #fff; font-size: 1.3em;
+            padding: .2em .6em;
+            top: 0; transform: none;
         }
+        .cat-amount { opacity: 1; }
+    }
+    &:not(.is-active) {
+        .title.bkg-category { background-color: transparent; }
+    }
+
+    &.calculation-total {
+        border-top: 1px solid #eee;
+        padding-top: 2em;
+        margin-top: 1em;
     }
     &.ui-icon-carat-r:after { display: none; }
 }
+
 
 .category-15    { .clr-category { color: $brand-herbicides; }}
 .category-17    { .clr-category { color: $brand-insecticides; }}
@@ -564,6 +590,15 @@ div[role="main"] .image-loader img { width: 100% !important; }
 .category-72763 { .clr-category { color: $brand-surfactants; }}
 .category-93    { .clr-category { color: $brand-fertilizers; }}
 .category-72343 { .clr-category { color: $brand-mixes; }}
+
+.category-15    { .bkg-category { background-color: $brand-herbicides; }}
+.category-17    { .bkg-category { background-color: $brand-insecticides; }}
+.category-71534 { .bkg-category { background-color: $brand-desiccants; }}
+.category-16    { .bkg-category { background-color: $brand-fungicides; }}
+.category-71533 { .bkg-category { background-color: $brand-disinfectants; }}
+.category-72763 { .bkg-category { background-color: $brand-surfactants; }}
+.category-93    { .bkg-category { background-color: $brand-fertilizers; }}
+.category-72343 { .bkg-category { background-color: $brand-mixes; }}
 
 
 /* -------------------------------------------- Каталог ------------------------------------------------------------- */
@@ -578,58 +613,59 @@ div[role="main"] .image-loader img { width: 100% !important; }
         min-height: 80px;
         margin-bottom: 1em;
         .image {
-            flex: 0 0 100px;
-            margin-top: -28px;
-            margin-left: -10px;
+            flex: 0 0 8.3em;
+            margin-top: -28px; margin-left: -10px;
+            position: relative;
+            height: 8.3em;
+            > div:nth-child(2) {
+                position: absolute; bottom: -18px; right: -5px;
+                width: 60px;
+            };
         }
         .text {
             flex: 1 1 200px;
+            display: flex; flex-wrap: wrap;
             white-space: normal;
-            font-size: 11px; line-height: 13px;
-            span { display: inline-block; }
+            font-size: .92em; line-height: 1.1em;
+            padding-left: .5em;
+            span { display: block; }
             .ingredients {
+                flex: 1 1 100%;
                 color: $text-muted; font-size: .9em;
-                margin-bottom: 6px;
+                margin-bottom: 10px;
+            }
+            .period {
+                flex: auto;
+                margin-bottom: 10px;
+            }
+            .hobjects {
+                flex: 1 1 100%;
+                margin-bottom: 10px;
+            }
+            .rate {
+                flex: 1 1 50%;
+                margin-bottom: 10px;
+                #solution_page & { flex-basis: 100%; }
             }
         }
         .icon {
-            flex: 0 0 60px;
+            flex: 0 0 5em;
             padding-left: 5px;
         }
     }
     .title {
         font-size: 1.5em;
         padding: .6em 0 .3em 0;
-        margin-left: 90px;
+        margin-left: 5.4em;
         a { color: inherit; text-decoration: none; }
+        // calculation flip switch
+        .ui-slider {
+            position: absolute; right: 0; top: 4px;
+        }
+        &.has-switch { padding-right: 75px; }
+
     }
     &.ui-icon-carat-r:after { display: none; }
-    @media (min-width: $screen-sm-min) {
-        .box {
-            .image { flex-basis: 130px; }
-            .text {
-                font-size: 15px; line-height: 17px;
-            }
-            .icon { flex-basis: 100px; }
-        }
-        .title {
-            margin-left: 120px;
-        }
-    }
-    @media (min-width: $screen-md-min) {
-        .box {
-            .image { flex-basis: 150px; }
-            .text {
-                font-size: 18px; line-height: 21px;
-            }
-            .icon { flex-basis: 110px; }
-        }
-        .title {
-            font-size: 1.7em;
-            margin-left: 140px;
-        }
-    }
-
 }
 .ui-page-theme-a a.product-item,
 .ui-page-theme-a a.category-item { color: #000; }
@@ -904,9 +940,8 @@ div[role="main"] .image-loader img { width: 100% !important; }
         }
     }
     .product-item {
-        .box .image1 {
-            position: absolute; top: 35px; left: 30px;
-            width: 45px;
+        .box .text {
+            font-size: 1em;
         }
         p.description {
             text-align: left;
@@ -951,18 +986,6 @@ div[role="main"] .image-loader img { width: 100% !important; }
             }
 
         }
-    }
-    .calculation-total {
-        h4 {
-            background-color: $brand-insecticides;
-            color: #fff;
-            margin: 0; padding: 5px;
-        }
-        .cat-amount {
-            position:relative;
-            padding: 5px 5px 10px;
-        }
-        & > p { display: none; }
     }
     .calculation-send {
         margin-top: 2em;

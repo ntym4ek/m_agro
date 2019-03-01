@@ -50,14 +50,14 @@ function protection_list_page_row(view, row)
 {
     try {
         var content = '';
-        var image = theme('image', { path: row.bkg.src });
         var icon = theme('image', {path: row.icon.src});
 
         content +=  '<div class="box">';
         content +=      '<div class="icon">' + icon + '</div>';
-        content +=      '<div class="image">' + image + '</div>';
+        content +=      '<div class="text">';
+        content +=          '<div class="title">' + row.title + '</div>';
+        content +=      '</div>';
         content +=  '</div>';
-        content +=  '<div class="title">' + row.title + '</div>';
 
         return l(content, 'protection-system/' + row.nid, {
             'attributes': {
@@ -127,8 +127,8 @@ function program_load(options)
 
 function theme_program_cat_page(program)
 {
+    // console.log('theme_program_cat_page - ');
     try {
-         //console.log('theme_program_cat_page - ');
         var html = '';
         Area = program.header.area;
         Program = {
@@ -169,8 +169,8 @@ function theme_program_cat_page(program)
                 html +=     '<h4 class="category-item waves-effect waves-button" ' + attributes + '>';
                 html +=         '<div class="box">';
                 html +=             '<div class="icon">' + icon + '</div>';
-                html +=             '<div class="image">'
-                html +=                 image;
+                html +=             '<div class="text">';
+                html +=                 '<div class="title bkg-category">' + category.name + '</div>';
                 if (Area) {
                     html +=             '<div class="cat-amount">' +
                                             '<div><h5 class="clr-category">НА ГЕКТАР</h5><p class="amount"></p></div>' +
@@ -178,8 +178,8 @@ function theme_program_cat_page(program)
                                         '</div>';
                 }
                 html +=             '</div>';
+                html +=             '<div class="folder"><i class="zmdi zmdi-unfold-more zmdi-hc-2x"></i></div>';
                 html +=         '</div>';
-                html +=         '<div class="title">' + category.name + '<div class="folder">развернуть</div></div>';
                 html +=     '</h4>';
 
                 html += '<div>';
@@ -206,10 +206,17 @@ function theme_program_cat_page(program)
 
                                 // содержимое бокса
                                 var text = '';
-                                text += reglament.preparations.ingredients ? reglament.preparations.ingredients + '<br />' : '';
-                                if (!program.header.phase) text += '<span class="period clr-category">Фаза культуры</span><br />' + (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : reglament.period.start.name + ' - <span>' + reglament.period.end.name) + '</span><br />';
+                                if (!program.header.phase) {
+                                    text += '<div class="period">' +
+                                                '<div class="clr-category">Фаза культуры</div>' +
+                                                (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : (reglament.period.start.name + '<span> - ' + reglament.period.end.name + '</span>')) +
+                                            '</div>';
+                                }
                                 if (reglament.hobjects && reglament.hobjects.length) {
-                                    text += '<span class="hobjects clr-category">Вредные объекты</span><br />' + reglament.hobjects + '<br />';
+                                    text += '<div class="hobjects">' +
+                                                '<div class="clr-category">Вредные объекты</div>' +
+                                                reglament.hobjects +
+                                            '</div>';
                                     Program.preparations[reglament.preparations.id].hobjects = reglament.hobjects;
                                 }
 
@@ -251,35 +258,43 @@ function theme_program_cat_page(program)
 
                                 });
                                 
-                                text += '<span class="rate clr-category">Норма расхода' + (rates_title_arr.length ? ', ' + rates_title_arr.join(' + ') : '') + '</span><br />';
+                                text += '<div class="rate">' +
+                                            '<div class="clr-category">Норма расхода' + (rates_title_arr.length ? ', ' + rates_title_arr.join(' + ') : '') + '</div>';
                                 if (program.header.area) {
                                     text += rates_content_arr.join('');
                                 } else {
                                     text += rates_content_arr.join(' + ');
                                     text += '<br />';
                                 }
+                                text += '</div>';
 
                                 var url = reglament.preparations.type == 'product_mix' ? null : 'node/' + reglament.preparations.id;
 
-                                var product = '<div class="product-item">';
-                                product +=      '<div class="title"><span class="clr-category">' + l(title, url) + '</span> ' + title_suffix + '</div>';
+                                var product = '';
+                                product +=  '<div class="product-item">';
+                                product +=      '<div class="title' + (program.header.area ? ' has-switch' : '') + '">' +
+                                                    '<span class="clr-category">' + l(title, url) + '</span> ' + title_suffix;
+                                if (program.header.area) {
+                                    product +=      '<select name="flip-' + key + '-' + num + '" id="flip-' + key + '-' + num + '" data-role="slider" data-cat="' + tid + '" data-id="' + reglament.preparations.id + '" data-price0="' + prices[0] + '" data-price1="' + prices[1] + '" data-mini="true"><option value="off">Off</option><option value="on">On</option></select>';
+                                }
+                                    product +=  '</div>';
                                 product +=      '<div class="box">';
                                 if (photos[1]) {
-                                    product +=      '<div class="image">' + photos[0] + '</div>';
-                                    product +=      '<div class="image1">' + photos[1] + '</div>';
+                                    product +=      '<div class="image">' + photos[0] + photos[1] + '</div>';
                                 } else {
-                                    product +=      l('<div class="image">' + photos[0] + '</div>', url);
+                                    product +=      '<div class="image">' + photos[0] + '</div>';
                                 }
-                                product +=          '<p class="description font-small">' + text + '</p>';
+                                product +=          '<div class="text">';
+                                product +=              reglament.preparations.ingredients ? '<div class="ingredients">' +  reglament.preparations.ingredients  + '</div>' : '';
+                                product +=              text;
+                                product +=          '</div>';
+                                // product +=          '<div class="icon">' + icon + '</div>';
                                 product +=      '</div>';
 
                                 if (program.header.area) {
                                     product +=  '<div class="calculation">' +
                                                     '<div class="calc-wrapper"><div class="amountByItem"></div></div>' +
-                                                    '<select name="flip-' + key + '-' + num + '" id="flip-' + key + '-' + num + '" data-role="slider" data-cat="' + tid + '" data-id="' + reglament.preparations.id + '" data-price0="' + prices[0] + '" data-price1="' + prices[1] + '" data-mini="true"><option value="off">Off</option><option value="on">On</option></select>' +
                                                 '</div>';
-                                } else {
-                                    product += '<div class="icon">' + icon + '</div>';
                                 }
                                 product += '</div>';
 
@@ -317,8 +332,8 @@ function theme_program_cat_page(program)
                 html += '<div class="category-item calculation-total">';
                 html +=     '<div class="box">';
                 html +=         '<div class="icon">' + icon + '</div>';
-                html +=         '<div class="image">';
-                html +=             '<h4>Итог по программе</h4>';
+                html +=         '<div class="text">';
+                html +=             '<div class="title bkg-category">Итог по программе</div>';
                 html +=             '<div id="prog-amount" class="cat-amount">' +
                                         '<div><h5>НА ГЕКТАР</h5><p class="amount">0 руб.</p></div>' +
                                         '<div><h5>ВСЕГО</h5><p class="total">0 руб.</p></div>' +
@@ -491,7 +506,7 @@ function _send_request_form_get_region_options()
  */
 function recalculate(e)
 {
-    // console.log('recalculate');
+     // console.log('recalculate');
     try {
         // нажат flip выбрать все
         if ($(e.target).attr('id') === 'flipper') {
@@ -510,12 +525,13 @@ function recalculate(e)
 
         var calc_arr = {};
         $('.product-item').each(function (key, item) {
+
+            // обновить Запрос
+            var id = $(item).find('[id^=flip-]').data('id');
+            var tid = $(item).find('[id^=flip-]').data('cat');
+            // посчитать стоимость
+            var amountByItem = 0;
             if ($(item).find('[id^=flip-]').val() === 'on') {
-                // обновить Запрос
-                var id = $(item).find('[id^=flip-]').data('id');
-                var tid = $(item).find('[id^=flip-]').data('cat');
-                // посчитать стоимость
-                var amountByItem = 0;
                 $(item).find('[id^=slider-]').each(function (index, slider) {
                     var price = $(item).find('[id^=flip-]').data('price' + index);
                     var rate = $(slider).val();
@@ -527,15 +543,16 @@ function recalculate(e)
                 });
                 // для протравителей умножить на норму высева
                 if (tid == 71533) { amountByItem = amountByItem * Program.seeding/1000; }
-
-                $(item).find('.amountByItem').html(accounting.formatNumber(amountByItem, 0, " ") + ' руб.' + ' x ' + Area + ' га = ' + accounting.formatNumber(amountByItem * Area, 0, " ") + ' руб.');
-
-                var cat_id = $(item).closest('.list-item').find('.category-item').attr('id');
-                if (!calc_arr[cat_id]) calc_arr[cat_id] = 0;
-                if (!calc_arr.total) calc_arr.total = 0;
-                calc_arr[cat_id] += amountByItem;
-                calc_arr.total += amountByItem;
             }
+
+
+            $(item).find('.amountByItem').html(accounting.formatNumber(amountByItem, 0, " ") + ' руб.' + ' x ' + Area + ' га = ' + accounting.formatNumber(amountByItem * Area, 0, " ") + ' руб.');
+
+            var cat_id = $(item).closest('.list-item').find('.category-item').attr('id');
+            if (!calc_arr[cat_id]) calc_arr[cat_id] = 0;
+            if (!calc_arr.total) calc_arr.total = 0;
+            calc_arr[cat_id] += amountByItem;
+            calc_arr.total += amountByItem;
         });
 
         for (var index in calc_arr) {
@@ -545,6 +562,11 @@ function recalculate(e)
         $('#prog-amount .amount').html(accounting.formatNumber(calc_arr.total, 0, " ") + ' руб.');
         $('#prog-amount .total').html(accounting.formatNumber(calc_arr.total * Area, 0, " ") + ' руб.');
         Program.total = calc_arr.total;
+        if (calc_arr.total) {
+            $('.calculation-total').addClass('is-active');
+        } else {
+            $('.calculation-total').removeClass('is-active');
+        }
 
         if (calc_arr.total) $('.calculation-total > p').css('display', 'block');
         else                $('.calculation-total > p').css('display', 'none');
@@ -565,7 +587,7 @@ function _switch_flip(flip)
             $(flip).closest('.product-item').find('.amountByItem').addClass('is-active');
             $(category).data('cnt', cnt + 1);
             if (!cnt) {
-                $(category).find('.image').addClass('is-active');
+                $(category).addClass('is-active');
             }
             Program.cnt += 1;
         } else {
@@ -574,7 +596,7 @@ function _switch_flip(flip)
             $(flip).closest('.product-item').find('.amountByItem').removeClass('is-active');
             cnt = cnt - 1;
             if (!cnt) {
-                $(category).find('.image').removeClass('is-active');
+                $(category).removeClass('is-active');
             }
             $(category).data('cnt', cnt);
             Program.cnt -= 1;
@@ -600,9 +622,11 @@ function _init_events()
         $('.category-item').on('click', function() {
             var el = $(this).find('.folder');
             if ($(el).data('unfolded')) {
-                $(el).data('unfolded', false).html('развернуть');
+                $(this).removeClass('unfolded');
+                $(el).data('unfolded', false).html('<i class="zmdi zmdi-unfold-more zmdi-hc-2x"></i>');
             } else {
-                $(el).data('unfolded', true).html('свернуть');
+                $(this).addClass('unfolded');
+                $(el).data('unfolded', true).html('<i class="zmdi zmdi-unfold-less zmdi-hc-2x"></i>');
             }
 
         });

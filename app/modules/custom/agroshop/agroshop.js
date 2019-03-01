@@ -185,7 +185,9 @@ function fert_products_page_row(view, row) {
         content += '<div class="title"><span class="clr-category">' + title + '</span> ' + title_suffix + '</div>';
         content += '<div class="box">';
         content +=   '<div class="image">' + image + '</div>';
-        content +=   '<p>' + row.descr + '</p>';
+        content +=   '<div class="text">';
+        content +=      '<span>' + row.descr + '</span>';
+        content +=   '</div>';
         content +=   '<div class="icon">' + icon + '</div>';
         content += '</div>';
 
@@ -245,11 +247,9 @@ function prot_products_page()
                 },
                 items: [],
                 attributes: {
-                    id: 'agro_listing_items',
+                    id: 'agro_listing_items_' + category_tid,
                     class: 'clear-list'
-                },
-                row_callback: 'prot_products_page_row',
-                empty_callback: 'prot_products_page_empty'
+                }
             },
             'suffix': { markup: '</div></div>' }
         };
@@ -261,7 +261,7 @@ function prot_products_page()
 
 function prot_products_page_show()
 {
-    console.log('prot_products_page_show - ');
+     // console.log('prot_products_page_show - ');
     try {
         var category_tid = arg(1);
         if (!category_tid) { category_tid = 'all'; }
@@ -297,7 +297,7 @@ function prot_products_page_show()
                             })
                         );
                     });
-                    drupalgap_item_list_populate('#agro_listing_items', items);
+                    drupalgap_item_list_populate('#agro_listing_items_' + category_tid, items);
                 }
             }
         });
@@ -305,91 +305,6 @@ function prot_products_page_show()
     catch (error) { console.log('prot_products_page_show - ' + error); }
 }
 
-function prot_products_page_row(view, row)
-{
-    try {
-        //console.log('prot_products_page_row');
-        var image = theme('image', { path: row.img.src });
-        var icon = theme('image', { path: row.icon_img.src });
-
-        var content = '';
-        content += '<div class="title"><span class="clr-category">' + row.title + '</span>' + '</div>';
-        content += '<div class="box">';
-        content +=   '<div class="image">' + image + '</div>';
-        content +=   '<div class="text">' + row.descr + '</div>';
-        content +=   '<div class="icon">' + icon + '</div>';
-        content += '</div>';
-
-        return l(content, 'node/' + row.nid + '?cid=' + row.category_id + '&cname=' + row.category_name, {
-                attributes: {
-                    class: 'product-item wow fadeIn waves-effect waves-button',
-                    'data-wow-delay': '0.2s'
-                }
-            }
-        );
-    }
-    catch (error) { console.log('prot_products_page_row - ' + error); }
-}
-
-// содержимое страницы
-// function prot_products_page() {
-//     try {
-//         // Grab the collection from the path.
-//         var category_tid = arg(1);
-//         if (!category_tid) { category_tid = 'all'; }
-//         category_tid = encodeURIComponent(category_tid);
-//
-//         var content = {
-//             'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">' },
-//             'list' : {
-//                 theme: 'view',
-//                 format_attributes: {
-//                     'data-inset': 'true',
-//                     'class': 'category-' + category_tid
-//                 },
-//                 path: 'prot.json/' + category_tid,
-//                 row_callback: 'prot_products_page_row',
-//                 empty_callback: 'prot_products_page_empty'
-//             },
-//             'suffix': { markup: '</div></div>' }
-//         };
-//
-//         return content;
-//     }
-//     catch (error) { console.log('prot_products_page - ' + error); }
-// }
-//
-// function prot_products_page_row(view, row) {
-//     try {
-//         //console.log('prot_products_page_row');
-//         var image = theme('image', { path: row.img.src });
-//         var icon = theme('image', { path: row.icon_img.src });
-//
-//         var content = '';
-//         content += '<div class="title"><span class="clr-category">' + row.title + '</span>' + '</div>';
-//         content += '<div class="box">';
-//         content +=   '<div class="image">' + image + '</div>';
-//         content +=   '<div class="text">' + row.descr + '</div>';
-//         content +=   '<div class="icon">' + icon + '</div>';
-//         content += '</div>';
-//
-//         return l(content, 'node/' + row.nid + '?cid=' + row.category_id + '&cname=' + row.category_name, {
-//                 attributes: {
-//                     class: 'product-item wow fadeIn waves-effect waves-button',
-//                     'data-wow-delay': '0.2s'
-//                 }
-//             }
-//         );
-//     }
-//     catch (error) { console.log('prot_products_page_row - ' + error); }
-// }
-
-function prot_products_page_empty() {
-    try {
-        return "Препаратов не найдено";
-    }
-    catch (error) { console.log('prot_products_page_empty - ' + error); }
-}
 
 /**
  * ----------------------------------------------- Препарат ------------------------------------------------------------
@@ -472,11 +387,12 @@ function commerce_product_reference_field_formatter_view(entity_type, entity, fi
 /**
  *
  */
-function _commerce_product_reference_field_formatter_view_pageshow(options) {
+function _commerce_product_reference_field_formatter_view_pageshow(options)
+{
+    // console.log('_commerce_product_reference_field_formatter_view_pageshow - ');
     try {
         var entity_type = options.entity_type;
         var entity_id = options.entity_id;
-        console.log('_commerce_product_reference_field_formatter_view_pageshow - ');
         // Load the product display.
         commerce_product_display_load(entity_id, {
             success: function(pd) {
@@ -492,18 +408,16 @@ function _commerce_product_reference_field_formatter_view_pageshow(options) {
             }
         });
     }
-    catch (error) {
-        console.log('_commerce_product_reference_field_formatter_view_pageshow - ' + error);
-    }
+    catch (error) { console.log('_commerce_product_reference_field_formatter_view_pageshow - ' + error); }
 }
 
 /**
  * функция темизации вывода Product Display
  */
-function theme_product_display(pd) {
+function theme_product_display(pd)
+{
+    // console.log('theme_product_display');
     try {
-        console.log('theme_product_display');
-
         var html = '';
         var pid = Object.keys(pd.field_product_entities)[0];
 
@@ -760,12 +674,13 @@ function agroshop_services_preprocess(options)
 
 // страница подробного описания препарата
 // добавить в форму и вывести поля из Product Variants
-function agroshop_form_alter(form, form_state) {
+function agroshop_form_alter(form, form_state)
+{
     try {
         var elements = {};
         switch(form.id) {
             case 'commerce_cart_add_to_cart_form':
-                console.log('agroshop_form_commerce_cart_add_to_cart_form_alter - ');
+                // console.log('agroshop_form_commerce_cart_add_to_cart_form_alter - ');
 
                 var args = form["arguments"];
                 var pid = _commerce_product_display_product_id;
@@ -834,9 +749,7 @@ function agroshop_form_alter(form, form_state) {
                 break;
         }
     }
-    catch (error) {
-        console.log('agroshop_form_commerce_cart_add_to_cart_form_alter - ' + error);
-    }
+    catch (error) { console.log('agroshop_form_commerce_cart_add_to_cart_form_alter - ' + error); }
 }
 
 

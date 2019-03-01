@@ -60,7 +60,7 @@ function qsearch_page()
 function qsearch_page_pageshow()
 {
     try {
-        console.log('qsearch_page_pageshow - ');
+        // console.log('qsearch_page_pageshow - ');
         var path = 'source/qsearch';
         var items = window.localStorage.getItem(path);
         if (items) {
