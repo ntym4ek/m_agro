@@ -35,16 +35,18 @@ $brand-mixes:           #334E91;
 }
 
 /* -------------------------------------------- Общие настройки ----------------------------------------------------- */
-html {  }
+html {
+    font-size: 12px;
+    @media (min-width: $screen-sm-min) { font-size: 14px; }
+    @media (min-width: $screen-md-min) { font-size: 16px; }
+    @media (min-width: $screen-lg-min) { font-size: 22px; }
+}
 body, input, select, textarea, button, .ui-btn,h1,h2,h3,h4,h5,h6 {
     font-family: ubuntu, "Helvetica Neue", sans-serif;
 }
 body {
     color: $text-color; font-weight: 400; line-height: 1.45;
-    font-size: 12px;
-    @media (min-width: $screen-sm-min) { font-size: 14px; }
-    @media (min-width: $screen-md-min) { font-size: 16px; }
-    @media (min-width: $screen-lg-min) { font-size: 22px; }
+    font-size: inherit;
 }
 
 p {
@@ -165,7 +167,11 @@ ul.clear-list {
                 font-size: 1.3em;
                 margin: 0 auto;
                 padding: .5em 0; }
-            .ui-btn { padding: .3em 0; }
+            .ui-btn {
+                font-size: 1.4em;
+                padding: .5em 0;
+                top: 0;
+            }
         }
         .ui-selectmenu-list {
             flex: 1 1 100%;
@@ -183,6 +189,7 @@ ul.clear-list {
         a { text-decoration: none; }
         &:first-child { padding-top: 0; }
     }
+    > .ui-li-static { padding-left: 3px; padding-right: 3px; }
     .title {
         font-size: 1.5em; font-weight: 500;
     }
@@ -193,7 +200,6 @@ ul.clear-list {
 
     .ui-content & { margin: 0; }
 
-    #qsearch & > .ui-li-static { padding-left: 0; padding-right: 0; }
 }
 
 // исправить форматирование чекбоксов
@@ -284,19 +290,12 @@ div[role="main"] .image-loader img { width: 100% !important; }
         font-size: 1.7em; line-height: 1em;
         text-align: center;
         &.page-title-image {
-            height: 35px;
-            padding: 8px 0;
+            height: 1.7em;
+            padding: .4em 0;
+            .image-loader { height: 100%; }
             img {
                 display: inline-block;
-                height: 35px; }
-            @media (min-width: $screen-sm-min) {
-                height: 50px;
-                padding: 10px 0;
-                img { height: 50px; }}
-            @media (min-width: $screen-md-min) {
-                height: 60px;
-                padding: 15px 0;
-                img { height: 60px; }}
+                height: 100%; }
         }
          a {
              color: #727271;
@@ -363,9 +362,9 @@ div[role="main"] .image-loader img { width: 100% !important; }
 /* -------------------------------------------- Домашняя страница --------------------------------------------------- */
 #homepage,
 #catalog {
-    background-image: linear-gradient(135deg, #fff, #f9f9f9);
     .router {
         text-align: center;
+        padding-bottom: 6rem;
         .col-xs-6:nth-child(3) .route,
         .col-xs-6:nth-child(4) .route,
         .col-xs-12 .route { margin-top: 2em; }
@@ -376,21 +375,18 @@ div[role="main"] .image-loader img { width: 100% !important; }
                 color: $text-color; font-size: 1.5em; line-height: 1.1; text-decoration: none;
                 display: block;
                 margin: 0 auto;
-                div.waves-effect {
-                    border-radius: 50px;
-                    max-width: 100px;
+                .icon {
+                    position: relative;
+                    max-width: 6em;
                     margin: 0 auto;
+                }
+                div.waves-effect {
+                    border-radius: 3em;
                     img { display: block; }
                 }
             }
             @media (min-width: $screen-sm-min) {
                 margin-top: 50px;
-                a {
-                    div.waves-effect {
-                        border-radius: 100px;
-                        max-width: 170px;
-                    }
-                }
             }
         }
         .r-title {
@@ -400,84 +396,55 @@ div[role="main"] .image-loader img { width: 100% !important; }
         }
     }
     .footer {
-        margin-bottom: 1em;
-        z-index: 9;
+        padding: 4em 0 1em;
+        position: absolute; bottom: 0; left: 0; right:0;
+        //z-index: 9;
         .row {
             justify-content: center;
-            .col-xs-3 { position: relative; }
-            a.ui-btn {
-                margin: 0 auto; padding: 10px;
-                width: 30px;
-                @media (min-width: $screen-sm-min) { width: 50px; }
+            a { display: block; }
+            .icon {
+                position: relative;
+                max-width: 4em;
+                margin: 0 auto;
+            }
+            div.waves-effect {
+                border-radius: 2em;
+                padding: .5em;
             }
         }
     }
     .pr-balloon {
         display: none;
-        position: absolute; z-index: 1;
+        position: absolute; z-index: 2;
         max-height: initial; max-width: initial;
-        width: 250px!important;
-        @media (min-width: $screen-sm-min) {  width: 350px !important; }
-        &.b1 {
-            top: 10px; left: -30px;
-            @media (min-width: $screen-sm-min) { top: 10px; left: -50px; }
-        }
-        &.b2 {
-            bottom: -125px; left: -15px;
-            @media (min-width: $screen-sm-min) { bottom: -165px; left: 10px; }
-        }
-        &.b3 {
-            bottom: -125px; right: -25px;
-            @media (min-width: $screen-sm-min) { bottom: -175px; right: -6px; }
-        }
-        &.b4 {
-            top: -100px; left: 0;
-            @media (min-width: $screen-sm-min) { top: -120px; left: 60px; }
-        }
-        &.b5 {
-            top: -100px; right: 20px;
-            @media (min-width: $screen-sm-min) { top: -120px; right: 75px; }
-        }
-        &.b6 {
-            top: -100px; left: 0;
-            @media (min-width: $screen-sm-min) { top: -100px; left: 70px; }
-        }
-        &.b7 {
-            top: -110px; left: -41px;
-            @media (min-width: $screen-sm-min) { top: -160px; left: -5px; }
-        }
-        &.b8 {
-            top: -115px; left: -110px;
-            @media (min-width: $screen-sm-min) { top: -170px; left: -95px; }
-        }
-        &.b9 {
-            top: -110px; right: -70px;
-            @media (min-width: $screen-sm-min) { top: -165px; right: -55px; }
-        }
-        &.b10 {
-            top: 10px; right: -64px;
-            @media (min-width: $screen-sm-min) { top: -10px; right: -100px; }
-        }
+        width: 25rem!important;
+        &.b1    { top: 4rem; left: -5rem; }
+        &.b2    { top: 3rem; right: -6.5rem; }
+        &.b3    { bottom: -13rem; left: -1rem; }
+        &.b4    { bottom: -14rem; right: -2rem; }
+        &.b5    { top: -9rem; left: -5rem; }
+        &.b5_1  { bottom: -13rem; right: -6rem; }
+        &.b6    { top: -8.5rem; right: -3rem; }
+        &.b6_1  { top: -8.5rem; left: -3rem; }
+        &.b7    { top: -8rem; left: -5rem; }
+        &.b8    { top: -11rem; left: -7rem; }
+        &.b9    { top: -10rem; left: -10rem; }
+        &.b10   { top: -9.5rem; right: -6rem; }
     }
     .pr-actions {
         display: none;
         background-color: rgba(0, 0, 0, .2);
-        position: absolute; bottom: 70px; left: 0; right: 0; z-index: 10;
-        padding: 30px;
+        position: absolute; bottom: 8rem; left: 0; right: 0; z-index: 3;
+        padding: 3rem;
         opacity: 0;
         transition: all 0.5s ease-in-out;
         &.visible { opacity: 1; }
         &.raised {
-            bottom: 180px;
-            @media (min-width: $screen-sm-min) { bottom: 245px; }
-        }
-        @media (min-width: $screen-sm-min) {
-            bottom: 145px;
-            padding: 40px;
+            bottom: 16.5rem;
         }
         button {
             display: inline-block;
-            width: 120px;
+            width: auto;
             &:first-child { margin-right: 15px; }
         }
     }
@@ -534,6 +501,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
             position: absolute; bottom: 0; left: 0; right: 0; top:0; z-index: 0;
             padding: 3em .5em .5em;
             opacity: 0;
+            -webkit-transition: all 0.4s ease-in-out; -o-transition: all 0.4s ease-in-out; transition: all 0.4s ease-in-out;
             div {
                 flex: 1 1 50%;
                 padding: 0 5px;
@@ -623,17 +591,17 @@ div[role="main"] .image-loader img { width: 100% !important; }
             position: relative;
             height: 8.3em;
             > div:nth-child(2) {
-                position: absolute; bottom: -18px; right: -5px;
-                width: 60px;
+                position: absolute; bottom: -1.2em;
+                right: -.5em;
+                width: 5em;
             };
         }
         .text {
             flex: 1 1 200px;
-            display: flex; flex-wrap: wrap;
+            display: flex; flex-wrap: wrap; align-content: flex-start;
             white-space: normal;
             font-size: .92em; line-height: 1.1em;
             padding-left: .5em;
-            span { display: block; }
             .ingredients {
                 flex: 1 1 100%;
                 color: $text-muted; font-size: .9em;
@@ -642,6 +610,10 @@ div[role="main"] .image-loader img { width: 100% !important; }
             .period {
                 flex: auto;
                 margin-bottom: 10px;
+                span {
+                    color: $text-muted;
+                    display: inline-block;
+                    width: 1.5em; }
             }
             .hobjects {
                 flex: 1 1 100%;
@@ -1076,6 +1048,23 @@ div[role="main"] .image-loader img { width: 100% !important; }
 }
 
 /* -------------------------------------------- Разное -------------------------------------------------------------- */
+[class*=hidden-xs] {
+    @media (max-width: $screen-sm-min - 1) { display: none!important; }
+}
+[class*=hidden-sm] {
+    @media (min-width: $screen-sm-min) and (max-width: $screen-md-min - 1) { display: none!important; }
+}
+[class*=hidden-md] {
+    @media (min-width: $screen-md-min) and (max-width: $screen-lg-min - 1) { display: none!important; }
+}
+[class*=hidden-lg] {
+    @media (min-width: $screen-lg-min) { display: none!important; }
+}
+
+.text-muted {
+    color: $text-muted;
+}
+
 /* патч, чтобы класс иконок можно было присваивать тегу <a> без вложенных тегов */
 .zmdi {
     font-family: 'Material-Design-Iconic-Font'!important;
