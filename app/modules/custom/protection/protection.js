@@ -146,7 +146,7 @@ function theme_program_cat_page(program)
         if (program.header.phase) html += '<h3>' + program.header.phase + '</h3>';
         html += '<h4>' + program.header.description + '</h4>';
         if (program.header.pdf)
-            html += '<a onclick="window.open(\'' + program.header.pdf + '\', \'_system\', \'location=yes\')" class="btn-download ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-primary waves-effect waves-button"><i class="zmdi zmdi-download zmd-2x"></i></a>';
+            html += '<a onclick="window.open(\'' + program.header.pdf + '\', \'_system\', \'location=yes\')" class="btn-download ui-btn ui-btn-inline ui-btn-fab ui-btn-raised clr-primary waves-effect waves-button"><i class="zmdi zmdi-download zmdi-hc-2x"></i></a>';
         html += '</div>';
 
         html += '<div class="row">';
@@ -208,9 +208,14 @@ function theme_program_cat_page(program)
                                 var text = '';
                                 if (!program.header.phase) {
                                     text += '<div class="period">' +
-                                                '<div class="clr-category">Фаза культуры</div>' +
-                                                (reglament.period.start.tid == reglament.period.end.tid ? reglament.period.start.name : (reglament.period.start.name + '<span> - ' + reglament.period.end.name + '</span>')) +
-                                            '</div>';
+                                                '<div class="clr-category">Фаза культуры</div>';
+                                    if (reglament.period.start.tid == reglament.period.end.tid) {
+                                        text += reglament.period.start.name;
+                                    } else {
+                                        text += '<span>с</span>' + reglament.period.start.name + '<br />' +
+                                                '<span>по</span>'+ reglament.period.end.name;
+                                    }
+                                    text += '</div>';
                                 }
                                 if (reglament.hobjects && reglament.hobjects.length) {
                                     text += '<div class="hobjects">' +
