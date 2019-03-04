@@ -154,7 +154,7 @@ function prot_cat_page_row(view, row) {
 function fert_products_page() {
     try {
         var content = {
-            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3>' },
+            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">' },
             'list' : {
                 theme: 'view',
                 format_attributes: {
