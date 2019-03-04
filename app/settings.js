@@ -3,7 +3,7 @@
  **************/
 
 // пропустить подсказки при запуске приложения
-Drupal.settings.skip_start_help = true;
+Drupal.settings.skip_start_help = false;
 
 // Uncomment to clear the app's local storage cache each time the app loads.
 // window.localStorage.clear();
@@ -88,7 +88,7 @@ drupalgap.settings.locale = {
  *************/
 
 // App Title
-drupalgap.settings.title = 'Агрохимия';
+drupalgap.settings.title = 'Мобильный агроном';
 
 // App Front Page
 drupalgap.settings.front = 'homepage';
