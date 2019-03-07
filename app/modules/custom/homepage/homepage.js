@@ -35,7 +35,6 @@ function catalog_page()
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/prot-cat.png">' +
                             '</div>' +
-                            '<img data-animate="true" class="pr-balloon b4 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/4.png" />' +
                         '</div>' +
                         '<div class="r-title">Средства защиты растений</div>', 'prot-cat');
         html +=       '</div>';
@@ -46,16 +45,14 @@ function catalog_page()
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/fert-cat.png">' +
                             '</div>' +
-                            '<img data-animate="true" class="pr-balloon b4 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/4.png" />' +
                         '</div>' +
-                        '<div class="r-title">Средства защиты растений</div>', 'fert-products');
+                        '<div class="r-title">Минеральные удобрения</div>', 'fert-products');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
         html += '</div>';
 
         return html;
-
     }
     catch (error) {
         console.log('catalog_page - ' + error);
