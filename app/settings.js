@@ -88,7 +88,7 @@ drupalgap.settings.locale = {
  *************/
 
 // App Title
-drupalgap.settings.title = 'Мобильный агроном';
+drupalgap.settings.title = 'Агроконсультант';
 
 // App Front Page
 drupalgap.settings.front = 'homepage';
@@ -100,7 +100,7 @@ drupalgap.settings.theme = 'agro';
 drupalgap.settings.logo = '/app/themes/agro/images/logo.png';
 
 // Offline Warning Message. Set to false to hide message.
-drupalgap.settings.offline_message = 'Нет подключения к интернету!';
+drupalgap.settings.offline_message = 'Для работы приложения необходимо подключение к сети Интернет!';
 
 // Exit app message.
 drupalgap.settings.exit_message = 'Закрыть приложение?';
