@@ -84,7 +84,7 @@ function representatives_page_pageshow(region_id)
                     // преобразуем массив представителей в массив выводимых карточек
                     var items_html = [];
                     for (var index in items) {
-                        items_html.push(representatives_get_card(index, items[index]));
+                        items_html.push(representatives_get_card_html(index, items[index]));
                     }
 
                     // выводим
@@ -124,9 +124,9 @@ function representatives_page_pageshow(region_id)
 /**
  * возвращает html карточки
  */
-function representatives_get_card(delta, item)
+function representatives_get_card_html(delta, item)
 {
-    console.log('representatives_get_card - ');
+    //console.log('representatives_get_card - ');
 
     var name = item.surname + '<br />' + item.name + ' ' + item.name2;
 
@@ -141,12 +141,19 @@ function representatives_get_card(delta, item)
     if (item.expert) {
         var call = item.expert;
         call = call.replace(/-/g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '').replace(/\+/g, '');
-        var whatsapp = bl('<i class="zmdi zmdi-whatsapp"></i> WhatsApp консультация', null, {
-            attributes: {
-                class: 'ui-btn ui-whatsapp ui-btn-wide ui-btn-raised clr-btn-green waves-effect waves-button',
-                onclick: "window.open('" + "https://wa.me/" + call + "', '_system', 'location=yes')"
-            }
-        });
+        whatsapp = l(
+            '<div class="icon">' +
+                '<div class="waves-effect waves-button">' +
+                    '<img src="app/themes/agro/images/buttons/whatsapp.png">' +
+                '</div>' +
+            '</div>',
+            null,
+            {
+                attributes: {
+                    class: 'ui-link',
+                    onclick: "window.open('" + "https://wa.me/" + call + "', '_system', 'location=yes')"
+                }
+            }) + '<div class="title">' + item.expert + '</div>';
     }
 
     var phones = [];
@@ -154,28 +161,42 @@ function representatives_get_card(delta, item)
         for(index in item.phones) {
             var call = item.phones[index];
             call = call.replace(/-/g, '').replace(/\(/g, '').replace(/\)/g, '').replace(/ /g, '');
-            // var button_link = bl(', , { InAppBrowser: true, });
-            var button_link = bl('<i class="zmdi zmdi-phone"></i>&nbsp;&nbsp;' + item.phones[index], null, {
-                attributes: {
-                    class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' ,
-                    onclick: "window.open('" + "tel:" + call + "', '_system', 'location=yes')"
-                }
-            });
-            phones.push(button_link);
+            var icon = 'cell-phone';
+            if (item.phones[index][0] === '8') icon = 'home-phone';
+            var button_link = l(
+                '<div class="icon">' +
+                    '<div class="waves-effect waves-button">' +
+                        '<img src="app/themes/agro/images/buttons/' + icon + '.png">' +
+                    '</div>' +
+                '</div>',
+                null,
+                {
+                    attributes: {
+                        class: 'ui-link',
+                        onclick: "window.open('" + "tel:" + call + "', '_system', 'location=yes')"
+                    }
+                }) + '<div class="title">' + item.phones[index] + '</div>';
+            phones.push('<div class="col-xs-4">' + button_link + '</div>');
         }
     }
 
     var emails = [];
     if (typeof item.emails !== 'undefined') {
         for(index in item.emails) {
-            // var button_link = bl('<i class="zmdi zmdi-email"></i>&nbsp;&nbsp;' + item.emails[index], 'mailto:' + item.emails[index], { InAppBrowser: true, attributes: { class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' }});
-            var button_link = bl('<i class="zmdi zmdi-email"></i>&nbsp;&nbsp;' + item.emails[index], null, {
-                attributes: {
-                    class: 'ui-btn ui-mini ui-btn-raised waves-effect waves-button' ,
-                    onclick: "window.open('mailto:" + item.emails[index] + "', '_system', 'location=yes')"
-                }
-            });
-            emails.push(button_link);
+            var button_link = l(
+                '<div class="icon">' +
+                    '<div class="waves-effect waves-button">' +
+                        '<img src="app/themes/agro/images/buttons/mail.png">' +
+                    '</div>' +
+                '</div>',
+                null,
+                {
+                    attributes: {
+                        class: 'ui-link',
+                        onclick: "window.open('mailto:" + item.emails[index] + "', '_system', 'location=yes')"
+                    }
+                }) + '<div class="title">' + item.emails[index] + '</div>';
+            emails.push('<div class="col-xs-4">' + button_link + '</div>');
         }
     }
 
@@ -190,14 +211,9 @@ function representatives_get_card(delta, item)
                 (regions.length ? '<div class="card-supporting-text has-action has-title">' + regions.join(', ') + '</div>' : '') +
                 '<div class="card-action">' +
                     '<div class="row between-xs">' +
-                        '<div class="col-xs-12">' + whatsapp + '</div>' +
-                    '</div>' +
-                    '<div class="row between-xs">' +
-                        '<div class="col-xs-6">' +
-                            '<div class="box">' + phones.join('') + '</div>' +
-                        '</div>' +
-                        '<div class="col-xs-6">' +
-                            '<div class="box">' + emails.join('') + '</div>' +
+                        (whatsapp ? '<div class="col-xs-4">' + whatsapp + '</div>' : '') +
+                        phones.join('') +
+                        emails.join('') +
                         '</div>' +
                     '</div>' +
                 '</div>' +

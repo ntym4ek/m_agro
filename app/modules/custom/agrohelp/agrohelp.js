@@ -100,7 +100,7 @@ function agrohelp_page_pageshow(region_id)
                     // преобразуем массив представителей в массив выводимых карточек
                     var items_html = [];
                     for (var index in items) {
-                        items_html.push(representatives_get_card(index, items[index]));
+                        items_html.push(representatives_get_card_html(index, items[index]));
                     }
 
                     // выводим
