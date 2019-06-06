@@ -18,8 +18,8 @@ Drupal.settings.skip_start_help = false;
 /* DRUPAL PATHS */
 
 // Site Path (do not use a trailing slash)
-// Drupal.settings.site_path = 'http://kccc.local'; // e.g. http://www.example.com
-Drupal.settings.site_path = 'https://kccc.ru'; // e.g. http://www.example.com
+// Drupal.settings.site_path = 'http://kccc.local';
+Drupal.settings.site_path = 'https://kccc.ru';
 
 // Default Services Endpoint Path
 Drupal.settings.endpoint = 'drupalgap';
@@ -141,6 +141,7 @@ Drupal.modules.custom['atfield'] = {};
 Drupal.modules.custom['protection'] = {};
 Drupal.modules.custom['solution'] = {};
 Drupal.modules.custom['qsearch'] = {};
+Drupal.modules.custom['fz152'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |

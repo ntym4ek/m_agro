@@ -1065,6 +1065,11 @@ div[role="main"] .image-loader img { width: 100% !important; }
     color: $text-muted;
 }
 
+.fz152-notice {
+    color: $text-muted; font-size: $font-size-small;
+    margin: 1em 0;
+}
+
 /* патч, чтобы класс иконок можно было присваивать тегу <a> без вложенных тегов */
 .zmdi {
     font-family: 'Material-Design-Iconic-Font'!important;
@@ -1073,7 +1078,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
 // карточки тизеров
 .nd2-card {
     margin: 0 auto;
-    max-width: 500px;
+    max-width: none;
     .card-title {
         h3.card-primary-title { font-size: $font-size-h3; line-height: 1.2; }
         h4.card-primary-title {
@@ -1091,12 +1096,12 @@ div[role="main"] .image-loader img { width: 100% !important; }
         h4 { font-size: $font-size-h4; }
         a { text-decoration: none; }
     }
-    .card-action .ui-btn {
-        margin-bottom: 15px;
-    }
-    .ui-whatsapp i {
-        font-size: 2em; vertical-align: middle;
-        position: absolute; left: 28px; top: 5px;
+    .card-action {
+        .icon { margin: 1em 1em .5em; }
+        .title {
+            color: $text-muted; font-size: $font-size-small; text-align: center;
+            margin-bottom: .5em;
+        }
     }
 }
 
