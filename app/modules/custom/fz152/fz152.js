@@ -15,10 +15,11 @@ function fz152_menu()
 function fz152_form_alter(form, form_state, form_id, aux)
 {
     try {
-        console.log('fz152_form_alter');
+        // console.log('fz152_form_alter');
         var link = '<div class="fz152-notice">Отправляя форму, Вы даёте согласие на ' + l('обработку', 'privacy-policy') + ' персональных данных</div>';
-        if (form_id === 'entityform_edit' && form.bundle === 'agrohelp') form.elements.submit.suffix = link;
-        if (form_id === 'send_request_form') form.elements.submit.suffix = link;
+        if ((form_id === 'entityform_edit' && form.bundle === 'agrohelp')
+            || (form_id === 'send_request_form')
+            || (form_id === 'registration_form')) form.elements.submit.suffix = link;
     }
     catch (error) { console.log('fz152_form_alter - ' + error); }
 }
