@@ -290,8 +290,8 @@ div[role="main"] .image-loader img { width: 100% !important; }
         font-size: 1.7em; line-height: 1em;
         text-align: center;
         &.page-title-image {
-            height: 1.7em;
-            padding: .4em 0;
+            height: 1.9em;
+            padding: .4em 0 0 0;
             .image-loader { height: 100%; }
             img {
                 display: inline-block;
@@ -335,17 +335,17 @@ div[role="main"] .image-loader img { width: 100% !important; }
     opacity: 1;
     width: 6em; height: 6em;
     margin-left: -3em; margin-top: -3em;
-    width: 15vh; height: 15vh;
-    margin-left: -7.5vh; margin-top: -7.5vh;
+    width: 14vh; height: 16vh;
+    margin-left: -7vh; margin-top: -8vh;
 }
 .ui-loader {
     top: 19vh;
     .ui-icon-loading {
         background: url(../images/loader.gif); background-size: cover; background-position: center;
-        border-radius: 6em;
+        border-radius: 0;
         width: 6em; height: 6em;
-        border-radius: 15vh;
-        width: 15vh; height: 15vh;
+        border-radius: 0;
+        width: 14vh; height: 16vh;
     }
     &.ui-loader-verbose {
         background-color: rgba(0,0,0,0.6);
