@@ -29,7 +29,7 @@
 
 
 	<!-- iOS -->
-	<preference name="deployment-target" value="7.0" />
+	<preference name="deployment-target" value="8.0" />
 	<preference name="target-device" value="universal" />
 	<preference name="prerendered-icon" value="false" />
 	<preference name="detect-data-types" value="true" />
