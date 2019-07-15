@@ -95,7 +95,8 @@
 	<!-- Этот плагин определяет глобальный объект navigator.camera , который предоставляет API для съемки и выбора изображений из библиотеки изображений системы. -->
 	<!-- Версия должна быть указана, так как последние версии плагина дают ошибку -->
 	<!-- Plugin doesn't support this project's cordova-android version. cordova-android: 6.1.2, failed version requirement: >=6.3.0 -->
-	<plugin name="cordova-plugin-camera" spec="~2.4.1" source="npm" >
+<!--	<plugin name="cordova-plugin-camera" spec="~2.4.1" source="npm" >-->
+	<plugin name="cordova-plugin-camera" source="npm" >
 		<param name="CAMERA_USAGE_DESCRIPTION" value="The app would like to access the camera when you attach photos to content." />
 		<param name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="The app would like to access the photo library when you attach images to content." />
 	</plugin>
