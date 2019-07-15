@@ -2,7 +2,7 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.kccc.agroshop"
-		version   = "2.0.29">
+		version   = "2.0.30">
 	<name>Агроконсультант</name>
 	<description>Приложение ООО Торговый Дом "Кирово-Чепецкая Химическая Компания"</description>
 	<author href="kccc.ru" email="support@kccc.ru">KCCC GROUP</author>
@@ -96,8 +96,8 @@
 	<!-- Plugin doesn't support this project's cordova-android version. cordova-android: 6.1.2, failed version requirement: >=6.3.0 -->
 <!--	<plugin name="cordova-plugin-camera" spec="~2.4.1" source="npm" >-->
 	<plugin name="cordova-plugin-camera" source="npm" >
-		<param name="CAMERA_USAGE_DESCRIPTION" value="The app would like to access the camera when you attach photos to content." />
-		<param name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="The app would like to access the photo library when you attach images to content." />
+		<param name="CAMERA_USAGE_DESCRIPTION" value="Необходим доступ к камере для отправки фото вредных объектов" />
+		<param name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="Необходим доступ к галерее для отправки фото вредных объектов" />
 	</plugin>
 
     <!-- при переходе phonegap-version на версии cli-* необходимо включить плагин whitelist и настроить доступ (параметры ниже)  -->
@@ -111,6 +111,16 @@
 	<icon src="resources/logo/72.png" />
 
 	<platform name="ios">
+        <edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="merge">
+            <string>Необходим доступ к камере для отправки фото вредных объектов</string>
+        </edit-config>
+        <edit-config target="NSPhotoLibraryUsageDescription" file="*-Info.plist" mode="merge">
+            <string>Необходим доступ к галерее для отправки фото вредных объектов</string>
+        </edit-config>
+        <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+            <string>Необходим доступ к местоположению при отправке заявки на помощь агроэксперта</string>
+        </edit-config>
+
 		<icon src="resources/logo/29.png" width="29" height="29" />
 		<icon src="resources/logo/40.png" width="40" height="40" />
         <icon src="resources/logo/57.png" width="57" height="57" />
