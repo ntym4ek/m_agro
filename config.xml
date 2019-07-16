@@ -111,12 +111,12 @@
 	<icon src="resources/logo/72.png" />
 
 	<platform name="ios">
-        <edit-config target="NSCameraUsageDescription" file="*-Info.plist" mode="merge">
+        <config-file platform="ios" parent="NSCameraUsageDescription" mode="replace">
             <string>The app would like to access the camera when you attach photos to content.</string>
-        </edit-config>
-        <edit-config target="NSPhotoLibraryUsageDescription" file="*-Info.plist" mode="merge">
+        </config-file>
+        <config-file platform="ios" parent="NSPhotoLibraryUsageDescription" mode="replace">
             <string>The app would like to access the photo library when you attach images to content.</string>
-        </edit-config>
+        </config-file>
 
 		<icon src="resources/logo/29.png" width="29" height="29" />
 		<icon src="resources/logo/40.png" width="40" height="40" />
