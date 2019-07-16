@@ -2,7 +2,7 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.kccc.agroshop"
-		version   = "2.0.32">
+		version   = "2.0.33">
 	<name>Агроконсультант</name>
 	<description>Приложение ООО Торговый Дом "Кирово-Чепецкая Химическая Компания"</description>
 	<author href="kccc.ru" email="support@kccc.ru">KCCC GROUP</author>
@@ -99,6 +99,10 @@
 		<param name="CAMERA_USAGE_DESCRIPTION" value="The app would like to access the camera when you attach photos to content." />
 		<param name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="The app would like to access the photo library when you attach images to content." />
 	</plugin>
+	<plugin name="cordova-plugin-ios-camera-permissions" source="npm" >
+		<param name="CAMERA_USAGE_DESCRIPTION" value="The app would like to access the camera when you attach photos to content." />
+		<param name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="The app would like to access the photo library when you attach images to content." />
+	</plugin>
 
     <!-- при переходе phonegap-version на версии cli-* необходимо включить плагин whitelist и настроить доступ (параметры ниже)  -->
 	<!-- This plugin implements a whitelist policy for navigating the application webview on Cordova 4.0 -->
@@ -111,13 +115,6 @@
 	<icon src="resources/logo/72.png" />
 
 	<platform name="ios">
-        <config-file platform="ios" parent="NSCameraUsageDescription" mode="replace">
-            <string>The app would like to access the camera when you attach photos to content.</string>
-        </config-file>
-        <config-file platform="ios" parent="NSPhotoLibraryUsageDescription" mode="replace">
-            <string>The app would like to access the photo library when you attach images to content.</string>
-        </config-file>
-
 		<icon src="resources/logo/29.png" width="29" height="29" />
 		<icon src="resources/logo/40.png" width="40" height="40" />
         <icon src="resources/logo/57.png" width="57" height="57" />
