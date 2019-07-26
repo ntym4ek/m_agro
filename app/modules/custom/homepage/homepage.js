@@ -70,6 +70,16 @@ function homepage_page()
         html += '<div class="router">';
         html +=   '<img data-animate="true" class="pr-balloon b1 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/1.png" />';
         html +=   '<img data-animate="true" class="pr-balloon b2 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/2.png" />';
+
+        html +=   '<div class="row">';
+        html +=     '<div class="col-xs-12">';
+        html +=       '<div class="logo">';
+        html +=           '<img src="app/themes/agro/images/homepage/logo.png">';
+        html +=       '</div>';
+        html +=     '</div>';
+        html +=   '</div>';
+
+
         html +=   '<div class="row">';
         html +=     '<div class="col-xs-6 col-md-4">';
         html +=       '<div class="route">';
@@ -143,7 +153,7 @@ function homepage_page()
                                 '<img src="app/themes/agro/images/homepage/handbook.png">' +
                             '</div>' +
                             '<img data-animate="true" class="pr-balloon b8 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/8.png" />' +
-                        '</div>', 'handbook', {attributes: {class: 'ui-link ui-disabled'}});
+                        '</div>', 'handbooks', {attributes: {class: 'ui-link'}});
         html +=       '</div>';
         html +=       '<div class="col-xs-3">';
         html +=         l('<div class="icon">' +

@@ -142,6 +142,7 @@ Drupal.modules.custom['protection'] = {};
 Drupal.modules.custom['solution'] = {};
 Drupal.modules.custom['qsearch'] = {};
 Drupal.modules.custom['fz152'] = {};
+Drupal.modules.custom['handbooks'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |

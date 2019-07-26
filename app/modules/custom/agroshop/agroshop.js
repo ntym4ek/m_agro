@@ -101,7 +101,7 @@ function agroshop_node_page_title(callback, nid) {
 function prot_cat_page() {
     try {
         // console.log('prot_cat_page - ');
-        var content = {
+        return {
             'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">' },
             'list': {
                 theme: 'view',
@@ -113,7 +113,6 @@ function prot_cat_page() {
             },
             'suffix': { markup: '</div></div>' }
         };
-        return content;
     }
     catch (error) { console.log('prot_cat_page - ' + error); }
 }
@@ -123,21 +122,14 @@ function prot_cat_page_row(view, row) {
         var html = '';
         // вернуть html код строки любой категории, кроме "Все продукты"
         if (row.tid !== 50) {
-            var content = '';
-            // var image = theme('image', { path: row.img.src });
-            var icon = theme('image', {path: row.icon_img.src});
-            content +=  '<div class="box">';
-            content +=      '<div class="icon">' + icon + '</div>';
-            content +=      '<div class="text">';
-            content +=          '<div class="title">' + row.name + '</div>';
-            content +=      '</div>';
-            content +=  '</div>';
-            html = l(content, 'prot-products/' + row.tid, {
-                'attributes': {
-                    'class': 'category-item wow fadeIn waves-effect waves-button',
-                    'data-wow-delay': '0.2s'
-                }
-            });
+            html = theme('catalog_item', {
+                item: {
+                    title: row.name,
+                    icon: row.icon_img.src,
+                    link: {
+                        url: 'prot-products/' + row.tid
+                    }
+                }});
         }
 
         return html;
@@ -1152,7 +1144,8 @@ function agroshop_block_view(delta, region)
             // формируем свой заголовок в Header в зависимости от страницы
             case 'agro_title':
                 if (drupalgap_path_get() == drupalgap.settings.front) {
-                    content = '<h1 class="page-title page-title-image">' + theme('image', { path: 'app/themes/agro/images/homepage/logo-g.png' }) + '</h1>';
+                    // content = '<h1 class="page-title page-title-image">' + theme('image', { path: 'app/themes/agro/images/homepage/logo-g.png' }) + '</h1>';
+                    content = '';
                 } else {
                     var title_id = system_title_block_id(drupalgap_path_get());
                     content += '<h1 id="' + title_id + '" class="page-title"></h1>';

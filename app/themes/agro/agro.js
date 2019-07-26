@@ -141,3 +141,69 @@ function agro_image(variables) {
     catch (error) { console.log('agro_image - ' + error); }
 }
 
+// карточка списка категорий
+function agro_catalog_item(vars)
+{
+    try {
+        var content = '';
+        var icon = theme('image', {path: vars.item.icon});
+        content +=  '<div class="box">';
+        content +=      '<div class="icon">' + icon + '</div>';
+        content +=      '<div class="text">';
+        content +=          '<div class="title">' + vars.item.title + '</div>';
+        content +=      '</div>';
+        content +=  '</div>';
+
+        return l(content, vars.item.link.url, {
+            'attributes': {
+                'class': 'category-item wow fadeIn waves-effect waves-button',
+                'data-wow-delay': '0.2s'
+            }
+        });
+    }
+    catch (error) { console.log('agro_catalog_item - ' + error); }
+}
+
+// карточка контента с текстом поверх изображения
+function agro_content_card(vars)
+{
+    var item = vars.item;
+    var image = theme('image', { path: item.img.src });
+    image = l(image, item.link.url);
+
+    var over = '' +
+        '<div class="card-media-overlay with-background">' +
+            '<div class="card-title has-supporting-text">' +
+                '<h3 class="card-primary-title">' + item.title + '</h3>' +
+                (item.subtitle ? '<h5 class="card-subtitle">' + item.subtitle + '</h5>' : '') +
+            '</div>' +
+            (item.footer ?
+            '<div class="card-supporting-text has-title">' +
+                item.footer +
+            '</div>'
+            : '') +
+        '</div>';
+    over = l(over, item.link.url);
+
+    return  '<div class="nd2-card">' +
+                '<div class="card-media">' +
+                    image +
+                    over +
+                '</div>' +
+            '</div>';
+}
+
+// карточка контента с текстом поверх изображения
+function agro_term_card(vars)
+{
+    var item = vars.item;
+    return  '<div class="nd2-card">' +
+                '<div class="card-title has-supporting-text">' +
+                    '<h3 class="card-primary-title">' + item.title + '</h3>' +
+                    '<h5 class="card-subtitle">' + item.subtitle + '</h5>' +
+                '</div>' +
+                '<div class="card-supporting-text has-title">' +
+                    item.description +
+                '</div>' +
+            '</div>';
+}
