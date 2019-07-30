@@ -112,25 +112,25 @@
 	<access origin="kccc.ru" subdomains="true"  />
 	<allow-navigation href="*" />
 
-	<icon src="resources/logo/72.png" />
+	<icon src="resources/logo/ios/72.png" />
 
 	<platform name="ios">
-		<icon src="resources/logo/29.png" width="29" height="29" />
-		<icon src="resources/logo/40.png" width="40" height="40" />
-        <icon src="resources/logo/57.png" width="57" height="57" />
-        <icon src="resources/logo/58.png" width="58" height="58" />
-        <icon src="resources/logo/60.png" width="60" height="60" />
-        <icon src="resources/logo/72.png" width="72" height="72" />
-        <icon src="resources/logo/76.png" width="76" height="76" />
-		<icon src="resources/logo/80.png" width="80" height="80" />
-        <icon src="resources/logo/87.png" width="87" height="87" />
-        <icon src="resources/logo/100.png" width="100" height="100" />
-        <icon src="resources/logo/114.png" width="114" height="114" />
-        <icon src="resources/logo/120.png" width="120" height="120" />
-        <icon src="resources/logo/144.png" width="144" height="144" />
-        <icon src="resources/logo/152.png" width="152" height="152" />
-        <icon src="resources/logo/180.png" width="180" height="180" />
-        <icon src="resources/logo/1024.png" width="1024" height="1024" />
+		<icon src="resources/logo/ios/29.png" width="29" height="29" />
+		<icon src="resources/logo/ios/40.png" width="40" height="40" />
+        <icon src="resources/logo/ios/57.png" width="57" height="57" />
+        <icon src="resources/logo/ios/58.png" width="58" height="58" />
+        <icon src="resources/logo/ios/60.png" width="60" height="60" />
+        <icon src="resources/logo/ios/72.png" width="72" height="72" />
+        <icon src="resources/logo/ios/76.png" width="76" height="76" />
+		<icon src="resources/logo/ios/80.png" width="80" height="80" />
+        <icon src="resources/logo/ios/87.png" width="87" height="87" />
+        <icon src="resources/logo/ios/100.png" width="100" height="100" />
+        <icon src="resources/logo/ios/114.png" width="114" height="114" />
+        <icon src="resources/logo/ios/120.png" width="120" height="120" />
+        <icon src="resources/logo/ios/144.png" width="144" height="144" />
+        <icon src="resources/logo/ios/152.png" width="152" height="152" />
+        <icon src="resources/logo/ios/180.png" width="180" height="180" />
+        <icon src="resources/logo/ios/1024.png" width="1024" height="1024" />
         <splash src="resources/splash/320_480.png" width="320" height="480" />
         <splash src="resources/splash/480_320.png" width="480" height="320" />
         <splash src="resources/splash/640_960.png" width="640" height="960" />
@@ -148,12 +148,12 @@
 	</platform>
 
 	<platform name="android">
-		<icon src="resources/logo/36.png" density="ldpi" />
-		<icon src="resources/logo/48.png" density="mdpi" />
-		<icon src="resources/logo/72.png" density="hdpi" />
-		<icon src="resources/logo/96.png" density="xhdpi" />
-		<icon src="resources/logo/144.png" density="xxhdpi" />
-		<icon src="resources/logo/192.png" density="xxxhdpi" />
+		<icon src="resources/logo/android/36.png" density="ldpi" />
+		<icon src="resources/logo/android/48.png" density="mdpi" />
+		<icon src="resources/logo/android/72.png" density="hdpi" />
+		<icon src="resources/logo/android/96.png" density="xhdpi" />
+		<icon src="resources/logo/android/144.png" density="xxhdpi" />
+		<icon src="resources/logo/android/192.png" density="xxxhdpi" />
 		<splash src="resources/splash/200_320.png" density="port-ldpi" />
 		<splash src="resources/splash/320_200.png" density="land-ldpi" />
 		<splash src="resources/splash/320_480.png" density="port-mdpi" />
