@@ -128,6 +128,7 @@ drupalgap.settings.loader = {
 Drupal.modules.contrib['commerce'] = {};
 Drupal.modules.contrib['logintoboggan'] = {};
 Drupal.modules.contrib['entityreference'] = {};
+Drupal.modules.contrib['webform'] = {};
 
 /** Custom Modules - www/app/modules/custom **/
 
@@ -143,6 +144,7 @@ Drupal.modules.custom['solution'] = {};
 Drupal.modules.custom['qsearch'] = {};
 Drupal.modules.custom['fz152'] = {};
 Drupal.modules.custom['handbooks'] = {};
+Drupal.modules.custom['x_webform'] = {};
 
 /***************************************|
  * Menus - http://drupalgap.org/node/85 |

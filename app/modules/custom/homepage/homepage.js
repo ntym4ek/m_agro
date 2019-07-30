@@ -54,9 +54,7 @@ function catalog_page()
 
         return html;
     }
-    catch (error) {
-        console.log('catalog_page - ' + error);
-    }
+    catch (error) { console.log('catalog_page - ' + error); }
 }
 
 /**
@@ -74,7 +72,8 @@ function homepage_page()
         html +=   '<div class="row">';
         html +=     '<div class="col-xs-12">';
         html +=       '<div class="logo">';
-        html +=           '<img src="app/themes/agro/images/homepage/logo.png">';
+        // html +=           '<a onclick="javascript:window.open(\'https://kccc.ru\', \'_system\', \'location=yes\');"><img src="app/themes/agro/images/homepage/logo.png"></a>';
+        html +=           l('<img src="app/themes/agro/images/homepage/logo.png">', 'node/8659');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';

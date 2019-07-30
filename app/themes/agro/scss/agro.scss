@@ -316,6 +316,13 @@ div[role="main"] .image-loader img { width: 100% !important; }
     .drupalgap_splash_content {
         display: flex;
         justify-content: center;
+        .logo {
+            position: absolute; left: 50%; top: 10vh;
+            width: 17em; margin-left: -8.5em;
+            width: 20vh; margin-left: -10vh;
+            z-index: 10000000;
+            img { max-width: 100%; }
+        }
         picture {
             display: flex;
             height: 100vh;
@@ -366,12 +373,16 @@ div[role="main"] .image-loader img { width: 100% !important; }
     .router {
         text-align: center;
         padding-bottom: 6rem;
-        .col-xs-6:nth-child(3) .route,
-        .col-xs-6:nth-child(4) .route,
-        .col-xs-12 .route { margin-top: 2em; }
+        //.col-xs-6:nth-child(3) .route,
+        //.col-xs-6:nth-child(4) .route,
+        //.col-xs-12 .route { margin-top: 2em; }
         .logo {
-            margin: 2.5em auto 1em;
+            margin: 0.5em auto 0; margin: 3vh auto 1vh;
             width: 7em;
+            @media (min-width: $screen-sm-min) {
+                margin: 5em auto 2em;
+                width: 10em;
+            }
         }
         .route {
             margin: 1em auto 0;
@@ -382,17 +393,16 @@ div[role="main"] .image-loader img { width: 100% !important; }
                 margin: 0 auto;
                 .icon {
                     position: relative;
-                    max-width: 6em;
+                    max-width: 5em;
                     margin: 0 auto;
+                    @media (min-width: $screen-md-min) { max-width: 8em; }
                 }
                 div.waves-effect {
                     border-radius: 3em;
                     img { display: block; }
                 }
             }
-            @media (min-width: $screen-sm-min) {
-                margin-top: 50px;
-            }
+            @media (min-width: $screen-md-min) { margin-top: 4em; }
         }
         .r-title {
             margin-top: 10px;
@@ -401,9 +411,9 @@ div[role="main"] .image-loader img { width: 100% !important; }
         }
     }
     .footer {
-        padding: 4em 0 1em;
-        position: absolute; bottom: 0; left: 0; right:0;
-        //z-index: 9;
+        background: #fff;
+        border-top: 1px solid #eee;
+        position: fixed; bottom: 0; left: 0; right: 0;
         .row {
             justify-content: center;
             a { display: block; }
@@ -415,6 +425,12 @@ div[role="main"] .image-loader img { width: 100% !important; }
             div.waves-effect {
                 border-radius: 2em;
                 padding: .5em;
+            }
+        }
+        @media (min-width: $screen-md-min) {
+            padding: 1em 0;
+            .row {
+                .icon { max-width: 6em; }
             }
         }
     }
