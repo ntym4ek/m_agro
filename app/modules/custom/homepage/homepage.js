@@ -73,7 +73,6 @@ function homepage_page()
         html +=     '<div class="col-xs-12">';
         html +=       '<div class="logo">';
         html +=           '<a onclick="javascript:window.open(\'https://kccc.ru\', \'_system\', \'location=yes\');"><img src="app/themes/agro/images/homepage/logo.png"></a>';
-        // html +=           l('<img src="app/themes/agro/images/homepage/logo.png">', 'node/8659');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
@@ -149,9 +148,17 @@ function homepage_page()
         html +=       '<div class="col-xs-3">';
         html +=         l('<div class="icon">' +
                             '<div class="waves-effect waves-button">' +
-                                '<img src="app/themes/agro/images/homepage/handbook.png">' +
+                            '<img src="app/themes/agro/images/homepage/surveys.png">' +
                             '</div>' +
                             '<img data-animate="true" class="pr-balloon b8 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/8.png" />' +
+                            '</div>', 'surveys', {attributes: {class: 'ui-linkd'}});
+        html +=       '</div>';
+        html +=       '<div class="col-xs-3">';
+        html +=         l('<div class="icon">' +
+                            '<div class="waves-effect waves-button">' +
+                                '<img src="app/themes/agro/images/homepage/handbook.png">' +
+                            '</div>' +
+                            '<img data-animate="true" class="pr-balloon b9 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/9.png" />' +
                         '</div>', 'handbooks', {attributes: {class: 'ui-link'}});
         html +=       '</div>';
         html +=       '<div class="col-xs-3">';
@@ -159,7 +166,7 @@ function homepage_page()
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/agenda.png">' +
                             '</div>' +
-                            '<img data-animate="true" class="pr-balloon b9 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/9.png" />' +
+                            '<img data-animate="true" class="pr-balloon b10 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/10.png" />' +
                             '</div>', 'agenda', {attributes: {class: 'ui-link'}});
         html +=       '</div>';
         html +=       '<div class="col-xs-3">';
@@ -167,7 +174,7 @@ function homepage_page()
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/representatives.png">' +
                             '</div>' +
-                            '<img data-animate="true" class="pr-balloon b10 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/10.png" />' +
+                            '<img data-animate="true" class="pr-balloon b11 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/11.png" />' +
                             '</div>', 'representatives', {attributes: {class: 'ui-linkd'}});
         html +=       '</div>';
         html +=     '</div>';
@@ -203,7 +210,7 @@ function _balloon(delta)
         $('.pr-balloon').addClass('processed');
     }
 
-   if (delta == -1 || bnum_curr > 9) {
+   if (delta == -1 || bnum_curr > 10) {
        $('.b' + bnum_curr).removeClass('visible');
        $('.b' + bnum_curr + '_1').removeClass('visible');
        $('.pr-actions').removeClass('visible');
