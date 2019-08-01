@@ -129,6 +129,7 @@ Drupal.modules.contrib['commerce'] = {};
 Drupal.modules.contrib['logintoboggan'] = {};
 Drupal.modules.contrib['entityreference'] = {};
 Drupal.modules.contrib['webform'] = {};
+Drupal.modules.contrib['views_infinite_scroll'] = {};
 
 /** Custom Modules - www/app/modules/custom **/
 
@@ -196,3 +197,19 @@ drupalgap.settings.cache = {}; // Do not remove this line.
 
 // Theme Registry - Set to true to load the page.tpl.html contents from cache.
 drupalgap.settings.cache.theme_registry = true;
+
+
+// Views infinite scroll settings.
+drupalgap.settings.views_infinite_scroll = {
+    // Specify which pages in the app to activate infinite scroll on.
+    pages: {
+        'handbook/%': {},
+        'handbook_terms/%': {},
+        'representatives': {},
+        'prot-cat': {},
+        'prot-products/%': {},
+        'fert-products': {},
+        'atfield': {}
+    }
+
+};
