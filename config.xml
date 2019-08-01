@@ -14,7 +14,7 @@
 	<!-- настройки смотрим на http://cordova.apache.org/docs/en/latest/config_ref/index.html -->
 	<!-- common -->
 	<preference name="orientation" value="default" />
-	<preference name="phonegap-version" value="cli-9.0.0" />
+	<preference name="phonegap-version" value="cli-7.1.0" />
 	<preference name="fullscreen" value="false" />
 	<!-- set to true if you don't want the interface to display any feedback when users scroll past the beginning or end of content. -->
 	<preference name="disallowOverscroll" value="false"/>
