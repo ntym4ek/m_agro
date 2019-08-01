@@ -9,7 +9,7 @@ Drupal.settings.skip_start_help = false;
 // window.localStorage.clear();
 
 // Set to true to see console.log() messages. Set to false when publishing app.
-// Drupal.settings.debug = true;
+Drupal.settings.debug = true;
 
 /****************************************|
  * Drupal Settings (provided by jDrupal) |
