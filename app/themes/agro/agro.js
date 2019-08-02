@@ -207,3 +207,12 @@ function agro_term_card(vars)
                 '</div>' +
             '</div>';
 }
+
+
+// _drupalgap_form_render_element_item провряет сначала наличие функции с префиксом theme_
+// потом theme() ищет функцию темизации в теме проекта
+function theme_pagebreak(vars) {}
+function agro_pagebreak(vars)
+{
+    return '';
+}

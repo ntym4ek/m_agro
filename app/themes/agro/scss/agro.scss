@@ -449,8 +449,9 @@ div[role="main"] .image-loader img { width: 100% !important; }
         &.b6_1  { top: -8.5rem; left: -3rem; }
         &.b7    { top: -8rem; left: -5rem; }
         &.b8    { top: -11rem; left: -7rem; }
-        &.b9    { top: -10rem; left: -10rem; }
-        &.b10   { top: -9.5rem; right: -6rem; }
+        &.b9    { top: -10rem; left: -7rem; }
+        &.b10   { top: -9.5rem; right: -11rem; }
+        &.b11   { top: -9.5rem; right: -6rem; }
     }
     .pr-actions {
         display: none;
@@ -1070,6 +1071,26 @@ div[role="main"] .image-loader img { width: 100% !important; }
 .handbook {
     .dg_empty_list_header {
         margin-bottom: .5em;
+    }
+}
+
+/* -------------------------------------------- Опросы -------------------------------------------------------------- */
+.webform {
+    > .form-item {
+        margin-bottom: 5em;
+        > label {
+            strong { font-weight: 700; }
+        }
+    }
+    > [class*=-own].form-item {
+        margin-top: -4em;
+    }
+    [class*=field-name-page] { display: none; }
+    .ui-controlgroup-controls {
+        .ui-radio {
+            float: none;
+            margin-top: 1.5em;
+        }
     }
 }
 
