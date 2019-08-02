@@ -49,17 +49,6 @@ function agroshop_deviceready() {
     catch (error) { console.log('agroshop_deviceready - ' + error); }
 }
 
-/**
- * Implements hook_theme().
- */
-// function agroshop_theme()
-// {
-//     return {
-//         product_agro: {
-//             template: 'atfield-season-page'
-//         }
-//     };
-// }
 
 /**
  * Функция определения заголовка страницы на основе стандартного node_page_title
@@ -84,6 +73,9 @@ function agroshop_node_page_title(callback, nid) {
                     }
                     if (node.type === 'agenda') {
                         title = l('Афиша', 'agenda');
+                    }
+                    if (node.type === 'webform') {
+                        title = l('Опрос', 'surveys');
                     }
                 }
 
