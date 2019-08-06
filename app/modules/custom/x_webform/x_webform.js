@@ -16,6 +16,23 @@ function x_webform_menu()
     return items;
 }
 
+function x_webform_form_alter(form, form_state, form_id)
+{
+    console.log('x_webform_form_alter - ');
+    try {
+        // todo текстовым полям прописать заголовки
+        if (form_id === "webform_form") {
+            for (var name in form.elements) {
+                if (!form.elements.hasOwnProperty(name)) { continue; }
+                if (form.elements[name].title === "" && form.elements[name].component !== undefined) {
+                    form.elements[name].title = form.elements[name].component.name;
+                }
+            }
+        }
+    }
+    catch (error) { console.log('x_webform_form_alter - ' + error); }
+}
+
 /**
  * ----------------------------------------------- Список опросов ------------------------------------------------------
  */
@@ -68,6 +85,99 @@ function x_webform_node_page_view_alter_webform(node, options)
                     '</div>'
         };
         options.success(content);
+
+        var components = node.webform.components,
+            conditionals = node.webform.conditionals,
+            form_name = "edit-webform-form-node-" + node.webform.nid;
+        // цикл по условиям формы, собрать всё в массивы
+        $.each(conditionals, function(index_c, condition) {
+            // цикл по правилам условия
+            var rules = [];
+            $.each(condition.rules, function(index_r, rule){
+                if (rule.source_type === "component") {
+                    rules.push({
+                        cid: index_c,
+                        element: "select",
+                        operator: rule.operator,
+                        source_name: form_name + "-" + components[rule.source].form_key,
+                        value: rule.value
+                    });
+                }
+            });
+            // цикл по действиям
+            var actions = [];
+            $.each(condition.actions, function (index_a, action) {
+                actions.push({
+                    form_id: "webform_form_node_" + node.webform.nid,
+                    form_name: form_name,
+                    target_name: components[action.target].form_key,
+                    target: action.target,
+                    required: components[action.target].required,
+                    action: action.action
+                });
+            });
+            _checkActionElement(rules, actions);
+        });
     }
     catch (error) { console.log('x_webform_node_page_view_alter_webform - ' + error); }
+}
+
+function _checkActionElement(rules, actions)
+{
+    try {
+        var rules_ok = true;
+        // проверить
+        $.each(rules, function(index_r, rule){
+            if (rule.element === "select") {
+                if (rule.operator === "equal") {
+                    if (!$("#" + rule.source_name + "_" + rule.value).is(":checked")) {
+                        rules_ok = false;
+                    }
+                }
+
+                // однократно повесить обработчик на изменение элемента
+                // для каждого из условий (rule.cid) и каждого правила (index_r)
+                var el_id = "input[name=" + rule.source_name + "]";
+                var el_class = "el-" + rule.cid + "-" + index_r + "-processed";
+                if (!$(el_id).hasClass(el_class)) {
+                    $(el_id).addClass(el_class).data("rules", rules).data("actions", actions).change(function () {
+                        _checkActionElement($(el_id).data("rules"), $(el_id).data("actions"));
+                    });
+                }
+            }
+        });
+
+        $.each(actions, function(index_a, action) {
+            // действие Показа/Скрытия элемента
+            if (action.action === "show" || action.action === "hide") {
+                if (rules_ok === (action.action === "show")) {
+                    // показать элемент и восстановить состояние атрибута required
+                    _setFieldRequired(action.form_id, action.target_name, action.required && 1);
+                    $(".field-name-" + action.target_name.replace(/_/g, "-")).show();
+                } else {
+                    _setFieldRequired(action.form_id, action.target_name, !(action.required && 1));
+                    $(".field-name-" + action.target_name.replace(/_/g, "-")).hide();
+                }
+            }
+            if (action.action === "require") {
+                if (rules_ok) {
+                    _setFieldRequired(action.form_id, action.target_name, 1);
+                } else {
+                    _setFieldRequired(action.form_id, action.target_name, action.required);
+                }
+            }
+        });
+    }
+    catch (error) { console.log('_checkActionElement - ' + error); }
+}
+
+// сброс/установка атрибута required для заданного элемента
+function _setFieldRequired(form_id, element_name, state)
+{
+    try {
+        var form = drupalgap_form_local_storage_load(form_id);
+        form.elements[element_name].required = state;
+        drupalgap_form_local_storage_save(form);
+    }
+    catch (error) { console.log('_setFieldRequired - ' + error); }
 }

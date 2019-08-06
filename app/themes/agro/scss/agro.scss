@@ -1084,6 +1084,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
     }
     > [class*=-own].form-item {
         margin-top: -4em;
+        label { display: none; }
     }
     [class*=field-name-page] { display: none; }
     .ui-controlgroup-controls {
