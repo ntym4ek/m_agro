@@ -28,6 +28,8 @@ function x_webform_form_alter(form, form_state, form_id)
                     form.elements[name].title = form.elements[name].component.name;
                 }
             }
+            form.elements.submit.value = "Отправить";
+            form.elements.submit.options.attributes.class = "clr-btn-blue ui-btn-raised";
         }
     }
     catch (error) { console.log('x_webform_form_alter - ' + error); }
