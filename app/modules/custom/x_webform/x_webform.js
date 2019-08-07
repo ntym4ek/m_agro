@@ -112,7 +112,7 @@ function x_webform_node_page_view_alter_webform(node, options)
                     form_name: form_name,
                     target_name: components[action.target].form_key,
                     target: action.target,
-                    required: components[action.target].required,
+                    required: !!Number(components[action.target].required),
                     action: action.action
                 });
             });
@@ -161,7 +161,7 @@ function _checkActionElement(rules, actions)
             }
             if (action.action === "require") {
                 if (rules_ok) {
-                    _setFieldRequired(action.form_id, action.target_name, 1);
+                    _setFieldRequired(action.form_id, action.target_name, true);
                 } else {
                     _setFieldRequired(action.form_id, action.target_name, action.required);
                 }
