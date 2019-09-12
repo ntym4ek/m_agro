@@ -372,7 +372,8 @@ div[role="main"] .image-loader img { width: 100% !important; }
 #catalog {
     .router {
         text-align: center;
-        padding-bottom: 6rem;
+        padding-bottom: 6rem;  padding-top: 10vh;
+
         //.col-xs-6:nth-child(3) .route,
         //.col-xs-6:nth-child(4) .route,
         //.col-xs-12 .route { margin-top: 2em; }

@@ -69,13 +69,13 @@ function homepage_page()
         html +=   '<img data-animate="true" class="pr-balloon b1 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/1.png" />';
         html +=   '<img data-animate="true" class="pr-balloon b2 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/2.png" />';
 
-        html +=   '<div class="row">';
-        html +=     '<div class="col-xs-12">';
-        html +=       '<div class="logo">';
-        html +=           '<a onclick="javascript:window.open(\'https://kccc.ru\', \'_system\', \'location=yes\');"><img src="app/themes/agro/images/homepage/logo.png"></a>';
-        html +=       '</div>';
-        html +=     '</div>';
-        html +=   '</div>';
+        // html +=   '<div class="row">';
+        // html +=     '<div class="col-xs-12">';
+        // html +=       '<div class="logo">';
+        // html +=           '<a onclick="javascript:window.open(\'https://kccc.ru\', \'_system\', \'location=yes\');"><img src="app/themes/agro/images/homepage/logo.png"></a>';
+        // html +=       '</div>';
+        // html +=     '</div>';
+        // html +=   '</div>';
 
 
         html +=   '<div class="row">';
