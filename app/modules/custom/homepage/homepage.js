@@ -63,6 +63,10 @@ function catalog_page()
 function homepage_page()
 {
     try {
+        // loader по умолчанию был отключен для статической заставки при загрузке приложения
+        drupalgap_loader_enable(true);
+
+
         var html = '';
 
         html += '<div class="router">';

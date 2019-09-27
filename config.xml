@@ -59,18 +59,12 @@
     <preference name="StatusBarStyle" value="default" />
 
 	<!-- splashscreen -->
-	<preference name="SplashScreenDelay" value="none" />
-	<preference name="SplashShowOnlyFirstTime" value="true" />
-	<preference name="AutoHideSplashScreen" value="true" />
-	<preference name="FadeSplashScreen" value="false"/>
+	<preference name="SplashScreenDelay" value="0" />
+	<preference name="SplashShowOnlyFirstTime" value="false" />
+	<preference name="AutoHideSplashScreen" value="false" />
+	<preference name="FadeSplashScreen" value="true"/>
 	<preference name="FadeSplashScreenDuration" value="0"/>
 	<preference name="ShowSplashScreenSpinner" value="false"/>
-<!--	<preference name="SplashScreenDelay" value="0" />-->
-<!--	<preference name="SplashShowOnlyFirstTime" value="true" />-->
-<!--	<preference name="AutoHideSplashScreen" value="true" />-->
-<!--	<preference name="FadeSplashScreen" value="true"/>-->
-<!--	<preference name="FadeSplashScreenDuration" value="300"/>-->
-<!--	<preference name="ShowSplashScreenSpinner" value="false"/>-->
 
 
 	<feature name="http://api.phonegap.com/1.0/file"/>
@@ -137,6 +131,9 @@
         <icon src="resources/logo/ios/152.png" width="152" height="152" />
         <icon src="resources/logo/ios/180.png" width="180" height="180" />
         <icon src="resources/logo/ios/1024.png" width="1024" height="1024" />
+
+        <splash src="resources/splash/ios/Default@2x~universal~anyany.png" />
+
 <!--        <splash src="resources/splash/320_480.png" width="320" height="480" />-->
 <!--        <splash src="resources/splash/480_320.png" width="480" height="320" />-->
 <!--        <splash src="resources/splash/640_960.png" width="640" height="960" />-->
@@ -160,18 +157,18 @@
 		<icon src="resources/logo/android/96.png" density="xhdpi" />
 		<icon src="resources/logo/android/144.png" density="xxhdpi" />
 		<icon src="resources/logo/android/192.png" density="xxxhdpi" />
-<!--		<splash src="resources/splash/200_320.png" density="port-ldpi" />-->
-<!--		<splash src="resources/splash/320_200.png" density="land-ldpi" />-->
-<!--		<splash src="resources/splash/320_480.png" density="port-mdpi" />-->
-<!--		<splash src="resources/splash/480_320.png" density="land-mdpi" />-->
-<!--		<splash src="resources/splash/480_800.png" density="port-hdpi" />-->
-<!--        <splash src="resources/splash/720_1280.png" density="port-xhdpi" />-->
-<!--		<splash src="resources/splash/800_480.png" density="land-hdpi" />-->
-<!--        <splash src="resources/splash/960_1600.png" density="port-xxhdpi" />-->
-<!--		<splash src="resources/splash/1280_720.png" density="land-xhdpi" />-->
-<!--        <splash src="resources/splash/1280_1920.png" density="port-xxxhdpi" />-->
-<!--		<splash src="resources/splash/1600_960.png" density="land-xxhdpi" />-->
-<!--		<splash src="resources/splash/1920_1280.png" density="land-xxxhdpi" />-->
+		<splash src="resources/splash/200_320.png" density="port-ldpi" />
+		<splash src="resources/splash/320_200.png" density="land-ldpi" />
+		<splash src="resources/splash/320_480.png" density="port-mdpi" />
+		<splash src="resources/splash/480_320.png" density="land-mdpi" />
+		<splash src="resources/splash/480_800.png" density="port-hdpi" />
+        <splash src="resources/splash/720_1280.png" density="port-xhdpi" />
+		<splash src="resources/splash/800_480.png" density="land-hdpi" />
+        <splash src="resources/splash/960_1600.png" density="port-xxhdpi" />
+		<splash src="resources/splash/1280_720.png" density="land-xhdpi" />
+        <splash src="resources/splash/1280_1920.png" density="port-xxxhdpi" />
+		<splash src="resources/splash/1600_960.png" density="land-xxhdpi" />
+		<splash src="resources/splash/1920_1280.png" density="land-xxxhdpi" />
 	</platform>
 
 </widget>
