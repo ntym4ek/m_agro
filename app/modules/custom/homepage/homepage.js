@@ -66,7 +66,6 @@ function homepage_page()
         // loader по умолчанию был отключен для статической заставки при загрузке приложения
         drupalgap_loader_enable(true);
 
-
         var html = '';
 
         html += '<div class="router">';
@@ -195,6 +194,15 @@ function homepage_page()
             jqm_page_event: 'pageshow',
             jqm_page_event_callback: '_balloon(0)'
         });
+
+        // по готовности страницы убираем загрузочный экран
+        if (navigator.splashscreen !== undefined) {
+            html += drupalgap_jqm_page_event_script_code({
+                page_id: drupalgap_get_page_id(),
+                jqm_page_event: 'pageshow',
+                jqm_page_event_callback: 'navigator.splashscreen.hide(); StatusBar.backgroundColorByName("white");'
+            });
+        }
 
         return html;
     }
