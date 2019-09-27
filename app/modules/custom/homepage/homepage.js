@@ -192,16 +192,22 @@ function homepage_page()
         html += drupalgap_jqm_page_event_script_code({
             page_id: drupalgap_get_page_id(),
             jqm_page_event: 'pageshow',
-            jqm_page_event_callback: '_balloon(0)'
+            jqm_page_event_callback: '_start()'
         });
-
-        // по готовности страницы убираем загрузочный экран
-        navigator.splashscreen.hide();
-        StatusBar.backgroundColorByName("white");
 
         return html;
     }
     catch (error) { console.log('homepage_page - ' + error); }
+}
+
+function _start()
+{
+    // по готовности страницы убираем загрузочный экран
+    StatusBar.backgroundColorByName("white");
+    StatusBar.styleDefault();
+    navigator.splashscreen.hide();
+
+    _balloon(0);
 }
 
 function _balloon(delta)
