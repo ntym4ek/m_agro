@@ -2,7 +2,7 @@
 <widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.kccc.agroshop"
-		version   = "2.3.7">
+		version   = "2.3.8">
 	<name>Агроконсультант</name>
 	<description>Приложение ООО Торговый Дом "Кирово-Чепецкая Химическая Компания"</description>
 	<author href="kccc.ru" email="support@kccc.ru">KCCC GROUP</author>
@@ -129,6 +129,7 @@
         <icon src="resources/logo/ios/120.png" width="120" height="120" />
         <icon src="resources/logo/ios/144.png" width="144" height="144" />
         <icon src="resources/logo/ios/152.png" width="152" height="152" />
+        <icon src="resources/logo/ios/167.png" width="167" height="167" />
         <icon src="resources/logo/ios/180.png" width="180" height="180" />
         <icon src="resources/logo/ios/1024.png" width="1024" height="1024" />
 
