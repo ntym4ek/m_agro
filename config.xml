@@ -25,7 +25,7 @@
 	<!-- If set, will display the referenced page upon an error in the application instead of a dialog with the title "Application Error". -->
 	<preference name="errorUrl" value=""/>
 	<!-- When loading a page, the amount of time to wait before throwing a timeout error. -->
-	<preference name="LoadUrlTimeoutValue" value="10000" />
+	<preference name="LoadUrlTimeoutValue" value="5000" />
 
 
 	<!-- iOS -->

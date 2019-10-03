@@ -29,24 +29,24 @@ function catalog_page()
 
         html += '<div class="router">';
         html +=   '<div class="row">';
-        html +=     '<div class="col-xs-12">';
+        html +=     '<div class="icon1">';
         html +=       '<div class="route">';
         html +=         l('<div class="icon">' +
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/prot-cat.png">' +
                             '</div>' +
                         '</div>' +
-                        '<div class="r-title">Средства защиты растений</div>', 'prot-cat');
+                        '<div class="r-title">Средства защиты<br />растений</div>', 'prot-cat');
         html +=       '</div>';
         html +=     '</div>';
-        html +=     '<div class="col-xs-12">';
+        html +=     '<div class="icon2">';
         html +=       '<div class="route">';
         html +=         l('<div class="icon">' +
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/fert-cat.png">' +
                             '</div>' +
                         '</div>' +
-                        '<div class="r-title">Минеральные удобрения</div>', 'fert-products');
+                        '<div class="r-title">Минеральные<br />удобрения</div>', 'fert-products');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
@@ -69,119 +69,109 @@ function homepage_page()
         var html = '';
 
         html += '<div class="router">';
-        html +=   '<img data-animate="true" class="pr-balloon b1 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/1.png" />';
-        html +=   '<img data-animate="true" class="pr-balloon b2 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/2.png" />';
-
-        // html +=   '<div class="row">';
-        // html +=     '<div class="col-xs-12">';
-        // html +=       '<div class="logo">';
-        // html +=           '<a onclick="javascript:window.open(\'https://kccc.ru\', \'_system\', \'location=yes\');"><img src="app/themes/agro/images/homepage/logo.png"></a>';
-        // html +=       '</div>';
-        // html +=     '</div>';
-        // html +=   '</div>';
-
+        html +=   '<img data-animate="true" class="pr-balloon b1 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/h1.png" />';
+        html +=   '<img data-animate="true" class="pr-balloon b2 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/h2.png" />';
 
         html +=   '<div class="row">';
-        html +=     '<div class="col-xs-6 col-md-4">';
+        html +=     '<div class="icon1">';
         html +=       '<div class="route">';
         html +=         l('<div class="icon">' +
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/catalog.png">' +
                             '</div>' +
-                            '<img data-animate="true" class="pr-balloon b3 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/3.png" />' +
+                            '<img data-animate="true" class="pr-balloon b3 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/b1.png" />' +
                         '</div>' +
                         '<div class="r-title">Каталог</div>', 'catalog');
         html +=       '</div>';
         html +=     '</div>';
-        html +=     '<div class="col-xs-6 col-md-4">';
+        html +=     '<div class="icon2">';
         html +=       '<div class="route">';
-        // html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/protection.png"></div><div class="r-title">Системы защиты<img data-animate="true" class="pr-balloon b4 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/4.png" /></div>', 'protection');
         html +=         l('<div class="icon">' +
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/protection.png">' +
                             '</div>' +
-                            '<img data-animate="true" class="pr-balloon b4 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/4.png" />' +
+                            '<img data-animate="true" class="pr-balloon b4 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/b2.png" />' +
                         '</div>' +
                         '<div class="r-title">Системы защиты</div>', 'protection');
         html +=       '</div>';
         html +=     '</div>';
-        html +=     '<div class="col-xs-6 col-md-4">';
+        html +=     '<div class="icon3">';
         html +=       '<div class="route">';
         html +=         l('<div class="icon">' +
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/agrohelp.png">' +
                             '</div>' +
-                            '<img data-animate="true" class="pr-balloon b5 slide-down hidden-md hidden-lg" src="' + drupalgap_get_path('module', 'homepage') + '/images/5.png" />' +
-                            '<img data-animate="true" class="pr-balloon b5_1 slide-up hidden-xs hidden-sm" src="' + drupalgap_get_path('module', 'homepage') + '/images/51.png" />' +
+                            '<img data-animate="true" class="pr-balloon b5 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/b3.png" />' +
+                            '<img data-animate="true" class="pr-balloon b5_1 slide-up" src="' + drupalgap_get_path('module', 'homepage') + '/images/b31.png" />' +
                         '</div>' +
                         '<div class="r-title">Агропомощь</div>', 'agrohelp');
-        // html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/agrohelp.png"></div><div class="r-title">Агропомощь</div>', 'agrohelp');
         html +=       '</div>';
         html +=     '</div>';
-        html +=     '<div class="col-xs-6 col-md-5 col-md-offset-1">';
+        html +=     '<div class="icon4">';
         html +=       '<div class="route">';
         html +=         l('<div class="icon">' +
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/calc.png">' +
                             '</div>' +
-                            '<img data-animate="true" class="pr-balloon b6 slide-down hidden-md hidden-lg" src="' + drupalgap_get_path('module', 'homepage') + '/images/6.png" />' +
-                            '<img data-animate="true" class="pr-balloon b6_1 slide-down hidden-xs hidden-sm" src="' + drupalgap_get_path('module', 'homepage') + '/images/61.png" />' +
+                            '<img data-animate="true" class="pr-balloon b6 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/b4.png" />' +
+                            '<img data-animate="true" class="pr-balloon b6_1 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/b41.png" />' +
                             '</div>' +
                         '<div class="r-title">Калькулятор</div>', 'calc');
-        // html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/solution.png"></div><div class="r-title">Калькулятор</div>', 'calc');
         html +=       '</div>';
         html +=     '</div>';
-        html +=     '<div class="col-xs-12 col-md-5">';
+        html +=     '<div class="icon5">';
         html +=       '<div class="route">';
         html +=         l('<div class="icon">' +
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/field.png">' +
                             '</div>' +
-                            '<img data-animate="true" class="pr-balloon b7 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/7.png" />' +
+                            '<img data-animate="true" class="pr-balloon b7 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/b5.png" />' +
                             '</div>' +
                         '<div class="r-title">Препараты в поле</div>', 'atfield');
-
-        // html +=         '<img data-animate="true" class="pr-balloon b7 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/7.png" />';
-        // html +=          l('<div class="waves-effect waves-button"><img src="app/themes/agro/images/homepage/field.png"></div><div class="r-title">Препараты в поле</div>', 'atfield');
         html +=       '</div>';
         html +=     '</div>';
-        html +=   '</div>';
-        html +=   '<div class="footer">';
-        html +=     '<div class="row">';
-        html +=       '<div class="col-xs-3">';
-        html +=         l('<div class="icon">' +
-                            '<div class="waves-effect waves-button">' +
-                            '<img src="app/themes/agro/images/homepage/surveys.png">' +
-                            '</div>' +
-                            '<img data-animate="true" class="pr-balloon b8 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/8.png" />' +
-                            '</div>', 'surveys', {attributes: {class: 'ui-linkd'}});
-        html +=       '</div>';
-        html +=       '<div class="col-xs-3">';
-        html +=         l('<div class="icon">' +
-                            '<div class="waves-effect waves-button">' +
-                                '<img src="app/themes/agro/images/homepage/handbook.png">' +
-                            '</div>' +
-                            '<img data-animate="true" class="pr-balloon b9 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/9.png" />' +
-                        '</div>', 'handbooks', {attributes: {class: 'ui-link'}});
-        html +=       '</div>';
-        html +=       '<div class="col-xs-3">';
-        html +=         l('<div class="icon">' +
-                            '<div class="waves-effect waves-button">' +
-                                '<img src="app/themes/agro/images/homepage/agenda.png">' +
-                            '</div>' +
-                            '<img data-animate="true" class="pr-balloon b10 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/10.png" />' +
-                            '</div>', 'agenda', {attributes: {class: 'ui-link'}});
-        html +=       '</div>';
-        html +=       '<div class="col-xs-3">';
+        html +=     '<div class="icon6">';
+        html +=       '<div class="route">';
         html +=         l('<div class="icon">' +
                             '<div class="waves-effect waves-button">' +
                                 '<img src="app/themes/agro/images/homepage/representatives.png">' +
                             '</div>' +
-                            '<img data-animate="true" class="pr-balloon b11 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/11.png" />' +
-                            '</div>', 'representatives', {attributes: {class: 'ui-linkd'}});
+                            '<img data-animate="true" class="pr-balloon b8 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/b6.png" />' +
+                        '</div>' +
+                        '<div class="r-title">Контакты</div>', 'representatives');
         html +=       '</div>';
         html +=     '</div>';
         html +=   '</div>';
+
+        html +=   '<div class="footer">';
+        html +=     '<div class="row">';
+        html +=       '<div class="col-xs-4">';
+        html +=         l('<div class="icon">' +
+                            '<div class="waves-effect waves-button">' +
+                            '<img src="app/themes/agro/images/homepage/surveys.png">' +
+                            '</div>' +
+                            '<img data-animate="true" class="pr-balloon b9 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/f1.png" />' +
+                            '</div>', 'surveys', {attributes: {class: 'ui-link'}});
+        html +=       '</div>';
+        html +=       '<div class="col-xs-4">';
+        html +=         l('<div class="icon">' +
+                            '<div class="waves-effect waves-button">' +
+                                '<img src="app/themes/agro/images/homepage/handbook.png">' +
+                            '</div>' +
+                            '<img data-animate="true" class="pr-balloon b10 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/f2.png" />' +
+                        '</div>', 'handbooks', {attributes: {class: 'ui-link'}});
+        html +=       '</div>';
+        html +=       '<div class="col-xs-4">';
+        html +=         l('<div class="icon">' +
+                            '<div class="waves-effect waves-button">' +
+                                '<img src="app/themes/agro/images/homepage/agenda.png">' +
+                            '</div>' +
+                            '<img data-animate="true" class="pr-balloon b11 slide-down" src="' + drupalgap_get_path('module', 'homepage') + '/images/f3.png" />' +
+                            '</div>', 'agenda', {attributes: {class: 'ui-link'}});
+        html +=       '</div>';
+        html +=     '</div>';
+        html +=   '</div>';
+        html +=   '<div class="overlay"></div>';
         html +=   '<div class="pr-actions">';
         html +=     '<button onclick="_balloon(-1);" class="ui-btn ui-btn-raised clr-btn-blue waves-effect waves-button">' + t('Skip') + '</button>';
         html +=     '<button onclick="_balloon(1);" class="ui-btn ui-btn-raised clr-btn-blue waves-effect waves-button">' + t('Next') + '</button>';
@@ -202,10 +192,15 @@ function homepage_page()
 
 function _start()
 {
-    // по готовности страницы убираем загрузочный экран
-    StatusBar.backgroundColorByName("white");
-    StatusBar.styleDefault();
-    navigator.splashscreen.hide();
+    // по готовности страницы меняем цвет статусбара
+    if (typeof StatusBar !== 'undefined') {
+        StatusBar.backgroundColorByName("white");
+        StatusBar.styleDefault();
+    }
+    // и убираем загрузочный экран
+    if (typeof navigator.splashscreen !== 'undefined') {
+        navigator.splashscreen.hide();
+    }
 
     _balloon(0);
 }
@@ -216,6 +211,9 @@ function _balloon(delta)
     if (variable_get('presentation') || Drupal.settings.skip_start_help) {
         return;
     }
+
+    // запретить переходить по ссылкам
+    $('#homepage .overlay').addClass('active');
 
     if (delta == 0) {
         delta = 1;
@@ -232,6 +230,7 @@ function _balloon(delta)
            $('.pr-balloon').removeClass('processed');
        }, 700);
        variable_set('presentation', true);
+       $('#homepage .overlay').removeClass('active');
        return;
    }
 
@@ -239,7 +238,7 @@ function _balloon(delta)
     var delay = bnum_curr ? 1 : 1000;
     $('.b' + bnum_curr).removeClass('visible');
     $('.b' + bnum_curr + '_1').removeClass('visible');
-    if (bnum_curr == 7) $('.pr-actions').addClass('raised');
+    if (bnum_curr == 8) $('.pr-actions').addClass('raised');
     setTimeout(function () {
         $('.b' + bnum_next).addClass('visible');
         $('.b' + bnum_curr + '_1').addClass('visible');

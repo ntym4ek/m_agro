@@ -64,25 +64,20 @@
       <!-- Mobile Application Splash Screen -->
       <div id="_drupalgap_splash" data-role="page">
           <div class="drupalgap_splash_content">
-<!--              <div class="logo"><img src="app/themes/agro/images/loader.gif" alt=""></div>-->
               <picture>
                   <source   media="(orientation: portrait)"
-                            srcset="app/themes/agro/images/splash/720_1280.png, app/themes/agro/images/splash/1242_2208.png 2x">
+                            srcset="resources/splash/720_1280.png, resources/splash/1280_1920.png 2x">
                   <source   media="(orientation: landscape)"
-                            srcset="app/themes/agro/images/splash/1280_720.png, app/themes/agro/images/splash/2208_1242.png 2x">
-                  <img      src="app/themes/agro/images/splash/1280_720.png">
+                            srcset="resources/splash/1280_720.png, resources/splash/1920_1280.png 2x">
+                  <img      src="resources/splash/1280_720.png">
               </picture>
           </div>
       </div>
 
       <!-- Load DrupalGap -->
       <script type="text/javascript">
-          document.addEventListener('deviceready', function() {
-              // после перехода на cordova cli-7.1.0 параметр config.xml "overlaysWebView" при компиляции
-              // устанавливается всегда в true (https://forums.adobe.com/thread/2443968)
-              // пока меняем его динамически
-              StatusBar.overlaysWebView(false);
 
+          document.addEventListener('deviceready', function() {
               // инициализация плагина AppMetrica
               // https://tech.yandex.ru/appmetrica/doc/mobile-sdk-dg/concepts/cordova-plugin-docpage/
               var configuration = {
@@ -96,11 +91,15 @@
               };
               window.appMetrica.activate(configuration);
 
-              // установка настроек через config.xml не сработала, делаем тут
-              StatusBar.overlaysWebView(false);
-              // StatusBar.backgroundColorByName("white");
-              StatusBar.backgroundColorByHexString("#00de00");
-              // StatusBar.styleDefault();
+              if (typeof StatusBar !== 'undefined') {
+                  // после перехода на cordova cli-7.1.0 параметр config.xml "overlaysWebView" при компиляции
+                  // устанавливается всегда в true (https://forums.adobe.com/thread/2443968)
+                  // пока меняем его динамически
+                  StatusBar.overlaysWebView(false);
+                  // StatusBar.backgroundColorByName("white");
+                  StatusBar.backgroundColorByHexString("#00de00");
+                  // StatusBar.styleDefault();
+              }
           }, false);
 
           drupalgap_onload();
