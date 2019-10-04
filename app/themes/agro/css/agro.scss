@@ -370,7 +370,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
 /* -------------------------------------------- Домашняя страница --------------------------------------------------- */
 #homepage,
 #catalog {
-    display: flex;
+    &.ui-page-active { display: flex; }
     align-items: center;
     justify-content: center;
     height: 100%;
