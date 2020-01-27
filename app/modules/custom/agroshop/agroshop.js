@@ -1137,7 +1137,7 @@ function agroshop_block_view(delta, region)
             case 'agro_title':
                 if (drupalgap_path_get() == drupalgap.settings.front) {
                     // content = '<h1 class="page-title page-title-image">' + theme('image', { path: 'app/themes/agro/images/homepage/logo-g.png' }) + '</h1>';
-                    content = '';
+                    content = '<h2>Агроконсультант</h2>';
                 } else {
                     var title_id = system_title_block_id(drupalgap_path_get());
                     content += '<h1 id="' + title_id + '" class="page-title"></h1>';

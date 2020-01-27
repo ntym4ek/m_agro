@@ -287,7 +287,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
 .region_header.ui-header {
     .ui-title {
         margin: 0 72px;
-        font-size: 1.7em; line-height: 1em;
+        font-size: 1.7em; line-height: 1em; font-weight: 700; text-transform: uppercase;
         text-align: center;
         &.page-title-image {
             height: 1.9em;
@@ -373,13 +373,13 @@ div[role="main"] .image-loader img { width: 100% !important; }
     &.ui-page-active { display: flex; }
     align-items: center;
     justify-content: center;
-    height: 100%;
+    //height: 100%;
     .ui-content { width: 100%; }
     .router {
         text-align: center;
         padding-bottom: 10rem;
         @media (orientation: landscape) {
-            padding-bottom: 6rem;
+            padding-bottom: 7rem;
         }
         .logo {
             margin: 0.5em auto 0; margin: 3vh auto 1vh;
@@ -480,8 +480,8 @@ div[role="main"] .image-loader img { width: 100% !important; }
 }
 #homepage {
     .icon1, .icon2, .icon3, .icon4, .icon5, .icon6 { flex-basis: 50%; max-width: 50%; }
-    .b5_1 { display: none; }
-    .b6_1 { display: none; }
+    .processed.b5_1 { display: none; }
+    .processed.b6_1 { display: none; }
     @media (orientation: landscape) and (max-width: 62em) {
         .router .route a .icon {
             max-width: 4em;
@@ -489,12 +489,12 @@ div[role="main"] .image-loader img { width: 100% !important; }
     }
     @media (orientation: landscape) {
         .icon1, .icon2, .icon3, .icon4, .icon5, .icon6 { flex-basis: 33.333%; max-width: 33.333%; }
-        .b5 { display: none; }
-        .b6 { display: none; }
-        .b5_1 { display: block; }
-        .b6_1 { display: block; }
+        .processed.b5 { display: none; }
+        .processed.b6 { display: none; }
+        .processed.b5_1 { display: block; }
+        .processed.b6_1 { display: block; }
     }
-    @media (orientation: landscape) and (min-width: 62em) {
+    @media (orientation: landscape) and (min-height: 62em) {
         .icon4 { margin-left: 16.667%; }
         .icon6 { flex-basis: 100%; max-width: 100%; }
     }
