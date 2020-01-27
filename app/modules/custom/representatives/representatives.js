@@ -49,7 +49,7 @@ function representatives_page()
 function representatives_page_pageshow(region_id)
 {
     try {
-        console.log('representatives_page_pageshow - ');
+        // console.log('representatives_page_pageshow - ');
 
         var rid = region_id ? '/' + region_id : '';
         // Grab some recent content and display it.
@@ -58,27 +58,16 @@ function representatives_page_pageshow(region_id)
                 success: function(content) {
                     // Extract the nodes into items, then drop them in the list.
                     var items = [];
-                    var reps = content.representatives;
+                    var sales = content.representatives;
 
                     // сформировать массив выводимых представителей
-                    // директора не выводим
-                    if (reps.head) {
-                        delete reps.head;
-                        // сначала глава отдела продаж
-                        items.push(reps.head2['sales_head']);
-                        delete reps.head2['sales_head'];
-                        // региональные менеджеры
-                        for (var index in reps.head2) {
-                            items.push(reps.head2[index]);
-                        }
-                        delete reps.head2;
+                    // региональные менеджеры
+                    for (var index in sales.heads) {
+                        items.push(sales.heads[index]);
                     }
-                    for (var index in reps) {
-                        if (!reps.hasOwnProperty(index)) { continue; }
-                        var region = reps[index];
-                        for (var index2 in region) {
-                            if (region[index2]['access']) items.push(region[index2]);
-                        }
+
+                    for (var index in sales.reps) {
+                        if (sales.reps[index]['access']) items.push(sales.reps[index]);
                     }
 
                     // преобразуем массив представителей в массив выводимых карточек
@@ -134,7 +123,7 @@ function representatives_get_card_html(delta, item)
 
     var regions = [];
     if (typeof item.regions !== 'undefined') {
-        for(index in item.regions) { regions.push(item.regions[index]); }
+        for(index in item.regions) { regions.push(item.regions[index].name); }
     }
 
     var whatsapp = '';

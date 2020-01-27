@@ -207,7 +207,7 @@ html {
   @media (min-width: 992px) {
     html {
       font-size: 16px; } }
-  @media (min-width: 1200px) {
+  @media (min-width: 1300px) {
     html {
       font-size: 22px; } }
 
@@ -1433,11 +1433,11 @@ div[role="main"] .image-loader img {
   [class*=hidden-sm] {
     display: none !important; } }
 
-@media (min-width: 992px) and (max-width: 1199px) {
+@media (min-width: 992px) and (max-width: 1299px) {
   [class*=hidden-md] {
     display: none !important; } }
 
-@media (min-width: 1200px) {
+@media (min-width: 1300px) {
   [class*=hidden-lg] {
     display: none !important; } }
 

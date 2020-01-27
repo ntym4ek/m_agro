@@ -18,7 +18,7 @@ function x_webform_menu()
 
 function x_webform_form_alter(form, form_state, form_id)
 {
-    console.log('x_webform_form_alter - ');
+    // console.log('x_webform_form_alter - ');
     try {
         // todo текстовым полям прописать заголовки
         if (form_id === "webform_form") {
