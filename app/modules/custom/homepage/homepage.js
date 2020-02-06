@@ -66,6 +66,22 @@ function homepage_page()
         // loader по умолчанию был отключен для статической заставки при загрузке приложения
         drupalgap_loader_enable(true);
 
+        // инициализация кнопки скроллинга к началу страницы
+        $(document).on("scrollstop", function() {
+            if ($(this).scrollTop() > 0) {
+                $('#to-the-top').fadeIn();
+            } else {
+                $('#to-the-top').fadeOut();
+            }
+        });
+        $('#to-the-top').click(function () {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
+
+
         var html = '';
 
         html += '<div class="router">';
