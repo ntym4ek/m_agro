@@ -1,3 +1,6 @@
+var atfield_region = null;
+var atfield_culture = null;
+
 /**
  * Implements hook_menu().
  */
@@ -7,7 +10,7 @@ function atfield_menu()
     items['atfield'] = {
         title: 'Препараты в поле',
         page_callback: 'atfield_list_page',
-        pageshow: 'atfield_list_page_pageshow'
+        pageshow: 'atfield_list_page_pageshow',
     };
     items['atfield/%'] = {
         title: 'Препараты в поле',
@@ -19,58 +22,117 @@ function atfield_menu()
     return items;
 }
 
-
 /**
  * -------------------------------------- Список Препаратов в поле -----------------------------------------------------
  */
 
-/**
- * callback function
- * страница списка Препаратов в поле
- */
+// содержимое страницы
 function atfield_list_page()
 {
     try {
         var content = {};
-        content['list'] = {
-            theme: 'jqm_item_list',
-            format_attributes: {
-                'data-inset': 'true'
-            },
-            items: [],
-            attributes: {
-                'id': 'atfield_listing_items'
-            }
+
+        content.filter_r = {
+            theme: 'atfield_filter',
+            attributes: { class: 'region-filter' },
+            default_value: atfield_region
         };
+        content.filter_c = {
+            theme: 'atfield_filter',
+            attributes: { class: 'culture-filter' },
+            default_value: atfield_culture
+        };
+        content.container = {
+            markup: '<div id="atfield-container"></div>'
+        };
+
         return content;
     }
     catch (error) { console.log('atfield_list_page - ' + error); }
 }
 
-/**
- * The pageshow callback for the atfield listing page.
- */
 function atfield_list_page_pageshow()
 {
+    console.log('atfield_list_page_pageshow - ');
     try {
-        // Grab some recent content and display it.
-        views_datasource_get_view_result(
-            'source/atfield.json', {
-                success: function(content) {
-                    // console.log('atfield_list_page_pageshow - ');
-                    // преобразуем массив сезонов в массив выводимых карточек
-                    var atfield_html = [];
-                    for (var index in content.atfield) {
-                        atfield_html.push(atfield_get_card(content.atfield[index]));
-                    }
+        var content = {};
 
-                    // выводим
-                    drupalgap_item_list_populate('#atfield_listing_items', atfield_html);
+        // Build a Views Render Array with contextual filter.
+        content.results = {
+            theme: 'view',
+            path: 'source/atfield.json/' + atfield_region + '/' + atfield_culture,
+            format: 'ul',
+            row_callback: 'atfield_list_page_row',
+            empty_callback: 'atfield_list_page_empty'
+        };
+
+        // заполняем фильтр значениями только при инициализации
+        views_datasource_get_view_result(
+            'source/atfield-filters.json/' + atfield_region + '/' + atfield_culture, {
+                success: function(result) {
+
+                    if (result.length === 0) return;
+                    var widget_r = $('select.region-filter');
+                    var widget_c = $('select.culture-filter');
+
+                    var options_r = '<option value="0">Все регионы</option>';
+                    for (var index in result.regions) {
+                        options_r += '<option value="' + index + '">' + result.regions[index] + '</option>';
+                    }
+                    $(widget_r).html(options_r);
+                    $(widget_r).val(atfield_region == null ? 0 : atfield_region).attr('selected', true).siblings('option').removeAttr('selected');
+                    $(widget_r).selectmenu('refresh', true);
+
+
+                    var options_c = '<option value="0">Все культуры</option>';
+                    for (var index in result.cultures) {
+                        options_c += '<option value="' + index + '">' + result.cultures[index] + '</option>';
+                    }
+                    $(widget_c).html(options_c);
+                    $(widget_c).val(atfield_culture == null ? 0 : atfield_culture).attr('selected', true).siblings('option').removeAttr('selected');
+                    $(widget_c).selectmenu('refresh', true);
                 }
             }
         );
+        // Inject the rendered content into our div.
+        $('#atfield-container').html(
+            drupalgap_render(content)
+        ).trigger('create');
     }
     catch (error) { console.log('atfield_list_page_pageshow - ' + error); }
+}
+
+function atfield_list_page_row(view, row, variables)
+{
+    // console.log('atfield_list_page_row');
+    try {
+        return atfield_get_card(row);
+    }
+    catch (error) { console.log('atfield_list_page_row - ' + error); }
+}
+
+function atfield_list_page_empty(view)
+{
+    return t('No content found.');
+}
+
+function atfield_filter_onchange(select)
+{
+    if (select.className == 'region-filter') atfield_region = select.value;
+    if (select.className == 'culture-filter') atfield_culture = select.value;
+    atfield_list_page_pageshow();
+}
+
+function theme_atfield_filter(variables)
+{
+    return theme('select', {
+        default_value: variables.default_value,
+        options: variables.options,
+        attributes: {
+            onchange: 'atfield_filter_onchange(this)',
+            class: variables.attributes.class,
+        }
+    });
 }
 
 /**
@@ -124,6 +186,7 @@ function atfield_get_card(item)
                 '</div>' +
             '</div>';
 }
+
 
 /**
  * -------------------------------------- Страница Препаратов в поле ---------------------------------------------------
