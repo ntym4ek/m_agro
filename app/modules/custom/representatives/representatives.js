@@ -1,18 +1,16 @@
 /**
  * Implements hook_menu().
  */
-function representatives_menu() {
-    try {
-        var items = {};
-        items['representatives'] = {
-            title: 'Представители',
-            page_callback: 'representatives_page',
-            pageshow: 'representatives_page_pageshow'
-        };
+function representatives_menu()
+{
+    var items = {};
+    items['representatives'] = {
+        title: 'Представители',
+        page_callback: 'representatives_page',
+        pageshow: 'representatives_page_pageshow'
+    };
 
-        return items;
-    }
-    catch (error) { console.log('representatives_menu - ' + error); }
+    return items;
 }
 
 /**
@@ -21,26 +19,21 @@ function representatives_menu() {
  */
 function representatives_page()
 {
-    try {
-        var content = {};
-        content = {
-            'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2">'},
-            'form': { markup: drupalgap_render(drupalgap_get_form('representatives_filter_form')) },
-            'list': {
-                theme: 'jqm_item_list',
-                format_attributes: {
-                    'data-inset': 'true'
-                },
-                items: [],
-                attributes: {
-                    'id': 'representatives_listing_items'
-                }
+    return {
+        'prefix': { markup: '<div class="row"><div class="col-xs-12 col-sm-8 col-sm-offset-2">'},
+        'form': { markup: drupalgap_render(drupalgap_get_form('representatives_filter_form')) },
+        'list': {
+            theme: 'jqm_item_list',
+            format_attributes: {
+                'data-inset': 'true'
             },
-            'suffix': { markup: '</div></div>' }
-        };
-        return content;
-    }
-    catch (error) { console.log('representatives_page - ' + error); }
+            items: [],
+            attributes: {
+                'id': 'representatives_listing_items'
+            }
+        },
+        'suffix': { markup: '</div></div>' }
+    };
 }
 
 /**
@@ -78,6 +71,9 @@ function representatives_page_pageshow(region_id)
 
                     // выводим
                     drupalgap_item_list_populate('#representatives_listing_items', items_html);
+                    // подцепить обработчики для добавленного контента
+                    $('#representatives_listing_items').trigger("create");
+
                     // повторном заполнении списка
                     // высота контейнера (через style) не обновляется, активируем вручную
                     $.mobile.resetActivePageHeight();
@@ -197,7 +193,13 @@ function representatives_get_card_html(delta, item)
                     '<h4 class="card-primary-title">' + name + '</h4>' +
                     '<h5 class="card-subtitle">' + item.office + '</h5>' +
                 '</div>' +
-                (regions.length ? '<div class="card-supporting-text has-action has-title">' + regions.join(', ') + '</div>' : '') +
+                (regions.length > 4 ?   '<div data-role="collapsible" class="ui-collapsible">' +
+                                        '<h4 class="ui-collapsible-heading">Список регионов<i class="zmdi zmdi-caret-down" aria-hidden="true"></i></h4>' +
+                                        '<div class="ui-collapsible-content ui-body-inherit card-supporting-text">' +
+                                            regions.join(', ') +
+                                        '</div>' +
+                                    '</div>'
+                    : '<div class="card-supporting-text has-action has-title">' + regions.join(', ') + '</div>') +
                 '<div class="card-action">' +
                     '<div class="row between-xs">' +
                         (whatsapp ? '<div class="col-xs-4">' + whatsapp + '</div>' : '') +

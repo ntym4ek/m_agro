@@ -1075,6 +1075,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
             a { font-size: .8em; }
             a:not(:last-child) { margin-bottom: .5em; }
         }
+        .ui-collapsible-heading-toggle { padding: .5em 16px; }
     }
 }
 
@@ -1186,7 +1187,7 @@ div[role="main"] .image-loader img { width: 100% !important; }
     .card-action {
         .icon { margin: 1em 1em .5em; }
         .title {
-            color: $text-muted; font-size: $font-size-small; text-align: center;
+            color: $text-muted; font-size: $font-size-small; text-align: center; white-space: normal;
             margin-bottom: .5em;
         }
     }
