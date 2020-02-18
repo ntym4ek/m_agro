@@ -67,7 +67,7 @@ function representatives_page_pageshow(region_id)
                     }
 
                     for (var index in sales.reps) {
-                        if (sales.reps[index]['access']) items.push(sales.reps[index]);
+                        items.push(sales.reps[index]);
                     }
 
                     // преобразуем массив представителей в массив выводимых карточек
